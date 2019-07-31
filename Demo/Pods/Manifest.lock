@@ -1,0 +1,64 @@
+PODS:
+  - Alamofire (4.8.1)
+  - AlamofireImage (3.5.0):
+    - Alamofire (~> 4.8)
+  - DeviceKit (2.0.0)
+  - FLEX (2.4.0)
+  - MBProgressHUD (1.1.0)
+  - SnapKit (4.2.0)
+  - SwifterSwift (4.6.0):
+    - SwifterSwift/AppKit (= 4.6.0)
+    - SwifterSwift/CoreGraphics (= 4.6.0)
+    - SwifterSwift/CoreLocation (= 4.6.0)
+    - SwifterSwift/Foundation (= 4.6.0)
+    - SwifterSwift/MapKit (= 4.6.0)
+    - SwifterSwift/SpriteKit (= 4.6.0)
+    - SwifterSwift/SwiftStdlib (= 4.6.0)
+    - SwifterSwift/UIKit (= 4.6.0)
+  - SwifterSwift/AppKit (4.6.0)
+  - SwifterSwift/CoreGraphics (4.6.0)
+  - SwifterSwift/CoreLocation (4.6.0)
+  - SwifterSwift/Foundation (4.6.0)
+  - SwifterSwift/MapKit (4.6.0)
+  - SwifterSwift/SpriteKit (4.6.0)
+  - SwifterSwift/SwiftStdlib (4.6.0)
+  - SwifterSwift/UIKit (4.6.0)
+  - SwiftLint (0.31.0)
+  - SwiftTimer (2.0)
+
+DEPENDENCIES:
+  - AlamofireImage
+  - DeviceKit
+  - FLEX
+  - MBProgressHUD
+  - SnapKit
+  - SwifterSwift
+  - SwiftLint
+  - SwiftTimer
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AlamofireImage
+    - DeviceKit
+    - FLEX
+    - MBProgressHUD
+    - SnapKit
+    - SwifterSwift
+    - SwiftLint
+    - SwiftTimer
+
+SPEC CHECKSUMS:
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AlamofireImage: 1aea346f4dda2f6c67622fa5a89fcbb80d79cc16
+  DeviceKit: 72d36709552d4b3582abd76a53949148acad9811
+  FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SwifterSwift: 812ffec6f301922f5430e75be3f2939ea3a80024
+  SwiftLint: 7a0227733d786395817373b2d0ca799fd0093ff3
+  SwiftTimer: 4d25ff045d81c3132e1161a3ba2353d06ff63c30
+
+PODFILE CHECKSUM: b5f2fb64a0382d2d9bb741118ccec6a2f95c6122
+
+COCOAPODS: 1.7.5
