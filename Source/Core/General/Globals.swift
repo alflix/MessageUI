@@ -30,6 +30,7 @@ public let swizzling: (AnyClass, Selector, Selector) -> Void = { forClass, origi
 
 public typealias VoidBlock = () -> Void
 public typealias StringBlock = (_ text: String) -> Void
+public typealias StringTapBlock = (_ text: String, _ range: NSRange) -> Void
 public typealias BoolBlock = (_ boolen: Bool) -> Void
 public typealias CollectionViewDelegate = UICollectionViewDataSource & UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
 public typealias TableViewDelegate = UITableViewDataSource & UITableViewDelegate

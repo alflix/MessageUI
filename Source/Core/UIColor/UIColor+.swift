@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
     /// Calculate the middle Color with translation percent
     static func averageColor(from fromColor: UIColor, to toColor: UIColor, percent: CGFloat) -> UIColor {
         var fromRed: CGFloat = 0

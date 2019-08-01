@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public extension UIDevice {
     /// 是否全面屏系列的设备

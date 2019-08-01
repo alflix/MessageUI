@@ -41,8 +41,7 @@ private extension BaseNavigationController {
 // MARK: - UINavigationControllerDelegate
 extension BaseNavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        interactivePopGestureRecognizer?.isEnabled = navigationController.children.count > 1
-        if navigationController.children.count == 1 {
+        if navigationController.viewControllers.count <= 1 {
             interactivePopGestureRecognizer?.isEnabled = false
         } else {
             interactivePopGestureRecognizer?.isEnabled = enabledPop

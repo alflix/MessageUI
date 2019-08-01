@@ -15,6 +15,5 @@ target 'Demo' do
     pod 'SnapKit'
     pod 'SwiftTimer'
     pod 'MBProgressHUD'    
-    pod 'DeviceKit'
 
 end

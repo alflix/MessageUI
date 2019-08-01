@@ -9,19 +9,19 @@
 import UIKit
 
 public extension UILabel {
-    /// 设置富文本并对其中某些文字添加点击事件
+    /// 设置富文本并对其中包含的文字添加点击事件(⚠️，使用这个方法时 Label 必须是根据其内容自适应宽度和高度的，不能限制宽高，否则点击事件的位置计算会出错)
     ///
     /// - Parameters:
     ///   - attrText: 富文本
     ///   - patterns: 需要响应点击事件的文字数组
-    ///   - tapAction: 点击事件
-    func addClickAction(by attrText: NSAttributedString, toRangesMatching patterns: [String], tapAction: StringBlock?) {
+    ///   - tapAction: 点击事件n包含的文字和 range
+    func addClickAction(by attrText: NSAttributedString, toOccurrencesOf highlights: [String], tapAction: StringTapBlock?) {
         attributedText = attrText
         isUserInteractionEnabled = true
-        guard patterns.count > 0 else { return }
+        guard highlights.count > 0 else { return }
         var matches: [NSTextCheckingResult] = []
 
-        patterns.forEach { (pattern) in
+        highlights.forEach { (pattern) in
             do {
                 let pattern = try NSRegularExpression(pattern: "\\Q\(pattern)\\E")
                 let patternMatches = pattern.matches(in: attrText.string,
@@ -34,39 +34,36 @@ public extension UILabel {
 
         onTap { [weak self] (tap) in
             guard let strongSelf = self else { return }
-            for match in matches where strongSelf.didTap(in: match.range, tap: tap) {
-                let text = attrText.attributedSubstring(from: match.range)
-                tapAction?(text.string)
+            for match in matches {
+                if strongSelf.didTap(in: match.range, tap: tap) {
+                    let text = attrText.attributedSubstring(from: match.range)
+                    tapAction?(text.string, match.range)
+                    break
+                }
             }
         }
     }
 
     private func didTap(in targetRange: NSRange, tap: UITapGestureRecognizer) -> Bool {
-        // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
-        let layoutManager = NSLayoutManager()
-        let textContainer = NSTextContainer(size: CGSize.zero)
-        let textStorage = NSTextStorage(attributedString: attributedText!)
-
-        // Configure layoutManager and textStorage
-        layoutManager.addTextContainer(textContainer)
-        textStorage.addLayoutManager(layoutManager)
-
-        // Configure textContainer
+        let textContainer = NSTextContainer(size: bounds.size)
         textContainer.lineFragmentPadding = 0.0
         textContainer.lineBreakMode = lineBreakMode
         textContainer.maximumNumberOfLines = numberOfLines
-        let labelSize = bounds.size
-        textContainer.size = labelSize
 
-        // Find the tapped character location and compare it to the specified range
-        let locationOfTouchInLabel = tap.location(in: self)
+        let layoutManager = NSLayoutManager()
+        layoutManager.addTextContainer(textContainer)
+
+        let textStorage = NSTextStorage(attributedString: attributedText!)
+        textStorage.addLayoutManager(layoutManager)
+
         let textBoundingBox = layoutManager.usedRect(for: textContainer)
+        let textContainerOffset = CGPoint(x: ( bounds.size.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
+                                          y: ( bounds.size.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
 
-        let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
-                                          y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
-
+        let locationOfTouchInLabel = tap.location(in: self)
         let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x,
                                                      y: locationOfTouchInLabel.y - textContainerOffset.y)
+
         let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer,
                                                             in: textContainer,
                                                             fractionOfDistanceBetweenInsertionPoints: nil)
