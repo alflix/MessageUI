@@ -32,7 +32,9 @@ public extension UIImageView {
         } else {
             placeholder = UIImage(color: GGUI.ImageDownloader.avatarPlaceholderTintColor, size: profileImageSize).withRoundedCorners(radius: diameter/2)
         }
-        guard let urlString = urlString, let url = URL(string: urlString) else {
+        guard let urlString = urlString, 
+            urlString.count > 0,
+            let url = URL(string: urlString) else {
             image = placeholder
             completion?()
             return

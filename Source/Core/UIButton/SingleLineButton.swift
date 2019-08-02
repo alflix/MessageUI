@@ -16,56 +16,55 @@ class SingleLineButton: UIButton {
     /// 下横线
     @IBInspectable public var bottom: CGFloat = 0
     /// 右横线
-    @IBInspectable public var right: CGFloat = 0
-
-    private lazy var topLineView: SingleLineView = {
-        let view = SingleLineView(frame: .zero)
-        return view
-    }()
-
-    private lazy var leftLineView: SingleLineView = {
-        let view = SingleLineView(frame: .zero)
-        return view
-    }()
-
-    private lazy var bottomLineView: SingleLineView = {
-        let view = SingleLineView(frame: .zero)
-        return view
-    }()
-
-    private lazy var rightLineView: SingleLineView = {
-        let view = SingleLineView(frame: .zero)
-        return view
-    }()
-
+    @IBInspectable public var right: CGFloat = 0    
+    /// 上横线左右 Offset
+    @IBInspectable public var topOffset: CGFloat = 0
+    /// 左横线上下 Offset
+    @IBInspectable public var leftOffset: CGFloat = 0
+    /// 下横线左右 Offset
+    @IBInspectable public var bottomOffset: CGFloat = 0
+    /// 右横线上下 Offset
+    @IBInspectable public var rightOffset: CGFloat = 0
+    
+    private lazy var topLineView: SingleLineView = SingleLineView(frame: .zero)
+    private lazy var leftLineView: SingleLineView = SingleLineView(frame: .zero)
+    private lazy var bottomLineView: SingleLineView = SingleLineView(frame: .zero)
+    private lazy var rightLineView: SingleLineView = SingleLineView(frame: .zero)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         if top > 0 {
             addSubview(topLineView)
             topLineView.snp.makeConstraints { (make) in
                 make.height.equalTo(top)
-                make.leading.trailing.top.equalToSuperview()
+                make.top.equalToSuperview().offset(topOffset)
+                make.leading.trailing.equalToSuperview().offset(topOffset)
             }
         }
         if left > 0 {
             addSubview(leftLineView)
             leftLineView.snp.makeConstraints { (make) in
                 make.width.equalTo(left)
-                make.leading.top.bottom.equalToSuperview()
+                make.leading.equalToSuperview()
+                make.top.equalToSuperview().offset(leftOffset)
+                make.bottom.equalToSuperview().offset(-leftOffset)
             }
         }
         if bottom > 0 {
             addSubview(bottomLineView)
             bottomLineView.snp.makeConstraints { (make) in
                 make.height.equalTo(bottom)
-                make.leading.trailing.bottom.equalToSuperview()
+                make.bottom.equalToSuperview()
+                make.leading.trailing.equalToSuperview().offset(bottomOffset)
             }
         }
         if right > 0 {
             addSubview(rightLineView)
             rightLineView.snp.makeConstraints { (make) in
                 make.width.equalTo(right)
-                make.trailing.bottom.top.equalToSuperview()
+                make.trailing.equalToSuperview()
+                make.top.equalToSuperview().offset(rightOffset)
+                make.bottom.equalToSuperview().offset(-rightOffset)
             }
         }
     }

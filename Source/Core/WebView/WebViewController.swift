@@ -216,3 +216,11 @@ extension WebViewController: WKUIDelegate {
         present(alert, animated: false, completion: nil)
     }
 }
+
+public extension UIViewController {
+    func pushToWeb(url: String) {
+        let webViewController = WebViewController()
+        webViewController.urlString = url
+        navigationController?.pushViewController(webViewController, animated: true)
+    }
+}

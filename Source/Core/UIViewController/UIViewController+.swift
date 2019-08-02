@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Foundation
 
 public extension UIViewController {
-    /// 获取当前的 controller,这个方法应该尽量少用, 需确保在主线程调用（在 closure 里）
+    /// 获取当前的 controller,这个方法不应该滥用
     static var current: UIViewController? {
         guard let window = UIApplication.shared.windows.first else {
             return nil
@@ -43,15 +42,39 @@ public extension UIViewController {
     }
 
     /// 获取当前的 controller (前提是 UITabBarController 是 window.rootViewController )
-    static func currentTabBarController() -> UITabBarController? {
+    static var currentTabBarController: UITabBarController? {
         guard let window = UIApplication.shared.windows.first,
             let tabBarController = window.rootViewController as? UITabBarController
             else { return nil }
         return tabBarController
     }
-}
 
-public extension UIViewController {
+    /// 检查是否是 present 出来的
+    var isModal: Bool {
+        let presentingIsModal = presentingViewController != nil
+        let presentingIsNavigation = navigationController?.presentingViewController?.presentedViewController == navigationController
+        let presentingIsTabBar = tabBarController?.presentingViewController is UITabBarController
+        return presentingIsModal || presentingIsNavigation || presentingIsTabBar
+    }
+
+    /// dismiss/popToRootViewController 取决于是否是 present 出来的
+    func popToRootOrDismiss() {
+        if isModal {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popToRootViewController(animated: true)
+        }
+    }
+
+    /// dismiss/popToRootViewController 取决于是否是 present 出来的
+    func popBackOrDismiss() {
+        if isModal {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+
     /// 寻找目标控制器（需要从前往后找，rootViewController 或 navigationController）
     ///
     /// - Parameter name: 控制器名称
@@ -62,22 +85,24 @@ public extension UIViewController {
         children.forEach { (childController) in
             if object_getClass(childController) == targetClass {
                 targetViewController = childController
-            } else if let presentedController = childController.findPresentedController() {
+            } else if let presentedController = childController.presentedNavigationController {
                 targetViewController = presentedController.findTargerController(byName: name)
             }
         }
         return targetViewController
     }
+}
 
-    /// 寻找当前 presented 的控制器
-    func findPresentedController() -> UINavigationController? {
+extension UIViewController {
+    /// 寻找当前 presented 的 UINavigationController 控制器
+    var presentedNavigationController: UINavigationController? {
         let target = presentedViewController
         if target == nil {
             return nil
         } else if let target = target as? UINavigationController {
             return target
         } else {
-            return target!.findPresentedController()
+            return target!.presentedNavigationController
         }
     }
 }

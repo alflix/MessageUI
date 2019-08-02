@@ -13,8 +13,8 @@ public extension UILabel {
     ///
     /// - Parameters:
     ///   - attrText: 富文本
-    ///   - patterns: 需要响应点击事件的文字数组
-    ///   - tapAction: 点击事件n包含的文字和 range
+    ///   - highlights: 需要响应点击事件的文字数组
+    ///   - tapAction: 点击事件包含的文字和 range
     func addClickAction(by attrText: NSAttributedString, toOccurrencesOf highlights: [String], tapAction: StringTapBlock?) {
         attributedText = attrText
         isUserInteractionEnabled = true
