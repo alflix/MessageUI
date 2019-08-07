@@ -16,7 +16,7 @@ class SingleLineButton: UIButton {
     /// 下横线
     @IBInspectable public var bottom: CGFloat = 0
     /// 右横线
-    @IBInspectable public var right: CGFloat = 0    
+    @IBInspectable public var right: CGFloat = 0
     /// 上横线左右 Offset
     @IBInspectable public var topOffset: CGFloat = 0
     /// 左横线上下 Offset
@@ -25,12 +25,12 @@ class SingleLineButton: UIButton {
     @IBInspectable public var bottomOffset: CGFloat = 0
     /// 右横线上下 Offset
     @IBInspectable public var rightOffset: CGFloat = 0
-    
+
     private lazy var topLineView: SingleLineView = SingleLineView(frame: .zero)
     private lazy var leftLineView: SingleLineView = SingleLineView(frame: .zero)
     private lazy var bottomLineView: SingleLineView = SingleLineView(frame: .zero)
     private lazy var rightLineView: SingleLineView = SingleLineView(frame: .zero)
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         if top > 0 {

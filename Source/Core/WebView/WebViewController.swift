@@ -18,6 +18,17 @@ open class WebViewController: UIViewController {
         }
     }
 
+    /// html 的文本内容
+    public var htmlString: String? {
+        didSet {
+            guard let htmlString = htmlString else {
+                DPrint("💣 htmlString 为空 ")
+                return
+            }
+            webView.loadHTMLString(htmlString, baseURL: nil)
+        }
+    }
+
     /// 访问 Request
     public var urlRequest: URLRequest? {
         didSet {
@@ -218,9 +229,15 @@ extension WebViewController: WKUIDelegate {
 }
 
 public extension UIViewController {
-    func pushToWeb(url: String) {
+    func pushToWebByLoadingURL(_ url: String) {
         let webViewController = WebViewController()
         webViewController.urlString = url
+        navigationController?.pushViewController(webViewController, animated: true)
+    }
+
+    func pushToWebByHTMLString(_ html: String) {
+        let webViewController = WebViewController()
+        webViewController.htmlString = html
         navigationController?.pushViewController(webViewController, animated: true)
     }
 }

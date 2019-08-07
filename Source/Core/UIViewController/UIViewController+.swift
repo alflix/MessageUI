@@ -67,7 +67,7 @@ public extension UIViewController {
     }
 
     /// dismiss/popToRootViewController 取决于是否是 present 出来的
-    func popBackOrDismiss() {
+    @objc func popBackOrDismiss() {
         if isModal {
             dismiss(animated: true, completion: nil)
         } else {
