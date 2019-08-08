@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+/// 重要，GGUI 的全局设置，需要调整时，请在 AppDelegate 中配置
 public struct GGUI {
     /// 横线配置
     public enum LineView {
@@ -105,7 +106,7 @@ public struct GGUI {
         public static var appearance: NavigationAppearance = NavigationAppearance()
     }
 
-    /// WebView 配置
+    /// Codable 配置
     public enum CodableConfig {
         /// 日期的格式
         public static var dateFormat: String?
@@ -115,7 +116,7 @@ public struct GGUI {
         public static var dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .millisecondsSince1970
     }
 
-    /// 日期显示中的一些默认文本 
+    /// 使用日期解析显示中的一些默认文本 
     public enum DateDisplayStrings {
         /// 昨天
         public static var yesterday: String = "昨天"

@@ -57,7 +57,7 @@ public extension UIControl {
         }
     }
 
-    /// 增加 UIButton 的点击范围
+    /// 增加 UIControl 的点击范围
     ///
     /// - Parameters:
     ///   - top: 上
@@ -71,7 +71,7 @@ public extension UIControl {
         self.largeRight = NSNumber(value: right)
     }
 
-    func enlargedRect() -> CGRect {
+    private func enlargedRect() -> CGRect {
         let top = self.largeTop
         let bottom = self.largeBottom
         let left = self.largeLeft

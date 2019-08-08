@@ -6,9 +6,9 @@
 //  Copyright © 2019 Ganguo. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
+/// UISearchBar 的快速设置
 public extension UISearchBar {
     /// 输入框
     var searchField: UITextField? {

@@ -48,6 +48,7 @@ public enum TitleImageDirection: Int {
     case top = 0, left = 1, bottom = 2, right = 3
 }
 
+/// 方便设置图片，文字布局方式的 UIButton
 public class LayoutButton: CustomButton {
     /// 图片和文字的间距，默认为8
     @IBInspectable public var imageTitleSpace: CGFloat = 8 {

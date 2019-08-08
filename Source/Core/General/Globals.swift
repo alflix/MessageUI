@@ -28,10 +28,15 @@ public let swizzling: (AnyClass, Selector, Selector) -> Void = { forClass, origi
     method_exchangeImplementations(originalMethod, swizzledMethod)
 }
 
+/// Block
 public typealias VoidBlock = () -> Void
 public typealias StringBlock = (_ text: String) -> Void
 public typealias StringTapBlock = (_ text: String, _ range: NSRange) -> Void
 public typealias BoolBlock = (_ boolen: Bool) -> Void
+public typealias IndexBlock = (_ index: Int) -> Void
+public typealias IndexPathBlock = (_ indexpath: IndexPath) -> Void
+
+/// Delegate
 public typealias CollectionViewDelegate = UICollectionViewDataSource & UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
 public typealias TableViewDelegate = UITableViewDataSource & UITableViewDelegate
 

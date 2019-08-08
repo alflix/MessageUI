@@ -28,11 +28,12 @@ public extension Int {
         return self < 10 ? "0\(self)" : "\(self)"
     }
 
+    /// 常用的通知数目显示，即 > 99 时使用 "99+"
     var unreadCountString: String {
         return self < 99 ? "\(self)" : "99+"
     }
 
-    ///后面带 k 的数字格式
+    /// 后面带 k 的数字格式
     var formatNumber: String {
         let num = Double(self.abs)
         let sign = (self < 0) ? "-" : ""
@@ -76,10 +77,6 @@ public extension Int {
         return formatter.string(from: NSNumber(value: self))!
     }
 
-    var matCointString: String {
-        return "\(numberStringAsDecimal) MAT"
-    }
-
     /// 金额显示格式（带逗号分隔）
     var formatNumberForMATAmount: String {
         let formatter = NumberFormatter()
@@ -99,10 +96,6 @@ public extension Double {
         formatter.numberStyle = .percent
         formatter.percentSymbol = ""
         return formatter.string(from: NSNumber(value: self))!
-    }
-
-    var hkPriceString: String {
-        return "HK$ \(numberStringAsDecimal)"
     }
 
     /// 显示分隔符

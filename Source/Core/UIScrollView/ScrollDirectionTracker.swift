@@ -21,6 +21,7 @@ public enum ScrollingDirection: String {
 
 public typealias ScrollingDirectionBlock = (ScrollingDirection) -> Void
 
+/// 监听 UIScrollView 的滑动方向
 public class ScrollDirectionTracker: NSObject {
     static public let shared = ScrollDirectionTracker()
 

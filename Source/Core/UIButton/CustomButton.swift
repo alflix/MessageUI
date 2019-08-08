@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// 方便设置置灰和文字行数的 UIButton
 @IBDesignable
 open class CustomButton: UIButton {
     /// 置灰时的 alpha
