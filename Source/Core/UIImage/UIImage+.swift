@@ -9,6 +9,18 @@
 import UIKit
 
 public extension UIImage {
+    var width: CGFloat {
+        get {
+            return size.width
+        }
+    }
+
+    var height: CGFloat {
+        get {
+            return size.height
+        }
+    }
+
     typealias KB = Int
 
     /// 对图片染色

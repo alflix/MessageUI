@@ -47,13 +47,13 @@ extension PhotoPickerHelper: UIImagePickerControllerDelegate, UINavigationContro
             image = info[.originalImage] as? UIImage
         }
         guard let pickImage = image else { return }
-        picker.imagePickerCompletionHandlerWrapper.invoke((picker, pickImage))
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
+        picker.imagePickerCompletionHandlerWrapper.invoke((picker, pickImage))
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String: AnyObject]?) {
-        picker.imagePickerCompletionHandlerWrapper.invoke((picker, image))
         picker.presentingViewController?.dismiss(animated: true, completion: nil)
+        picker.imagePickerCompletionHandlerWrapper.invoke((picker, image))
     }
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - 方便计算某个字体下的 String 在 UILabel 上的宽度或高度（使用 UILabel 会比较准确）
-public extension String {    
+public extension String {
     /// 文字高度  
     ///
     /// - Parameters:
@@ -25,7 +25,7 @@ public extension String {
             return label.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
         }
     }
-    
+
     /// 文字宽度
     ///
     /// - Parameters:

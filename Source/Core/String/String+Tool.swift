@@ -34,7 +34,7 @@ public extension String {
         })
         return parameters
     }
-    
+
     /// json string 转换为 [String: Any]
     func json() -> [String: Any]? {
         let strData = self.data(using: .utf8) ?? Data()
