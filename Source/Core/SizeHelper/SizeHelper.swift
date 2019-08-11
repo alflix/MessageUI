@@ -55,10 +55,12 @@ public class Size {
         var rowCount: CGFloat = 1
         for string in stringDatasource {
             let titleWidth = string.widthForLabel(font: stringFont, height: rowHeight) + stringInset
-            totalWidth += (titleWidth + interitemSpacing)
+            totalWidth += titleWidth
             if totalWidth > collectionViewWidth {
                 totalWidth = titleWidth
                 rowCount += 1
+            } else {
+                totalWidth += interitemSpacing
             }
         }
         totalHeight += rowCount * rowHeight + (rowCount - 1) * lineSpacing

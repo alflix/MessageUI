@@ -16,6 +16,8 @@ public enum SingleLineStyle {
 public class ViewModel<T> {
     /// 对应的 Model
     public var model: T?
+    /// 嵌套 ViewModel
+    public var viewModel: Any?
     /// 里面是 ViewModel<T>， 由于其 T 可能是另外一种类型，无法定义为 [ViewModel<T>]?，所以使用时需要用 as? 赋值类型
     public var dataSource: [Any]?
     /// 用于记录 Cell 的 indexPath
@@ -55,7 +57,10 @@ public class ViewModel<T> {
                 attributedContent: NSAttributedString? = nil,
                 image: UIImage? = nil,
                 height: CGFloat? = 0,
-                isSelect: Bool? = false) {
+                size: CGSize? = .zero,
+                isSelect: Bool? = false,
+                viewModel: Any? = nil,
+                dataSource: [Any]? = nil) {
         self.model = model
         self.reuseIdentifier = reuseIdentifier
         self.title = title
@@ -64,7 +69,10 @@ public class ViewModel<T> {
         self.attributedContent = attributedContent
         self.image = image
         self.height = height
+        self.size = size
         self.isSelect = isSelect
+        self.viewModel = viewModel
+        self.dataSource = dataSource
     }
 }
 

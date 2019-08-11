@@ -5,7 +5,8 @@ Pod::Spec.new do |s|
 	s.homepage = 'https://www.ganguotech.com/'
 	s.license	 = { :type => "Copyright", :text => "Copyright 2019" }
 	s.authors = { 'John' => 'john@ganguo.hk' }
-	s.source = { :path => '/' }
+	s.source = { :path => 'Source' }
+	s.resources = 'Resources/**/*'
 
 	s.swift_version = "5.0"
 	s.ios.deployment_target = "10.0"

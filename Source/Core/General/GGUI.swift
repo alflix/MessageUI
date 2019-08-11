@@ -125,3 +125,14 @@ public struct GGUI {
                                                              5: "星期四", 6: "星期五", 7: "星期六"]
     }
 }
+
+// 用于 Pod 内部的本地化
+extension String {
+    var bundleLocalize: String {
+        return NSLocalizedString(self, tableName: "Localize", bundle: Bundle(for: LocalizeHelper.self), value: "", comment: "")
+    }
+}
+
+class LocalizeHelper: NSObject {
+
+}

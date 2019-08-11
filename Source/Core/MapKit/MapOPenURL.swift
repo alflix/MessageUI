@@ -51,7 +51,7 @@ public extension UIApplication {
         }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if UIApplication.canOpen(map: .apple) {
-            alert.addAction(UIAlertAction(title: "系统地图", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction(title: "systemMap".bundleLocalize, style: .default, handler: { (_) in
                 let regionDistance: CLLocationDistance = 10000
                 let regionSpan = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
                 let options = [
@@ -64,34 +64,41 @@ public extension UIApplication {
                 mapItem.openInMaps(launchOptions: options)
             }))
         }
+        // https://developers.google.com/maps/documentation/urls/ios-urlscheme
         if UIApplication.canOpen(map: .goolge) {
-            alert.addAction(UIAlertAction(title: "Google 地图", style: .default, handler: { (_) in
-                let url = "comgooglemaps://?saddr=&daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving"
+            alert.addAction(UIAlertAction(title: "googleMap".bundleLocalize, style: .default, handler: { (_) in
+                let url = "comgooglemaps://?center=\(coordinate.latitude),\(coordinate.longitude)&daddr=\(destination)&zoom=14&directionsmode=driving"
                 openAction(url)
             }))
         }
         if UIApplication.canOpen(map: .amap) {
-            alert.addAction(UIAlertAction(title: "高德地图", style: .default, handler: { (_) in
-                let url = "iosamap://path?sourceApplication=applicationName&sid=BGVIS1&sname=我的位置&did=BGVIS2&dlat=\(coordinate.latitude)&dlon=\(coordinate.longitude)&dname=\(destination)&dev=0&m=0&t=0"
+            alert.addAction(UIAlertAction(title: "gaodeMap".bundleLocalize, style: .default, handler: { (_) in
+                let url = "iosamap://path?sourceApplication=applicationName&sid=BGVIS1&sname=\("mylocation".bundleLocalize)&did=BGVIS2&dlat=\(coordinate.latitude)&dlon=\(coordinate.longitude)&dname=\(destination)&dev=0&m=0&t=0"
                 openAction(url)
             }))
         }
         if UIApplication.canOpen(map: .baidu) {
-            alert.addAction(UIAlertAction(title: "百度地图", style: .default, handler: { (_) in
-                let url = "baidumap://map/direction?origin={{我的位置}}&destination=\(coordinate.latitude),\(coordinate.longitude)&mode=driving&src=JumpMapDemo"
+            alert.addAction(UIAlertAction(title: "baiduMap".bundleLocalize, style: .default, handler: { (_) in
+                let url = "baidumap://map/direction?origin={{\("mylocation".bundleLocalize)}}&destination=\(coordinate.latitude),\(coordinate.longitude)&mode=driving&src=JumpMapDemo"
                 openAction(url)
             }))
         }
         if UIApplication.canOpen(map: .tencent) {
-            alert.addAction(UIAlertAction(title: "腾讯地图", style: .default, handler: { (_) in
-                let url = "qqmap://map/routeplan?type=drive&from=我的位置&to=\(destination)&tocoord=\(coordinate.latitude),\(coordinate.longitude)&policy=1&referer=MapJump"
+            alert.addAction(UIAlertAction(title: "tencentMap".bundleLocalize, style: .default, handler: { (_) in
+                let url = "qqmap://map/routeplan?type=drive&from=\("mylocation".bundleLocalize)&to=\(destination)&tocoord=\(coordinate.latitude),\(coordinate.longitude)&policy=1&referer=MapJump"
                 openAction(url)
             }))
         }
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_) in
+        alert.addAction(UIAlertAction(title: "cancel".bundleLocalize, style: .cancel, handler: { (_) in
 
         }))
-        viewController.present(alert, animated: false, completion: nil)
+        // https://stackoverflow.com/questions/24224916/presenting-a-uialertcontroller-properly-on-an-ipad-using-ios-8
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = viewController.view //to set the source of your alert
+            popoverController.sourceRect = CGRect(x: viewController.view.bounds.midX, y: viewController.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
+            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
+        }
+        viewController.present(alert, animated: true, completion: nil)
     }
 
     static func canOpen(map: MapApp) -> Bool {
