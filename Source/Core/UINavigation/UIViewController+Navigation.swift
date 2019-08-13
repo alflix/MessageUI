@@ -11,16 +11,16 @@ import UIKit
 public struct NavigationAppearance {
     /// 透明度，通常设置为 0 来隐藏导航栏，设置为 1 不进行隐藏，默认为 1
     public var backgroundAlpha: CGFloat = 1.0
-    /// tintColor, 导航栏的背景颜色，不同的背景颜色之间会有渐变的切换效果
-    public var tintColor: UIColor = .black
+    /// barTintColor, 导航栏的背景颜色，不同的背景颜色之间会有渐变的切换效果
+    public var barTintColor: UIColor = .black
     /// 是否显示导航栏底部的横线，默认显示
     public var showShadowLine: Bool = true
 
     public init() {}
 
-    public init(backgroundAlpha: CGFloat, tintColor: UIColor, showShadowLine: Bool) {
+    public init(backgroundAlpha: CGFloat, barTintColor: UIColor, showShadowLine: Bool) {
         self.backgroundAlpha = backgroundAlpha
-        self.tintColor = tintColor
+        self.barTintColor = barTintColor
         self.showShadowLine = showShadowLine
     }
 }
@@ -39,7 +39,7 @@ extension UIViewController {
             return GGUI.NavigationBarConfig.appearance
         }
         set {
-            navigationController?.navigationBar.tintColor = newValue.tintColor
+            navigationController?.navigationBar.barTintColor = newValue.barTintColor
             navigationController?.navigationBar.setupShadowLine(remove: !newValue.showShadowLine)
             navigationController?.navigationBar.setBackground(alpha: newValue.backgroundAlpha)
             associate(retainObject: newValue, forKey: &AssociatedKey.appearanceKey)

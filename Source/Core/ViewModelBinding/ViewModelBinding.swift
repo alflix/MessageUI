@@ -30,6 +30,8 @@ public class ViewModel<T> {
     public var height: CGFloat?
     /// 用于 CollectionView
     public var size: CGSize?
+    /// 嵌套时，用于 footer， size 用于 header
+    public var footerSize: CGSize?
     /// reuse identifier
     public var reuseIdentifier: String?
     /// 常用属性，title

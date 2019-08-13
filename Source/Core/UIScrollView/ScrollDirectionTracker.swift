@@ -19,7 +19,7 @@ public enum ScrollingDirection: String {
     case up
 }
 
-public typealias ScrollingDirectionBlock = (ScrollingDirection) -> Void
+public typealias ScrollingDirectionBlock = (_ scrollingDirection: ScrollingDirection, _ contentOffsetY: CGFloat) -> Void
 
 /// 监听 UIScrollView 的滑动方向
 public class ScrollDirectionTracker: NSObject {
@@ -28,6 +28,10 @@ public class ScrollDirectionTracker: NSObject {
     weak var scrollView: UIScrollView?
     var lastContentOffsetY: CGFloat = 0
     var scrollingDirectionBlock: ScrollingDirectionBlock?
+
+    deinit {
+        scrollingDirectionBlock = nil
+    }
 
     /// 通过添加手势的方式监听滑动方向
     ///
@@ -51,9 +55,9 @@ public class ScrollDirectionTracker: NSObject {
         let deltaY = contentOffsetY - lastContentOffsetY
 
         if deltaY > 0 {
-            scrollingDirectionBlock?(.down)
+            scrollingDirectionBlock?(.down, contentOffsetY)
         } else if deltaY < 0 {
-            scrollingDirectionBlock?(.up)
+            scrollingDirectionBlock?(.up, contentOffsetY)
         }
         lastContentOffsetY = contentOffsetY
     }

@@ -18,6 +18,7 @@ public extension UINavigationBar {
             shadowView.isHidden = alpha == 0
         }
         if isTranslucent {
+            /// MARK: 尝试过修改 _backgroundImageView，效果不好，修改 alpha 无效，修改 isHidden 会导致 push/pop 的时候出问题
             if #available(iOS 10.0, *) {
                 if let backgroundEffectView = valueForKey("_backgroundEffectView") as? UIView,
                     backgroundImage(for: .default) == nil {

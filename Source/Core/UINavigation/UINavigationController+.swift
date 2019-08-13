@@ -116,11 +116,11 @@ extension UINavigationController {
 extension UINavigationController {
     func updateNavigationBar(from fromVC: UIViewController?, to toVC: UIViewController?, progress: CGFloat) {
         guard let fromVC = fromVC, let toVC = toVC else { return }
-        // change tintColor
-        let fromColor = fromVC.navigationAppearance.tintColor
-        let toColor = toVC.navigationAppearance.tintColor
+        // change barTintColor
+        let fromColor = fromVC.navigationAppearance.barTintColor
+        let toColor = toVC.navigationAppearance.barTintColor
         let newColor = UIColor.averageColor(from: fromColor, to: toColor, percent: progress)
-        navigationBar.tintColor = newColor
+        navigationBar.barTintColor = newColor
 
         // update shadow line        
         navigationBar.setupShadowLine(remove: !toVC.navigationAppearance.showShadowLine)
@@ -160,11 +160,11 @@ extension UINavigationController: UINavigationBarDelegate {
         let animations: (UITransitionContextViewControllerKey) -> Void = {
             guard let viewController = context.viewController(forKey: $0) else { return }
             let curAlpha = viewController.navigationAppearance.backgroundAlpha
-            let curTintColor = viewController.navigationAppearance.tintColor
+            let curTintColor = viewController.navigationAppearance.barTintColor
             let showShadowLine = viewController.navigationAppearance.showShadowLine
             self.navigationBar.setupShadowLine(remove: !showShadowLine)
             self.navigationBar.setBackground(alpha: curAlpha)
-            self.navigationBar.tintColor = curTintColor
+            self.navigationBar.barTintColor = curTintColor
         }
         // 完成返回手势的取消事件
         if context.isCancelled {

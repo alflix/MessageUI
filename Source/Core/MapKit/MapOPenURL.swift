@@ -71,6 +71,7 @@ public extension UIApplication {
                 openAction(url)
             }))
         }
+        // https://lbs.amap.com/api/amap-mobile/guide/ios/route
         if UIApplication.canOpen(map: .amap) {
             alert.addAction(UIAlertAction(title: "gaodeMap".bundleLocalize, style: .default, handler: { (_) in
                 let url = "iosamap://path?sourceApplication=applicationName&sid=BGVIS1&sname=\("mylocation".bundleLocalize)&did=BGVIS2&dlat=\(coordinate.latitude)&dlon=\(coordinate.longitude)&dname=\(destination)&dev=0&m=0&t=0"

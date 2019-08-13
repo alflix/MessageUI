@@ -40,7 +40,7 @@ public extension String {
                           alignment: NSTextAlignment = .left,
                           minimumLineHeight: CGFloat = 0,
                           baselineOffset: CGFloat = 0,
-                          addition: ((NSMutableAttributedString) -> Void)? = nil) -> NSAttributedString {
+                          addition: AttributedStringBlock? = nil) -> NSAttributedString {
         return attributedString(highlight: nil, font: font,
                                 highlightFont: font,
                                 color: color,
@@ -75,7 +75,7 @@ public extension String {
                           alignment: NSTextAlignment = .left,
                           minimumLineHeight: CGFloat = 0,
                           baselineOffset: CGFloat = 0,
-                          addition: ((NSMutableAttributedString) -> Void)? = nil) -> NSAttributedString {
+                          addition: AttributedStringBlock? = nil) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.lineSpacing = lineSpacing ?? font.pointSize * 0.25
@@ -87,14 +87,37 @@ public extension String {
         if baselineOffset > 0 {
             attributes[NSAttributedString.Key.baselineOffset] = baselineOffset
         }
-        var attributedString = NSAttributedString(string: self, attributes: attributes)
+        let attributedString = NSMutableAttributedString(string: self, attributes: attributes)
         if let highlight = highlight, highlight.count > 0 {
             highlight.forEach { (string) in
-                attributedString = attributedString.applying(attributes: [.paragraphStyle: paragraphStyle, .foregroundColor: highlightColor, .font: highlightFont],
-                                                             toOccurrencesOf: string)
+                attributedString.mutableApplying(attributes: [.paragraphStyle: paragraphStyle, .foregroundColor: highlightColor, .font: highlightFont],
+                                                 toOccurrencesOf: string)
             }
         }
-        addition?(attributedString.mutableCopy() as! NSMutableAttributedString)
-        return attributedString
+        addition?(attributedString)
+        return attributedString.copy() as! NSAttributedString
+    }
+}
+
+public extension NSMutableAttributedString {
+    func mutableApplying(attributes: [NSAttributedString.Key: Any]) {
+        let range = (string as NSString).range(of: string)
+        addAttributes(attributes, range: range)
+    }
+
+    func mutableApplying<T: StringProtocol>(attributes: [NSAttributedString.Key: Any], toOccurrencesOf target: T) {
+        let pattern = "\\Q\(target)\\E"
+        mutableApplying(attributes: attributes, toRangesMatching: pattern)
+    }
+
+    func mutableApplying(attributes: [NSAttributedString.Key: Any], toRangesMatching pattern: String) {
+        guard let pattern = try? NSRegularExpression(pattern: pattern, options: []) else { return }
+
+        let matches = pattern.matches(in: string, options: [], range: NSRange(0..<length))
+        let result = NSMutableAttributedString(attributedString: self)
+
+        for match in matches {
+            result.addAttributes(attributes, range: match.range)
+        }
     }
 }
