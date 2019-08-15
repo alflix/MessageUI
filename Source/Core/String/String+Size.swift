@@ -41,4 +41,28 @@ public extension String {
             return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
         }
     }
+    /// 计算文字在特定行数的高度
+    ///
+    /// - Parameters:
+    ///   - line: 最大行数
+    ///   - font: 字体
+    ///   - width: 最大高度
+    /// - Returns: 文字在特定行数的高度
+    func heightForLabelInAnyLines(line: Int, width: CGFloat, font: UIFont) -> CGFloat {
+        return autoreleasepool { () -> CGFloat in
+            let label: UILabel = UILabel()
+            label.numberOfLines = line
+            label.font = font
+            label.text = self
+            return label.sizeThatFits(CGSize(width: width - 12 - 12, height: CGFloat.greatestFiniteMagnitude)).height
+        }
+    }
+
+    func boundingWidth(with font: UIFont) -> CGFloat {
+        let size = CGSize(width: CGFloat.greatestFiniteMagnitude, height: font.lineHeight)
+        let preferredRect = (self as NSString).boundingRect(with: size,
+                                                            options: [.usesLineFragmentOrigin, .usesFontLeading],
+                                                            attributes: [NSAttributedString.Key.font: font], context: nil)
+        return ceil(preferredRect.width)
+    }
 }

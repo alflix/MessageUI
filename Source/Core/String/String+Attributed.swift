@@ -112,12 +112,9 @@ public extension NSMutableAttributedString {
 
     func mutableApplying(attributes: [NSAttributedString.Key: Any], toRangesMatching pattern: String) {
         guard let pattern = try? NSRegularExpression(pattern: pattern, options: []) else { return }
-
         let matches = pattern.matches(in: string, options: [], range: NSRange(0..<length))
-        let result = NSMutableAttributedString(attributedString: self)
-
         for match in matches {
-            result.addAttributes(attributes, range: match.range)
+            addAttributes(attributes, range: match.range)
         }
     }
 }

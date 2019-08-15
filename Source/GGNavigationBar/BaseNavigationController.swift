@@ -14,6 +14,8 @@ open class BaseNavigationController: UINavigationController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        // 初始化设置项
+        navigationAppearance = self.navigationAppearance
         delegate = self
         interactivePopGestureRecognizer?.delegate = self
     }

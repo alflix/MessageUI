@@ -37,4 +37,20 @@ Pod::Spec.new do |s|
 	    ss.dependency      'MBProgressHUD'
 	    ss.source_files  = 'Source/MBProgressHUD/*.swift'
 	end
+	
+	s.subspec 'GGNavigationBar' do |ss|
+	    ss.dependency      'GGUI/Core'
+	    ss.source_files  = 'Source/GGNavigationBar/*.swift'
+	end
+
+    s.subspec 'SegementSlide' do |ss|
+	    ss.dependency      'GGUI/GGNavigationBar'
+	    ss.source_files  = 'Source/SegementSlide/**/*.swift'
+	end
+
+	s.subspec 'PullToRefreshKit' do |ss|
+	    ss.dependency      'GGUI/Core'
+	    ss.source_files  = 'Source/PullToRefreshKit/Source/*.swift'
+	    ss.resources 	 = 'Source/PullToRefreshKit/Assets/**/*'
+	end
 end

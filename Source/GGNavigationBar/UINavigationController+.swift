@@ -16,19 +16,22 @@ extension UINavigationController {
 
     static func swizzle() {
         DispatchQueue.once {
-            let needSwizzleSelectors = [
+            swizzling(
+                UINavigationController.self,
                 NSSelectorFromString("_updateInteractiveTransition:"),
-                #selector(pushViewController(_:animated:)),
-                #selector(popToViewController),
-                #selector(popToRootViewController)
-            ]
-            for selector in needSwizzleSelectors {
-                let swizzleSelectorString = ("swizzle_" + selector.description).replacingOccurrences(of: "__", with: "_")
-                swizzling(
-                    UINavigationController.self,
-                    selector,
-                    Selector(swizzleSelectorString))
-            }
+                #selector(UINavigationController.swizzle_updateInteractiveTransition(_:)))
+            swizzling(
+                UINavigationController.self,
+                #selector(UINavigationController.pushViewController(_:animated:)),
+                #selector(UINavigationController.swizzle_pushViewController(_:animated:)))
+            swizzling(
+                UINavigationController.self,
+                #selector(UINavigationController.popToViewController(_:animated:)),
+                #selector(UINavigationController.swizzle_popToViewController(_:animated:)))
+            swizzling(
+                UINavigationController.self,
+                #selector(UINavigationController.popToRootViewController(animated:)),
+                #selector(UINavigationController.popToRootViewController(animated:)))
         }
     }
 
@@ -43,37 +46,27 @@ extension UINavigationController {
         swizzle_updateInteractiveTransition(percentComplete)
     }
 
-    @objc func swizzle_popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        return popTransaction {
-            swizzle_popToViewController(viewController, animated: animated)
-        }
-    }
-
-    @objc func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
-        return popTransaction {
-            swizzle_popToRootViewControllerAnimated(animated)
-        }
-    }
-
-    // swizzling system method: pushViewController
     @objc func swizzle_pushViewController(_ viewController: UIViewController, animated: Bool) {
         pushTransaction {
             swizzle_pushViewController(viewController, animated: animated)
         }
     }
 
-    private struct AnimationProperties {
-        static let duration = 0.13
-        static var displayCount = 0
-        static var progress: CGFloat {
-            let all: CGFloat = CGFloat(60.0 * duration)
-            let current = min(all, CGFloat(displayCount))
-            return current / all
+    @objc func swizzle_popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+        return popsTransaction {
+            swizzle_popToViewController(viewController, animated: animated)
         }
     }
 
-    private func pushTransaction(block: () -> Void) {
+    @objc func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
+        return popsTransaction {
+            swizzle_popToRootViewControllerAnimated(animated)
+        }
+    }
+
+    @objc private func pushTransaction(block: () -> Void) {
         var displayLink: CADisplayLink? = CADisplayLink(target: self, selector: #selector(animationDisplay))
+        // UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
         displayLink?.add(to: .main, forMode: .common)
         CATransaction.setCompletionBlock {
             displayLink?.invalidate()
@@ -86,9 +79,8 @@ extension UINavigationController {
         CATransaction.commit()
     }
 
-    private func popTransaction(block: () -> [UIViewController]?) -> [UIViewController]? {
+    @objc private func popsTransaction(block: () -> [UIViewController]?) -> [UIViewController]? {
         var displayLink: CADisplayLink? = CADisplayLink(target: self, selector: #selector(animationDisplay))
-        // UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
         displayLink?.add(to: .main, forMode: .common)
         CATransaction.setCompletionBlock {
             displayLink?.invalidate()
@@ -102,6 +94,19 @@ extension UINavigationController {
         return viewControllers
     }
 
+    private struct AnimationProperties {
+        static let duration = 0.13
+        static var displayCount = 0
+        static var progress: CGFloat {
+            let all: CGFloat = CGFloat(60.0 * duration)
+            let current = min(all, CGFloat(displayCount))
+            return current / all
+        }
+    }
+}
+
+// MARK: - UI Update
+extension UINavigationController {
     @objc private func animationDisplay() {
         guard let topVC = topViewController, let coordinator = topVC.transitionCoordinator else { return }
         AnimationProperties.displayCount += 1
@@ -110,17 +115,20 @@ extension UINavigationController {
         let toVC = coordinator.viewController(forKey: .to)
         updateNavigationBar(from: fromVC, to: toVC, progress: progress)
     }
-}
 
-// MARK: - UI Update
-extension UINavigationController {
-    func updateNavigationBar(from fromVC: UIViewController?, to toVC: UIViewController?, progress: CGFloat) {
+    private func updateNavigationBar(from fromVC: UIViewController?, to toVC: UIViewController?, progress: CGFloat) {
         guard let fromVC = fromVC, let toVC = toVC else { return }
         // change barTintColor
         let fromColor = fromVC.navigationAppearance.barTintColor
         let toColor = toVC.navigationAppearance.barTintColor
         let newColor = UIColor.averageColor(from: fromColor, to: toColor, percent: progress)
         navigationBar.barTintColor = newColor
+
+        // change tintColor
+        let fromTintColor = fromVC.navigationAppearance.tintColor
+        let toTintColor = toVC.navigationAppearance.tintColor
+        let newTintColor = UIColor.averageColor(from: fromTintColor, to: toTintColor, percent: progress)
+        navigationBar.tintColor = newTintColor
 
         // update shadow line        
         navigationBar.setupShadowLine(remove: !toVC.navigationAppearance.showShadowLine)
@@ -131,41 +139,22 @@ extension UINavigationController {
         let newAlpha = fromAlpha + (toAlpha - fromAlpha) * progress
         navigationBar.setBackground(alpha: newAlpha)
     }
-}
 
-// MARK: - UINavigationBarDelegate
-extension UINavigationController: UINavigationBarDelegate {
-    public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
-        if let topVC = topViewController, let coordinator = topVC.transitionCoordinator, coordinator.initiallyInteractive {
-            if #available(iOS 10.0, *) {
-                coordinator.notifyWhenInteractionChanges({ (context) in
-                    self.dealInteractionChanges(context)
-                })
-            } else {
-                coordinator.notifyWhenInteractionEnds({ (context) in
-                    self.dealInteractionChanges(context)
-                })
-            }
-            return true
-        }
-
-        let itemCount = navigationBar.items?.count ?? 0
-        let count = viewControllers.count >= itemCount ? 2 : 1
-        let popToVC = viewControllers[viewControllers.count - count]
-        popToViewController(popToVC, animated: true)
-        return true
-    }
-
+    /// 处理手势进行到一半又停止的情况
     private func dealInteractionChanges(_ context: UIViewControllerTransitionCoordinatorContext) {
         let animations: (UITransitionContextViewControllerKey) -> Void = {
             guard let viewController = context.viewController(forKey: $0) else { return }
             let curAlpha = viewController.navigationAppearance.backgroundAlpha
-            let curTintColor = viewController.navigationAppearance.barTintColor
+            let curBarTintColor = viewController.navigationAppearance.barTintColor
+            let curTintColor = viewController.navigationAppearance.tintColor
             let showShadowLine = viewController.navigationAppearance.showShadowLine
+
             self.navigationBar.setupShadowLine(remove: !showShadowLine)
             self.navigationBar.setBackground(alpha: curAlpha)
-            self.navigationBar.barTintColor = curTintColor
+            self.navigationBar.barTintColor = curBarTintColor
+            self.navigationBar.tintColor = curTintColor
         }
+
         // 完成返回手势的取消事件
         if context.isCancelled {
             let cancelDuration: TimeInterval = context.transitionDuration * Double(context.percentComplete)
@@ -179,5 +168,31 @@ extension UINavigationController: UINavigationBarDelegate {
                 animations(.to)
             }
         }
+    }
+}
+
+extension UINavigationController: UINavigationBarDelegate {
+    // MARK: 如果 topVC setNavigationBarHidden(true), UINavigationBar 不显示，该方法不会触发
+    public func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+        // MARK：通过手势返回
+        if let topVC = topViewController, let coordinator = topVC.transitionCoordinator, coordinator.initiallyInteractive {
+            if #available(iOS 10.0, *) {
+                coordinator.notifyWhenInteractionChanges({ (context) in
+                    self.dealInteractionChanges(context)
+                })
+            } else {
+                coordinator.notifyWhenInteractionEnds({ (context) in
+                    self.dealInteractionChanges(context)
+                })
+            }
+            return true
+        }
+        // MARK：直接点击返回按钮，topVC.transitionCoordinator == nil
+        DPrint("popToViewController")
+        let itemCount = navigationBar.items?.count ?? 0
+        let count = viewControllers.count >= itemCount ? 2 : 1
+        let popToVC = viewControllers[viewControllers.count - count]
+        popToViewController(popToVC, animated: true)
+        return true
     }
 }

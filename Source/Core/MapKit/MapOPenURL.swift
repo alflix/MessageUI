@@ -74,19 +74,21 @@ public extension UIApplication {
         // https://lbs.amap.com/api/amap-mobile/guide/ios/route
         if UIApplication.canOpen(map: .amap) {
             alert.addAction(UIAlertAction(title: "gaodeMap".bundleLocalize, style: .default, handler: { (_) in
-                let url = "iosamap://path?sourceApplication=applicationName&sid=BGVIS1&sname=\("mylocation".bundleLocalize)&did=BGVIS2&dlat=\(coordinate.latitude)&dlon=\(coordinate.longitude)&dname=\(destination)&dev=0&m=0&t=0"
+                let url = "iosamap://path?sourceApplication=applicationName&sid=BGVIS1&did=BGVIS2&dlat=\(coordinate.latitude)&dlon=\(coordinate.longitude)&dname=\(destination)&dev=0&m=0&t=0"
                 openAction(url)
             }))
         }
+        // https://lbsyun.baidu.com/index.php?title=uri/api/ios
         if UIApplication.canOpen(map: .baidu) {
             alert.addAction(UIAlertAction(title: "baiduMap".bundleLocalize, style: .default, handler: { (_) in
-                let url = "baidumap://map/direction?origin={{\("mylocation".bundleLocalize)}}&destination=\(coordinate.latitude),\(coordinate.longitude)&mode=driving&src=JumpMapDemo"
+                let url = "baidumap://map/direction?origin={{我的位置}}&destination=\(coordinate.latitude),\(coordinate.longitude)&mode=driving&src=JumpMapDemo"
                 openAction(url)
             }))
         }
+        // https://lbs.qq.com/uri_v1/guide-mobile-navAndRoute.html
         if UIApplication.canOpen(map: .tencent) {
             alert.addAction(UIAlertAction(title: "tencentMap".bundleLocalize, style: .default, handler: { (_) in
-                let url = "qqmap://map/routeplan?type=drive&from=\("mylocation".bundleLocalize)&to=\(destination)&tocoord=\(coordinate.latitude),\(coordinate.longitude)&policy=1&referer=MapJump"
+                let url = "qqmap://map/routeplan?type=drive&to=\(destination)&tocoord=\(coordinate.latitude),\(coordinate.longitude)&policy=1&referer=MapJump"
                 openAction(url)
             }))
         }
