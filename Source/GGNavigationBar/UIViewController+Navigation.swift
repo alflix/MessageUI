@@ -18,14 +18,14 @@ public struct NavigationAppearance {
     /// tintColor, 导航栏上默认控件的颜色，不同的颜色之间会有渐变的切换效果, 默认为 black
     public var tintColor: UIColor = .black
     /// 是否显示导航栏底部的横线，默认显示
-    public var showShadowLine: Bool = true    
-    
+    public var showShadowLine: Bool = true
+
     public init() {}
-    
+
     public init(isNavigationBarHidden: Bool,
-                backgroundAlpha: CGFloat, 
-                barTintColor: UIColor, 
-                tintColor: UIColor, 
+                backgroundAlpha: CGFloat,
+                barTintColor: UIColor,
+                tintColor: UIColor,
                 showShadowLine: Bool) {
         self.isNavigationBarHidden = isNavigationBarHidden
         self.backgroundAlpha = backgroundAlpha
@@ -39,7 +39,7 @@ extension UIViewController {
     fileprivate struct AssociatedKey {
         static var appearanceKey: String = "com.ganguo.appearanceKey"
     }
-    
+
     /// 控制器上的导航栏样式，若不设置，以其 navigationController 的为准
     open var navigationAppearance: NavigationAppearance {
         get {

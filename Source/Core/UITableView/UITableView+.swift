@@ -106,10 +106,10 @@ public extension UITableView {
     ///
     /// - Parameters:
     ///   - animated: 是否动画
-    ///   - excludeHeight: 不用于计算的高度，例如键盘弹起时的键盘高度
+    ///   - excludeHeight: 用于排除计算的高度，例如键盘弹起时的键盘高度
     func smartScrollToBottom(animated: Bool = true, excludeHeight: CGFloat = 0) {
-        guard contentSize.height > bounds.size.height else { return }
-        let offsetY = max(0, contentSize.height - bounds.size.height - (contentInset.top + contentInset.bottom) + excludeHeight)
+        let originOffsetY = contentSize.height - bounds.size.height - (contentInset.top + contentInset.bottom) + excludeHeight
+        let offsetY = max(-autualContentInset.top, originOffsetY)
         let bottomOffset = CGPoint(x: 0, y: offsetY)
         setContentOffset(bottomOffset, animated: animated)
     }

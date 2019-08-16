@@ -1,5 +1,5 @@
 //
-//  UINavigationBar+Addition.swift
+//  UINavigationBar+UI.swift
 //  GGUI
 //
 //  Created by John on 2019/3/11.

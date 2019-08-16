@@ -5,8 +5,7 @@ Pod::Spec.new do |s|
 	s.homepage = 'https://www.ganguotech.com/'
 	s.license	 = { :type => "Copyright", :text => "Copyright 2019" }
 	s.authors = { 'John' => 'john@ganguo.hk' }
-	s.source = { :path => 'Source' }
-	s.resources = 'Resources/**/*'
+	s.source = { :path => 'Source' }	
 
 	s.swift_version = "5.0"
 	s.ios.deployment_target = "10.0"
@@ -16,8 +15,9 @@ Pod::Spec.new do |s|
 
 	s.subspec 'Core' do |cs|	
 		cs.dependency 'SnapKit'
-		cs.dependency 'SwifterSwift'
+		cs.dependency 'SwifterSwift'		
 		cs.source_files  = 'Source/Core/**/*.swift'
+		cs.resources = 'Resources/**/*'
 	end
 
 	s.subspec 'AlamofireImage' do |ss|
@@ -51,6 +51,5 @@ Pod::Spec.new do |s|
 	s.subspec 'PullToRefreshKit' do |ss|
 	    ss.dependency      'GGUI/Core'
 	    ss.source_files  = 'Source/PullToRefreshKit/Source/*.swift'
-	    ss.resources 	 = 'Source/PullToRefreshKit/Assets/**/*'
 	end
 end

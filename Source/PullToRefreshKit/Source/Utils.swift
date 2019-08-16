@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import GGUI
 
 struct PullToRefreshKitConst {
     //KVO
@@ -28,24 +29,20 @@ struct PullToRefreshKitConst {
     static let rightTag  = 100004
 }
 
-func PTRLocalize(_ string: String) -> String {
-    return NSLocalizedString(string, tableName: "Localize", bundle: Bundle(for: DefaultRefreshHeader.self), value: "", comment: "")
-}
-
 struct PullToRefreshKitHeaderString {
-    static let pullDownToRefresh = PTRLocalize("pullDownToRefresh")
-    static let releaseToRefresh = PTRLocalize("releaseToRefresh")
-    static let refreshSuccess = PTRLocalize("refreshSuccess")
-    static let refreshFailure = PTRLocalize("refreshFailure")
-    static let refreshing = PTRLocalize("refreshing")
+    static let pullDownToRefresh = "pullDownToRefresh".bundleLocalize
+    static let releaseToRefresh = "releaseToRefresh".bundleLocalize
+    static let refreshSuccess = "refreshSuccess".bundleLocalize
+    static let refreshFailure = "refreshFailure".bundleLocalize
+    static let refreshing = "refreshing".bundleLocalize
 }
 
 struct PullToRefreshKitFooterString {
-    static let pullUpToRefresh = PTRLocalize("pullUpToRefresh")
-    static let refreshing = PTRLocalize("refreshing")
-    static let noMoreData = PTRLocalize("noMoreData")
-    static let tapToRefresh = PTRLocalize("tapToRefresh")
-    static let scrollAndTapToRefresh = PTRLocalize("scrollAndTapToRefresh")
+    static let pullUpToRefresh = "pullUpToRefresh".bundleLocalize
+    static let refreshing = "refreshing".bundleLocalize
+    static let noMoreData = "noMoreData".bundleLocalize
+    static let tapToRefresh = "tapToRefresh".bundleLocalize
+    static let scrollAndTapToRefresh = "scrollAndTapToRefresh".bundleLocalize
 }
 
 struct PullToRefreshKitLeftString {

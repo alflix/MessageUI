@@ -1,5 +1,5 @@
 //
-//  BaseNavigationController.swift
+//  GGNavigationController.swift
 //  GGUI
 //
 //  Created by John on 2018/10/13.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BaseNavigationController: UINavigationController {
+open class GGNavigationController: UINavigationController {
     //是否允许手势返回（对于一些特殊的页面，需要禁止掉手势返回）
     public var enabledPop: Bool = true
 
@@ -34,14 +34,14 @@ open class BaseNavigationController: UINavigationController {
 }
 
 // MARK: - Function
-private extension BaseNavigationController {
+private extension GGNavigationController {
     @objc func backAction() {
         popViewController(animated: true)
     }
 }
 
 // MARK: - UINavigationControllerDelegate
-extension BaseNavigationController: UINavigationControllerDelegate {
+extension GGNavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if navigationController.viewControllers.count <= 1 {
             interactivePopGestureRecognizer?.isEnabled = false
@@ -52,7 +52,7 @@ extension BaseNavigationController: UINavigationControllerDelegate {
 }
 
 // MARK: - UIGestureRecognizerDelegate
-extension BaseNavigationController: UIGestureRecognizerDelegate {
+extension GGNavigationController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive press: UIPress) -> Bool {
         return enabledPop
     }
