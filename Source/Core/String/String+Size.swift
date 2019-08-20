@@ -17,13 +17,7 @@ public extension String {
     ///   - width: 最大宽度
     /// - Returns: 高度
     func heightForLabel(font: UIFont, width: CGFloat) -> CGFloat {
-        return autoreleasepool { () -> CGFloat in
-            let label: UILabel = UILabel()
-            label.numberOfLines = 0
-            label.font = font
-            label.text = self
-            return label.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
-        }
+        return heightForLabelInAnyLines(line: 0, width: width, font: font)
     }
 
     /// 文字宽度
@@ -54,7 +48,7 @@ public extension String {
             label.numberOfLines = line
             label.font = font
             label.text = self
-            return label.sizeThatFits(CGSize(width: width - 12 - 12, height: CGFloat.greatestFiniteMagnitude)).height
+            return label.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
         }
     }
 

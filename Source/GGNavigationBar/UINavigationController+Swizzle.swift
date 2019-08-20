@@ -29,7 +29,7 @@ public extension UINavigationController {
                 #selector(UINavigationController.popToRootViewController(animated:)))
         }
     }
-    
+
     @objc private func swizzle_updateInteractiveTransition(_ percentComplete: CGFloat) {
         DPrint("swizzle_updateInteractiveTransition")
         guard let topVC = topViewController, let coordinator = topVC.transitionCoordinator else {
@@ -42,7 +42,7 @@ public extension UINavigationController {
         updateNavigationBar(from: fromVC, to: toVC, progress: percentComplete)
         swizzle_updateInteractiveTransition(percentComplete)
     }
-    
+
     @objc private func swizzle_pushViewController(_ viewController: UIViewController, animated: Bool) {
         DPrint("swizzle_pushViewController")
         let block: ViewWillAppearBlock = { [weak self] (viewController, animated) in
@@ -50,33 +50,33 @@ public extension UINavigationController {
             strongSelf.setNavigationBarHidden(viewController.navigationAppearance.isNavigationBarHidden, animated: animated)
         }
         viewController.viewWillAppearHandler = block
-        
+
         // Setup will appear inject block to appearing view controller.
         // Setup disappearing view controller as well, because not every view controller is added into
         // stack by pushing, maybe by "-setViewControllers:".
         if let disappearingViewController = viewControllers.last, disappearingViewController.viewWillAppearHandler == nil {
             disappearingViewController.viewWillAppearHandler = block
         }
-        
+
         pushTransaction {
             swizzle_pushViewController(viewController, animated: animated)
         }
     }
-    
+
     @objc private func swizzle_popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         DPrint("swizzle_popToViewController")
         return popsTransaction {
             swizzle_popToViewController(viewController, animated: animated)
         }
     }
-    
+
     @objc private func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
         DPrint("swizzle_popToRootViewControllerAnimated")
         return popsTransaction {
             swizzle_popToRootViewControllerAnimated(animated)
         }
     }
-    
+
     @objc private func pushTransaction(block: () -> Void) {
         var displayLink: CADisplayLink? = CADisplayLink(target: self, selector: #selector(animationDisplay))
         // UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
@@ -91,7 +91,7 @@ public extension UINavigationController {
         block()
         CATransaction.commit()
     }
-    
+
     @objc private func popsTransaction(block: () -> [UIViewController]?) -> [UIViewController]? {
         var displayLink: CADisplayLink? = CADisplayLink(target: self, selector: #selector(animationDisplay))
         displayLink?.add(to: .main, forMode: .common)
@@ -106,7 +106,7 @@ public extension UINavigationController {
         CATransaction.commit()
         return viewControllers
     }
-    
+
     private struct AnimationProperties {
         static let duration = 0.13
         static var displayCount = 0
@@ -128,7 +128,7 @@ extension UINavigationController {
         let toVC = coordinator.viewController(forKey: .to)
         updateNavigationBar(from: fromVC, to: toVC, progress: progress)
     }
-    
+
     private func updateNavigationBar(from fromVC: UIViewController?, to toVC: UIViewController?, progress: CGFloat) {
         guard let fromVC = fromVC, let toVC = toVC else { return }
         // change barTintColor
@@ -136,23 +136,23 @@ extension UINavigationController {
         let toColor = toVC.navigationAppearance.barTintColor
         let newColor = UIColor.averageColor(from: fromColor, to: toColor, percent: progress)
         navigationBar.barTintColor = newColor
-        
+
         // change tintColor
         let fromTintColor = fromVC.navigationAppearance.tintColor
         let toTintColor = toVC.navigationAppearance.tintColor
         let newTintColor = UIColor.averageColor(from: fromTintColor, to: toTintColor, percent: progress)
         navigationBar.tintColor = newTintColor
-        
+
         // update shadow line        
         navigationBar.setupShadowLine(remove: !toVC.navigationAppearance.showShadowLine)
-        
+
         // change alpha
         let fromAlpha = fromVC.navigationAppearance.backgroundAlpha
         let toAlpha = toVC.navigationAppearance.backgroundAlpha
         let newAlpha = fromAlpha + (toAlpha - fromAlpha) * progress
         navigationBar.setBackground(alpha: newAlpha)
     }
-    
+
     /// 处理手势进行到一半又停止的情况
     private func dealInteractionChanges(_ context: UIViewControllerTransitionCoordinatorContext) {
         let animations: (UITransitionContextViewControllerKey) -> Void = {
@@ -161,13 +161,13 @@ extension UINavigationController {
             let curBarTintColor = viewController.navigationAppearance.barTintColor
             let curTintColor = viewController.navigationAppearance.tintColor
             let showShadowLine = viewController.navigationAppearance.showShadowLine
-            
+
             self.navigationBar.setupShadowLine(remove: !showShadowLine)
             self.navigationBar.setBackground(alpha: curAlpha)
             self.navigationBar.barTintColor = curBarTintColor
             self.navigationBar.tintColor = curTintColor
         }
-        
+
         // 完成返回手势的取消事件
         if context.isCancelled {
             let cancelDuration: TimeInterval = context.transitionDuration * Double(context.percentComplete)

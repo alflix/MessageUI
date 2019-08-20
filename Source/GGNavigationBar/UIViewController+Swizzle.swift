@@ -23,11 +23,11 @@ public extension UIViewController {
                 #selector(UIViewController.swizzle_addChild(_:)))
         }
     }
-    
+
     fileprivate struct AssociatedKey {
         static var viewWillAppearHandlerWrapper: String = "com.ganguo.viewWillAppear"
     }
-    
+
     var viewWillAppearHandler: ViewWillAppearBlock? {
         get {
             if let block = associatedObject(forKey: &AssociatedKey.viewWillAppearHandlerWrapper) as? ViewWillAppearBlock {
@@ -39,7 +39,7 @@ public extension UIViewController {
             associate(copyObject: newValue, forKey: &AssociatedKey.viewWillAppearHandlerWrapper)
         }
     }
-    
+
     @objc private func swizzle_viewWillAppear(_ animated: Bool) {
         swizzle_viewWillAppear(animated)
         if let viewWillAppearHandler = viewWillAppearHandler {
@@ -47,7 +47,7 @@ public extension UIViewController {
             viewWillAppearHandler(self, animated)
         }
     }
-    
+
     @objc private func swizzle_addChild(_ childController: UIViewController) {
         swizzle_addChild(childController)
         DPrint("swizzle_addChild")

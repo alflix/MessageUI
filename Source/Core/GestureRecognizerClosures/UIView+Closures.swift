@@ -1,48 +1,47 @@
 import UIKit
 
 public extension UIView {
-
-    func  onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
+    func onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {        
         addGestureRecognizer(UITapGestureRecognizer(taps: 1, handler: handler))
     }
 
-    func  onDoubleTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
+    func onDoubleTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
         addGestureRecognizer(UITapGestureRecognizer(taps: 2, handler: handler))
     }
 
-    func  onLongPress(_ handler: @escaping (UILongPressGestureRecognizer) -> Void) {
+    func onLongPress(_ handler: @escaping (UILongPressGestureRecognizer) -> Void) {
         addGestureRecognizer(UILongPressGestureRecognizer(handler: handler))
     }
 
-    func  onSwipeLeft(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
+    func onSwipeLeft(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
         addGestureRecognizer(UISwipeGestureRecognizer(direction: .left, handler: handler))
     }
 
-    func  onSwipeRight(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
+    func onSwipeRight(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
         addGestureRecognizer(UISwipeGestureRecognizer(direction: .right, handler: handler))
     }
 
-    func  onSwipeUp(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
+    func onSwipeUp(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
         addGestureRecognizer(UISwipeGestureRecognizer(direction: .up, handler: handler))
     }
 
-    func  onSwipeDown(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
+    func onSwipeDown(_ handler: @escaping (UISwipeGestureRecognizer) -> Void) {
         addGestureRecognizer(UISwipeGestureRecognizer(direction: .down, handler: handler))
     }
 
-    func  onPan(_ handler: @escaping (UIPanGestureRecognizer) -> Void) {
+    func onPan(_ handler: @escaping (UIPanGestureRecognizer) -> Void) {
         addGestureRecognizer(UIPanGestureRecognizer(handler: handler))
     }
 
-    func  onPinch(_ handler: @escaping (UIPinchGestureRecognizer) -> Void) {
+    func onPinch(_ handler: @escaping (UIPinchGestureRecognizer) -> Void) {
         addGestureRecognizer(UIPinchGestureRecognizer(handler: handler))
     }
 
-    func  onRotate(_ handler: @escaping (UIRotationGestureRecognizer) -> Void) {
+    func onRotate(_ handler: @escaping (UIRotationGestureRecognizer) -> Void) {
         addGestureRecognizer(UIRotationGestureRecognizer(handler: handler))
     }
 
-    func  onScreenEdgePan(_ handler: @escaping (UIScreenEdgePanGestureRecognizer) -> Void) {
+    func onScreenEdgePan(_ handler: @escaping (UIScreenEdgePanGestureRecognizer) -> Void) {
         addGestureRecognizer(UIScreenEdgePanGestureRecognizer(handler: handler))
     }
 }
