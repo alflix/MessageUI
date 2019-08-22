@@ -1,7 +1,6 @@
 import UIKit
 
 public extension UITapGestureRecognizer {
-
     /**
         Initializes a touch gesture-recognizer with the specificed number of taps, touches and handler
      */
@@ -15,7 +14,6 @@ public extension UITapGestureRecognizer {
 }
 
 public extension UILongPressGestureRecognizer {
-
     /**
         Initializes a long press gesture recognizer with the specificed handler
      */
@@ -27,7 +25,6 @@ public extension UILongPressGestureRecognizer {
 }
 
 public extension UISwipeGestureRecognizer {
-
     /**
         Initializes a swipe gesture recognizer with the specificed direction and handler
      */
@@ -40,7 +37,6 @@ public extension UISwipeGestureRecognizer {
 }
 
 public extension UIPanGestureRecognizer {
-
     /**
         Initializes a pan gesture recognizer with the specificed handler
      */
@@ -52,7 +48,6 @@ public extension UIPanGestureRecognizer {
 }
 
 public extension UIPinchGestureRecognizer {
-
     /**
         Initializes a pinch gesture-recognizer with the specificed handler
      */
@@ -64,7 +59,6 @@ public extension UIPinchGestureRecognizer {
 }
 
 public extension UIRotationGestureRecognizer {
-
     /**
         Initializes a rotation gesture-recognizer with the specificed handler
      */
@@ -76,7 +70,6 @@ public extension UIRotationGestureRecognizer {
 }
 
 public extension UIScreenEdgePanGestureRecognizer {
-
     /**
         Initializes a screen edge pan gesture-recognizer with the specificed handler
      */

@@ -133,6 +133,4 @@ extension String {
     }
 }
 
-class LocalizeHelper: NSObject {
-
-}
+class LocalizeHelper: NSObject {}

@@ -11,8 +11,9 @@ googleMap = "Google 地图";
 gaodeMap = "高德地图";
 baiduMap = "百度地图";
 tencentMap = "腾讯地图";
-cancel = "取消";
 mylocation = "我的位置";
+cancel = "取消";
+done = "完成";
 
 pullDownToRefresh = "下拉可以刷新";
 releaseToRefresh = "松开立即刷新";

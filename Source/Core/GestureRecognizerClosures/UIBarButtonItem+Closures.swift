@@ -3,7 +3,6 @@ import UIKit
 private var HandlerKey: UInt8 = 0
 
 internal extension UIBarButtonItem {
-
     var closureHandler: ClosureHandler<UIBarButtonItem>? {
         get { return objc_getAssociatedObject(self, &HandlerKey) as? ClosureHandler<UIBarButtonItem> }
         set { objc_setAssociatedObject(self, &HandlerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
@@ -19,7 +18,6 @@ internal extension UIBarButtonItem {
 }
 
 public extension UIBarButtonItem {
-
     /// A handler that is invoked when the item is selected
     var handler: ((UIBarButtonItem) -> Void)? {
         get { return closureHandler?.handler }

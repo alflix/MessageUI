@@ -38,11 +38,11 @@ public struct ImageCropperConfig {
     /// toolbar BarStyle
     public var toolbarBarColor: UIColor
     /// 取消按钮文字
-    public var cancelButtonTitle: String?
+    public var cancelButtonTitle: String = "cancel".bundleLocalize
     /// 取消按钮图片
     public var cancelButtonImage: UIImage?
     /// 完成按钮文字
-    public var doneButtonTitle: String?
+    public var doneButtonTitle: String = "done".bundleLocalize
     /// 完成按钮图片
     public var doneButtonImage: UIImage?
     /// 按钮文字字体
@@ -67,9 +67,9 @@ public struct ImageCropperConfig {
         self.toolbarHeight = toolbarHeight
         self.cropperType = cropperType
         self.toolbarBarColor = toolbarBarColor
-        self.cancelButtonTitle = cancelButtonTitle
+        if let cancelButtonTitle = cancelButtonTitle { self.cancelButtonTitle = cancelButtonTitle }        
         self.cancelButtonImage = cancelButtonImage
-        self.doneButtonTitle = doneButtonTitle
+        if let doneButtonTitle = doneButtonTitle { self.doneButtonTitle = doneButtonTitle }
         self.doneButtonImage = doneButtonImage
         self.toolButtonTitleFont = toolButtonTitleFont
         self.toolButtonTitleColor = toolButtonTitleColor
@@ -208,6 +208,7 @@ private extension ImageCropperViewController {
 
 private extension ImageCropperViewController {
     func setupUI() {
+        view.backgroundColor = .black
         setupScrollView()
         setupImageView()
         setupMaskView()

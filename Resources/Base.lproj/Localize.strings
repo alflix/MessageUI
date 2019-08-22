@@ -12,8 +12,9 @@ googleMap = "Google Map";
 gaodeMap = "Gaode Map";
 baiduMap = "Baidu Map";
 tencentMap = "Tencent Map";
-cancel = "Cancel";
 mylocation = "my location";
+cancel = "Cancel";
+done = "Done";
 
 pullDownToRefresh = "Pull to refresh";
 releaseToRefresh = "Release to refresh";
