@@ -64,6 +64,7 @@ public extension String {
     ///   - alignment: 对齐方式，默认左对齐
     ///   - minimumLineHeight: 最小行高，默认不设置
     ///   - baselineOffset: 基准线 offset，默认不设置
+    ///   - centerBaseLineTwoFont: 使两个不同字体水平方向对齐
     ///   - addition: 一个包含 NSMutableAttributedString 的 Block，可以设置额外的 Attributed 属性
     /// - Returns: NSAttributedString
     func attributedString(highlight: [String]? = [],
@@ -75,6 +76,7 @@ public extension String {
                           alignment: NSTextAlignment = .left,
                           minimumLineHeight: CGFloat = 0,
                           baselineOffset: CGFloat = 0,
+                          centerBaseLineTwoFont: Bool = false,
                           addition: AttributedStringBlock? = nil) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byWordWrapping
@@ -90,7 +92,11 @@ public extension String {
         let attributedString = NSMutableAttributedString(string: self, attributes: attributes)
         if let highlight = highlight, highlight.count > 0 {
             highlight.forEach { (string) in
-                attributedString.mutableApplying(attributes: [.paragraphStyle: paragraphStyle, .foregroundColor: highlightColor, .font: highlightFont],
+                let adjustOffset = centerBaseLineTwoFont ? (font.lineHeight - highlightFont.lineHeight)/2 + (font.descender - highlightFont.descender) : 0
+                attributedString.mutableApplying(attributes: [.paragraphStyle: paragraphStyle, 
+                                                              .foregroundColor: highlightColor, 
+                                                              .font: highlightFont,
+                                                              .baselineOffset: adjustOffset],
                                                  toOccurrencesOf: string)
             }
         }
