@@ -16,6 +16,11 @@ public extension UINavigationBar {
             .first
     }
 
+    func setTitle(color: UIColor, font: UIFont) {
+        titleTextAttributes = [.font: font,
+                               .foregroundColor: color]
+    }
+
     func setBackground(alpha: CGFloat) {
         guard let barBackgroundView = barBackgroundView else { return }
         let valueForKey = barBackgroundView.value(forKey:)

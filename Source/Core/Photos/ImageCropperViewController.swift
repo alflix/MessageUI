@@ -67,7 +67,7 @@ public struct ImageCropperConfig {
         self.toolbarHeight = toolbarHeight
         self.cropperType = cropperType
         self.toolbarBarColor = toolbarBarColor
-        if let cancelButtonTitle = cancelButtonTitle { self.cancelButtonTitle = cancelButtonTitle }        
+        if let cancelButtonTitle = cancelButtonTitle { self.cancelButtonTitle = cancelButtonTitle }
         self.cancelButtonImage = cancelButtonImage
         if let doneButtonTitle = doneButtonTitle { self.doneButtonTitle = doneButtonTitle }
         self.doneButtonImage = doneButtonImage

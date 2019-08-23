@@ -143,14 +143,24 @@ extension UINavigationController {
         let newTintColor = UIColor.averageColor(from: fromTintColor, to: toTintColor, percent: progress)
         navigationBar.tintColor = newTintColor
 
-        // update shadow line        
-        navigationBar.setupShadowLine(remove: !toVC.navigationAppearance.showShadowLine)
+        // change titleColor, titleFont
+        let fromTitleColor = fromVC.navigationAppearance.titleColor
+        let toTitleColor = toVC.navigationAppearance.titleColor
+        let newTitleColor = UIColor.averageColor(from: fromTitleColor, to: toTitleColor, percent: progress)
+        let fromTitleFont = fromVC.navigationAppearance.titleFont
+        let toTitleFont = toVC.navigationAppearance.titleFont
+        let newFontSize = fromTitleFont.pointSize + (toTitleFont.pointSize - fromTitleFont.pointSize) * progress
+        let newFont = UIFont.systemFont(ofSize: newFontSize, weight: toVC.navigationAppearance.titleFont.fontWeight)
+        navigationBar.setTitle(color: newTitleColor, font: newFont)
 
         // change alpha
         let fromAlpha = fromVC.navigationAppearance.backgroundAlpha
         let toAlpha = toVC.navigationAppearance.backgroundAlpha
         let newAlpha = fromAlpha + (toAlpha - fromAlpha) * progress
         navigationBar.setBackground(alpha: newAlpha)
+
+        // update shadow line        
+        navigationBar.setupShadowLine(remove: !toVC.navigationAppearance.showShadowLine)
     }
 
     /// 处理手势进行到一半又停止的情况
@@ -160,12 +170,15 @@ extension UINavigationController {
             let curAlpha = viewController.navigationAppearance.backgroundAlpha
             let curBarTintColor = viewController.navigationAppearance.barTintColor
             let curTintColor = viewController.navigationAppearance.tintColor
+            let curTitleColor = viewController.navigationAppearance.titleColor
+            let curTitleFont = viewController.navigationAppearance.titleFont
             let showShadowLine = viewController.navigationAppearance.showShadowLine
 
-            self.navigationBar.setupShadowLine(remove: !showShadowLine)
-            self.navigationBar.setBackground(alpha: curAlpha)
             self.navigationBar.barTintColor = curBarTintColor
             self.navigationBar.tintColor = curTintColor
+            self.navigationBar.setTitle(color: curTitleColor, font: curTitleFont)
+            self.navigationBar.setBackground(alpha: curAlpha)
+            self.navigationBar.setupShadowLine(remove: !showShadowLine)
         }
 
         // 完成返回手势的取消事件

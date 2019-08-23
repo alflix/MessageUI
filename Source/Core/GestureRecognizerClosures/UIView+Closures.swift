@@ -1,7 +1,7 @@
 import UIKit
 
 public extension UIView {
-    func onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {        
+    func onTap(_ handler: @escaping (UITapGestureRecognizer) -> Void) {
         addGestureRecognizer(UITapGestureRecognizer(taps: 1, handler: handler))
     }
 

@@ -24,7 +24,7 @@ open class GGNavigationController: UINavigationController {
         if viewControllers.count > 0 && (viewController.navigationItem.leftBarButtonItem == nil) {
             viewController.hidesBottomBarWhenPushed = true
             if let image = GGUI.NavigationBarConfig.backIconImage {
-                let backBarButtonItem = UIBarButtonItem(image: image.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(backAction))
+                let backBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(backAction))
                 viewController.navigationItem.leftBarButtonItem = backBarButtonItem
             }
         }
