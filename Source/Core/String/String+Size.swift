@@ -35,6 +35,23 @@ public extension String {
             return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
         }
     }
+    
+    /// 文字宽度
+    ///
+    /// - Parameters:
+    ///   - fontSize: 字体 size
+    ///   - width: 最大高度  
+    /// - Returns: 宽度
+    func widthForLabel(fontSize: CGFloat, height: CGFloat, width: CGFloat = CGFloat.greatestFiniteMagnitude) -> CGFloat {
+        return autoreleasepool { () -> CGFloat in
+            let label: UILabel = UILabel()
+            label.numberOfLines = 1
+            label.font = UIFont.systemFont(ofSize: fontSize, weight: .regular)
+            label.text = self
+            return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
+        }
+    }
+    
     /// 计算文字在特定行数的高度
     ///
     /// - Parameters:

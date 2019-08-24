@@ -52,4 +52,10 @@ Pod::Spec.new do |s|
 	    ss.dependency      'GGUI/Core'
 	    ss.source_files  = 'Source/PullToRefreshKit/Source/*.swift'
 	end
+	s.subspec 'AXPhotoViewer' do |ss|
+	    ss.dependency      'GGUI/Core'
+	    ss.dependency      'AXPhotoViewer/Core'
+	    ss.dependency      'AlamofireImage'
+	    ss.source_files  = 'Source/AXPhotoViewer/*.swift'
+	end
 end
