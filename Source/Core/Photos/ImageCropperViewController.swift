@@ -28,7 +28,6 @@ public enum ImageCropperType {
 
 /// 配置项
 public struct ImageCropperConfig {
-    public static let shared = ImageCropperConfig()
     /// 功能按钮区域显示的位置
     public var toolbarLocation: ImageCropperToolbarLocation
     /// 功能按钮区域的高度
@@ -54,7 +53,7 @@ public struct ImageCropperConfig {
 
     public init(toolbarLocation: ImageCropperToolbarLocation = .top,
                 toolbarHeight: CGFloat = Size.navigationBarHeight,
-                cropperType: ImageCropperType = .circle(diameter: 0),
+                cropperType: ImageCropperType = .circle(diameter: Size.screenWidth),
                 toolbarBarColor: UIColor = .clear,
                 cancelButtonTitle: String? = nil,
                 cancelButtonImage: UIImage? = nil,
@@ -94,7 +93,7 @@ public protocol ImageCropperViewControllerDelegate: class {
 public class ImageCropperViewController: UIViewController {
     public weak var delegate: ImageCropperViewControllerDelegate?
     /// 设置项
-    public var config: ImageCropperConfig = ImageCropperConfig.shared
+    public var config: ImageCropperConfig!
     /// 需要裁剪的图片
     public var imageToCrop: UIImage!
 
@@ -156,9 +155,9 @@ private extension ImageCropperViewController {
         var cropAreaViewWidth: CGFloat = 0
         switch config.cropperType {
         case let .circle(diameter):
-            cropAreaViewWidth = diameter <= 0 ? view.width : max(view.width, diameter)
+            cropAreaViewWidth = diameter <= 0 ? view.width : min(view.width, diameter)
         case let .square(width, _):
-            cropAreaViewWidth = width <= 0 ? view.width : max(view.width, width)
+            cropAreaViewWidth = width <= 0 ? view.width : min(view.width, width)
         }
         return cropAreaViewWidth
     }
@@ -167,10 +166,10 @@ private extension ImageCropperViewController {
         var cropAreaViewHeight: CGFloat = 0
         switch config.cropperType {
         case let .circle(diameter):
-            cropAreaViewHeight = diameter <= 0 ? view.width : max(view.width, diameter)
+            cropAreaViewHeight = diameter <= 0 ? view.width : min(view.width, diameter)
         case let .square(_, height):
             cropAreaViewHeight = height <= 0 ? view.height - config.toolbarHeight
-                : max(view.height - config.toolbarHeight, height)
+                : min(view.height - config.toolbarHeight, height)
         }
         return cropAreaViewHeight
     }
@@ -329,10 +328,20 @@ private extension ImageCropperViewController {
         } else {
             originY -= config.toolbarHeight/2
         }
-        let circlePath = UIBezierPath(ovalIn: CGRect(x: (view.width - cropAreaViewWidth)/2,
+        var circlePath: UIBezierPath
+
+        switch config.cropperType {
+        case .circle:
+            circlePath = UIBezierPath(ovalIn: CGRect(x: (view.width - cropAreaViewWidth)/2,
                                                      y: originY,
                                                      width: cropAreaViewWidth,
                                                      height: cropAreaViewHeight))
+        case .square:
+            circlePath = UIBezierPath(rect: CGRect(x: (view.width - cropAreaViewWidth)/2,
+                                                   y: originY,
+                                                   width: cropAreaViewWidth,
+                                                   height: cropAreaViewHeight))
+        }
         outerPath.usesEvenOddFillRule = true
         outerPath.append(circlePath)
         let maskLayer = CAShapeLayer()
@@ -357,12 +366,12 @@ private extension ImageCropperViewController {
 
     func getImageCropRect() -> CGRect {
         guard let image = imageView.image else { return CGRect.zero }
-        let imageScale: CGFloat = min(image.width/cropAreaView.width, image.height/cropAreaView.height)
+        let imageScale: CGFloat = 1/scale
         let zoomFactor = 1/scrollView.zoomScale
         let factor = zoomFactor * imageScale
 
         let originX = (scrollView.contentOffset.x + cropAreaView.x) * factor
-        let originY = (scrollView.contentOffset.y - scrollViewOffsetY) * factor
+        let originY = (scrollView.contentOffset.y + scrollView.contentInset.top) * factor
         let width = cropAreaViewWidth * factor
         let height = cropAreaViewHeight * factor
         return CGRect(x: originX, y: originY, width: width, height: height)
