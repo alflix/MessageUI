@@ -1,5 +1,5 @@
 //
-//  WebViewController.swift
+//  WKWebViewController.swift
 //  GGUI
 //
 //  Created by John on 2018/12/28.
@@ -10,35 +10,48 @@ import UIKit
 import WebKit
 import SnapKit
 
-open class WebViewController: UIViewController {
-    /// 访问链接
+open class WKWebViewController: UIViewController {
+    /// 访问 url
     public var urlString: String? {
         didSet {
-            loadURL()
+            guard let urlString = urlString, let url = URL(string: urlString) else {
+                fatalError("URL 为空 ")
+                return
+            }
+            webView.load(URLRequest(url: url))
         }
     }
-
-    /// html 的文本内容
+    
+    /// html string
     public var htmlString: String? {
         didSet {
             guard let htmlString = htmlString else {
-                DPrint("💣 htmlString 为空 ")
+                fatalError("htmlString 为空 ")
                 return
             }
             webView.loadHTMLString(htmlString, baseURL: nil)
         }
     }
-
-    /// 访问 Request
+    
+    /// urlRequest
     public var urlRequest: URLRequest? {
         didSet {
             guard let urlRequest = urlRequest else {
-                DPrint("💣 非法的 urlRequest！")
+                fatalError("urlRequest 为空 ")
                 return
             }
             webView.load(urlRequest)
         }
     }
+    
+    open var isShowProgressView: Bool {
+        return true
+    }
+    
+    open var isShowTitle: Bool {
+        return true
+    }
+    
     /// 进度条底色
     public var progressTintColor: UIColor = GGUI.WebViewConfig.progressTintColor
     /// 进度条颜色
@@ -47,9 +60,9 @@ open class WebViewController: UIViewController {
     public var alertConfirmTitle: String = GGUI.WebViewConfig.alertConfirmTitle
     /// 弹窗取消按钮的文字，默认 "Cancel"，可在 GGUI.WebViewConfig.alertCancelTitle 设置
     public var alertCancelTitle: String = GGUI.WebViewConfig.alertCancelTitle
-
+    
     /// WKWebView
-    lazy var webView: WKWebView = {
+    lazy public private(set) var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.preferences.minimumFontSize = 1
         configuration.preferences.javaScriptEnabled = true
@@ -61,7 +74,7 @@ open class WebViewController: UIViewController {
         webView.allowsBackForwardNavigationGestures = true
         return webView
     }()
-
+    
     /// 进度条
     lazy var progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
@@ -69,35 +82,41 @@ open class WebViewController: UIViewController {
         progressView.tintColor = progressTintColor
         return progressView
     }()
-
+    
     private var loadingObservation: NSKeyValueObservation?
     private var titleObservation: NSKeyValueObservation?
     private var progressObservation: NSKeyValueObservation?
-
+    
     deinit {
         loadingObservation = nil
         titleObservation = nil
         progressObservation = nil
     }
-
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
-        addProgressView()
+        if isShowProgressView {
+            addProgressView()
+        }        
         addWebView()
         addObservers()
     }
 }
 
 // MARK: - UI
-private extension WebViewController {
+private extension WKWebViewController {
     private func addWebView() {
         view.addSubview(webView)
         webView.snp.makeConstraints { (make) in
             make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(progressView.snp.bottom)
+            if self.isShowProgressView {
+                make.top.equalTo(progressView.snp.bottom)
+            } else {
+                make.top.equalToSuperview()
+            }            
         }
     }
-
+    
     private func addProgressView() {
         view.addSubview(progressView)
         progressView.snp.makeConstraints { (make) in
@@ -105,12 +124,12 @@ private extension WebViewController {
             make.leading.trailing.top.equalToSuperview()
         }
     }
-
+    
     func showProgressView() {
         progressView.isHidden = false
         progressView.setProgress(Float(webView.estimatedProgress), animated: true)
     }
-
+    
     func hideProgressView() {
         progressView.isHidden = true
         progressView.setProgress(0, animated: false)
@@ -118,16 +137,7 @@ private extension WebViewController {
 }
 
 // MARK: - Action
-private extension WebViewController {
-    /// 开始刷新
-    func loadURL() {
-        guard let urlString = urlString, let url = URL(string: urlString) else {
-            DPrint("💣 非法的 URL！")
-            return
-        }
-        webView.load(URLRequest(url: url))
-    }
-
+private extension WKWebViewController {
     /// 返回上一页
     ///
     /// - Parameter completion: 包含是否可以返回上一页的 Bool 值的回调，用于执行 goBack 后根据该状态更新相关按钮的 enable
@@ -138,7 +148,7 @@ private extension WebViewController {
         }
         completion?(false)
     }
-
+    
     /// 前进一页
     ///
     /// - Parameter completion: 包含是否可以前进一页的 Bool 值的回调，用于执行 goBack 后根据该状态更新相关按钮的 enable
@@ -149,11 +159,11 @@ private extension WebViewController {
         }
         completion?(false)
     }
-
+    
     func reload() {
         webView.reload()
     }
-
+    
     func stopLoading() {
         webView.stopLoading()
         hideProgressView()
@@ -161,7 +171,7 @@ private extension WebViewController {
 }
 
 // MARK: - Function
-private extension WebViewController {
+private extension WKWebViewController {
     func addObservers() {
         loadingObservation = webView.observe(\WKWebView.isLoading) { [weak self] (_, _) in
             guard let strongSelf = self else { return }
@@ -170,7 +180,7 @@ private extension WebViewController {
             }
         }
         titleObservation = webView.observe(\WKWebView.title) { [weak self] (webView, _) in
-            guard let strongSelf = self else { return }
+            guard let strongSelf = self, strongSelf.isShowTitle else { return }            
             strongSelf.title = strongSelf.webView.title
         }
         progressObservation = webView.observe(\WKWebView.estimatedProgress) { [weak self] (_, _) in
@@ -181,28 +191,28 @@ private extension WebViewController {
 }
 
 // MARK: - WKNavigationDelegate
-extension WebViewController: WKNavigationDelegate {
+extension WKWebViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
     }
 }
 
 // MARK: - WKUIDelegate
-extension WebViewController: WKUIDelegate {
+extension WKWebViewController: WKUIDelegate {
     public func webView(_ webView: WKWebView,
-                 runJavaScriptAlertPanelWithMessage message: String,
-                 initiatedByFrame frame: WKFrameInfo,
-                 completionHandler: @escaping () -> Void) {
+                        runJavaScriptAlertPanelWithMessage message: String,
+                        initiatedByFrame frame: WKFrameInfo,
+                        completionHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: alertConfirmTitle, style: .default, handler: { (_) in
             completionHandler()
         }))
         present(alert, animated: false, completion: nil)
     }
-
+    
     public func webView(_ webView: WKWebView,
-                 runJavaScriptConfirmPanelWithMessage message: String,
-                 initiatedByFrame frame: WKFrameInfo,
-                 completionHandler: @escaping (Bool) -> Void) {
+                        runJavaScriptConfirmPanelWithMessage message: String,
+                        initiatedByFrame frame: WKFrameInfo,
+                        completionHandler: @escaping (Bool) -> Void) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: alertConfirmTitle, style: .default, handler: { (_) in
             completionHandler(true)
@@ -212,11 +222,11 @@ extension WebViewController: WKUIDelegate {
         }))
         present(alert, animated: false, completion: nil)
     }
-
+    
     public func webView(_ webView: WKWebView,
-                 runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?,
-                 initiatedByFrame frame: WKFrameInfo,
-                 completionHandler: @escaping (String?) -> Void) {
+                        runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?,
+                        initiatedByFrame frame: WKFrameInfo,
+                        completionHandler: @escaping (String?) -> Void) {
         let alert = UIAlertController(title: prompt, message: defaultText, preferredStyle: .alert)
         alert.addTextField { (textFiled) in
             textFiled.textColor = .red
@@ -230,13 +240,13 @@ extension WebViewController: WKUIDelegate {
 
 public extension UIViewController {
     func pushToWebByLoadingURL(_ url: String) {
-        let webViewController = WebViewController()
+        let webViewController = WKWebViewController()
         webViewController.urlString = url
         navigationController?.pushViewController(webViewController, animated: true)
     }
-
+    
     func pushToWebByHTMLString(_ html: String) {
-        let webViewController = WebViewController()
+        let webViewController = WKWebViewController()
         webViewController.htmlString = html
         navigationController?.pushViewController(webViewController, animated: true)
     }
