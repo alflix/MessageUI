@@ -1,6 +1,6 @@
 //
 //  Codable+.swift
-//  Ganguo
+//  GGUI
 //
 //  Created by John on 2019/7/4.
 //  Copyright © 2019 Ganguo. All rights reserved.
@@ -59,9 +59,9 @@ public extension Encodable {
     ///
     /// - Returns: Dictionary
     /// - Throws: 转换错误
-    func asDictionary() throws -> [String: Any] {
+    func asDictionary(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) throws -> [String: Any] {
         let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
+        encoder.keyEncodingStrategy = keyEncodingStrategy
         if let dateFormat = GGUI.CodableConfig.dateFormat {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = dateFormat
@@ -69,7 +69,7 @@ public extension Encodable {
         } else {
             encoder.dateEncodingStrategy = GGUI.CodableConfig.dateEncodingStrategy
         }
-        let data = try JSONEncoder().encode(self)
+        let data = try encoder.encode(self)
         guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
             throw NSError()
         }
@@ -80,9 +80,9 @@ public extension Encodable {
     ///
     /// - Returns: String
     /// - Throws: 转换错误
-    func asJSONString() throws -> String? {
+    func asJSONString(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) throws -> String? {
         let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
+        encoder.keyEncodingStrategy = keyEncodingStrategy
         if let dateFormat = GGUI.CodableConfig.dateFormat {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = dateFormat

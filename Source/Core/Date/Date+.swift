@@ -1,6 +1,6 @@
 //
 //  Date+.swift
-//  Ganguo
+//  GGUI
 //
 //  Created by John on 2019/4/9.
 //  Copyright © 2019 Ganguo. All rights reserved.

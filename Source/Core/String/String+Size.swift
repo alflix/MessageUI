@@ -35,7 +35,7 @@ public extension String {
             return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
         }
     }
-    
+
     /// 文字宽度
     ///
     /// - Parameters:
@@ -51,7 +51,7 @@ public extension String {
             return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
         }
     }
-    
+
     /// 计算文字在特定行数的高度
     ///
     /// - Parameters:

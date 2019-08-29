@@ -89,11 +89,11 @@ public struct GGUI {
     /// WebView 配置
     public enum WebViewConfig {
         /// 弹窗确定按钮的文字
-        public static var alertConfirmTitle: String = "OK"
+        public static var alertConfirmTitle: String = "done".bundleLocalize
         /// 弹窗取消按钮的文字
-        public static var alertCancelTitle: String = "Cancel"
-        /// 进度条完成部分进度的颜色
-        public static var progressTintColor: UIColor = .blue
+        public static var alertCancelTitle: String = "cancel".bundleLocalize
+        /// 进度条完成部分进度的颜色(默认蓝)
+        public static var progressTintColor: UIColor = UIColor.defaultBlue
         /// 进度条总进度的颜色
         public static var progressTrackTintColor: UIColor = .white
     }

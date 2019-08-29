@@ -32,7 +32,7 @@ public class AlamofireNetworkIntegration: NSObject, AXNetworkIntegrationProtocol
             }
         }
     }
-    
+
     public func cancelLoad(for photo: AXPhotoProtocol) {
 
     }

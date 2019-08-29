@@ -16,11 +16,6 @@ public extension UINavigationBar {
             .first
     }
 
-    func setTitle(color: UIColor, font: UIFont) {
-        titleTextAttributes = [.font: font,
-                               .foregroundColor: color]
-    }
-
     func setBackground(alpha: CGFloat) {
         guard let barBackgroundView = barBackgroundView else { return }
         let valueForKey = barBackgroundView.value(forKey:)
@@ -39,6 +34,16 @@ public extension UINavigationBar {
                 return
             }
         }
+    }
+
+    /// 设置标题颜色，字体
+    ///
+    /// - Parameters:
+    ///   - color: 颜色
+    ///   - font: 字体
+    func setTitle(color: UIColor, font: UIFont) {
+        titleTextAttributes = [.font: font,
+                               .foregroundColor: color]
     }
 
     /// 设置分割线

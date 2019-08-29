@@ -2,7 +2,7 @@
 //  Device+.swift
 //  GGUI
 //
-//  Created by ganguo on 2019/2/26.
+//  Created by John on 2019/2/26.
 //  Copyright © 2019年 Ganguo. All rights reserved.
 //
 

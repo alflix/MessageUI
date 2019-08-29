@@ -31,7 +31,6 @@ public extension UINavigationController {
     }
 
     @objc private func swizzle_updateInteractiveTransition(_ percentComplete: CGFloat) {
-        DPrint("swizzle_updateInteractiveTransition")
         guard let topVC = topViewController, let coordinator = topVC.transitionCoordinator else {
             swizzle_updateInteractiveTransition(percentComplete)
             return
@@ -44,7 +43,6 @@ public extension UINavigationController {
     }
 
     @objc private func swizzle_pushViewController(_ viewController: UIViewController, animated: Bool) {
-        DPrint("swizzle_pushViewController")
         let block: ViewWillAppearBlock = { [weak self] (viewController, animated) in
             guard let strongSelf = self else { return }
             strongSelf.setNavigationBarHidden(viewController.navigationAppearance.isNavigationBarHidden, animated: animated)
@@ -64,14 +62,12 @@ public extension UINavigationController {
     }
 
     @objc private func swizzle_popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        DPrint("swizzle_popToViewController")
         return popsTransaction {
             swizzle_popToViewController(viewController, animated: animated)
         }
     }
 
     @objc private func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
-        DPrint("swizzle_popToRootViewControllerAnimated")
         return popsTransaction {
             swizzle_popToRootViewControllerAnimated(animated)
         }
@@ -214,7 +210,6 @@ extension UINavigationController: UINavigationBarDelegate {
             return true
         }
         // MARK: == nil
-        DPrint("popToViewController")
         let itemCount = navigationBar.items?.count ?? 0
         let count = viewControllers.count >= itemCount ? 2 : 1
         let popToVC = viewControllers[viewControllers.count - count]

@@ -1,6 +1,6 @@
 //
 //  CLLocationCoordinate2D+.swift
-//  Ganguo
+//  GGUI
 //
 //  Created by John on 2019/7/16.
 //  Copyright © 2019 Ganguo. All rights reserved.

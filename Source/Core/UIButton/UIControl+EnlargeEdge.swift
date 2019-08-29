@@ -1,6 +1,6 @@
 //
 //  UIControl+EnlargeEdge.swift
-//  Ganguo
+//  GGUI
 //
 //  Created by John on 2018/12/11.
 //  Copyright © 2018 Ganguo. All rights reserved.

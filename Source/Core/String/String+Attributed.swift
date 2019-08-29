@@ -93,8 +93,8 @@ public extension String {
         if let highlight = highlight, highlight.count > 0 {
             highlight.forEach { (string) in
                 let adjustOffset = centerBaseLineTwoFont ? (font.lineHeight - highlightFont.lineHeight)/2 + (font.descender - highlightFont.descender) : 0
-                attributedString.mutableApplying(attributes: [.paragraphStyle: paragraphStyle, 
-                                                              .foregroundColor: highlightColor, 
+                attributedString.mutableApplying(attributes: [.paragraphStyle: paragraphStyle,
+                                                              .foregroundColor: highlightColor,
                                                               .font: highlightFont,
                                                               .baselineOffset: adjustOffset],
                                                  toOccurrencesOf: string)

@@ -23,7 +23,7 @@ public class ViewModel<T> {
     /// 用于记录 Cell 的 indexPath
     public var indexPath: IndexPath?
     /// 用于记录上一次滑动的位置，eg：用于 TableViewCell 内嵌 CollectionView 的情况，防止 Reuse 的时候出现问题
-    public var lastContentOffset: CGPoint?
+    public var contentOffset: CGPoint?
     /// 用于处理 Cell 最普遍的横线问题, none: 无横线 top：上横线 bottom：下横线
     public var lineStyle: SingleLineStyle?
     /// 高度，例如 cellHeight
@@ -62,7 +62,8 @@ public class ViewModel<T> {
                 size: CGSize? = .zero,
                 isSelect: Bool? = false,
                 viewModel: Any? = nil,
-                dataSource: [Any]? = nil) {
+                dataSource: [Any]? = nil,
+                contentOffset: CGPoint = .zero) {
         self.model = model
         self.reuseIdentifier = reuseIdentifier
         self.title = title
@@ -75,6 +76,7 @@ public class ViewModel<T> {
         self.isSelect = isSelect
         self.viewModel = viewModel
         self.dataSource = dataSource
+        self.contentOffset = contentOffset
     }
 }
 
