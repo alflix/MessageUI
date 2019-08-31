@@ -16,7 +16,7 @@ public class PhotoPickerHelper: NSObject {
     private var completionBlock: PhotoPickerBlock?
     private var cropperConfig: ImageCropperConfig = ImageCropperConfig()
     private var allowsEditing: Bool = false
-    private lazy var imagePicker = UIImagePickerController()
+    private weak var presentingViewController: UIViewController?
 
     /// 打开相册
     ///
@@ -33,7 +33,14 @@ public class PhotoPickerHelper: NSObject {
                                    completionHandler: PhotoPickerBlock? = nil) {
         self.allowsEditing = allowsEditing
         self.cropperConfig = cropperConfig
+        presentingViewController = controller
         completionBlock = completionHandler
+        let imagePicker = UIImagePickerController()
+        if sourceType == .camera {
+            imagePicker.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        } else {
+            imagePicker.navigationBar.setup(navigationAppearance: GGUI.NavigationBarConfig.appearance)
+        }
         imagePicker.sourceType = sourceType
         imagePicker.videoQuality = .typeLow
         imagePicker.delegate = self
@@ -42,31 +49,35 @@ public class PhotoPickerHelper: NSObject {
         // imagePicker.allowsEditing = true                
         controller.present(imagePicker, animated: true, completion: nil)
     }
+
+    func dismiss(_ image: UIImage?) {
+        completionBlock?(image)
+        presentingViewController?.dismiss(animated: true, completion: nil)
+        completionBlock = nil
+        presentingViewController = nil
+    }
 }
 
 extension PhotoPickerHelper: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
-        completionBlock?(nil)
+        dismiss(nil)
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let pickImage = info[.originalImage] as? UIImage else { return }
+        guard let image = info[.originalImage] as? UIImage else { return }
         if allowsEditing {
             let cropperViewController = ImageCropperViewController()
-            cropperViewController.imageToCrop = pickImage.fixOrientation()
+            cropperViewController.imageToCrop = image.fixOrientation()
             cropperViewController.delegate = self
             cropperViewController.config = cropperConfig
             picker.present(cropperViewController, animated: true, completion: nil)
             return
         }
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
-        completionBlock?(pickImage)
+        dismiss(image)
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String: AnyObject]?) {
-        picker.presentingViewController?.dismiss(animated: true, completion: nil)
-        completionBlock?(image)
+        dismiss(image)
     }
 }
 
@@ -76,7 +87,6 @@ extension PhotoPickerHelper: ImageCropperViewControllerDelegate {
     }
 
     public func handleCroppedImage(imageCropperViewController: ImageCropperViewController, image: UIImage) {
-        imagePicker.presentingViewController?.dismiss(animated: true, completion: nil)
-        completionBlock?(image)
+        dismiss(image)
     }
 }
