@@ -27,41 +27,41 @@ public class WKWebViewCell: UITableViewCell {
         webView.scrollView.isScrollEnabled = false
         webView.scrollView.showsVerticalScrollIndicator = false
         webView.scrollView.showsHorizontalScrollIndicator = false
-        webView.navigationDelegate = self        
+        webView.navigationDelegate = self
         return webView
     }()
-    
+
     private var webViewHeight: CGFloat = 0
     private var observation: NSKeyValueObservation?
     private var hasLoad: Bool = false
-    weak var delegate: WKWebViewCellDelegate?    
-    
+    weak var delegate: WKWebViewCellDelegate?
+
     deinit {
         observation = nil
     }
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         addObservers()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
         addObservers()
     }
-    
+
     public func setupHtmlString(_ htmlString: String?, delegate: WKWebViewCellDelegate?) {
         self.htmlString = htmlString
         self.delegate = delegate
     }
-    
+
     public func setupURLString(_ urlString: String?, delegate: WKWebViewCellDelegate?) {
         self.urlString = urlString
         self.delegate = delegate
     }
-    
+
     var htmlString: String? {
         didSet {
             guard let htmlString = htmlString, hasLoad == false else { return }
@@ -69,7 +69,7 @@ public class WKWebViewCell: UITableViewCell {
             hasLoad = true
         }
     }
-    
+
     var urlString: String? {
         didSet {
             guard let urlString = urlString, let url = URL(string: urlString) else { return }
@@ -80,13 +80,13 @@ public class WKWebViewCell: UITableViewCell {
 }
 
 private extension WKWebViewCell {
-    func setupUI() {        
+    func setupUI() {
         contentView.addSubview(webView)
         webView.snp.makeConstraints { (make) -> Void in
             make.edges.equalToSuperview()
         }
     }
-    
+
     func addObservers() {
         observation = webView.observe(\WKWebView.scrollView.contentSize) { [weak self] (_, _) in
             guard let strongSelf = self else { return }
@@ -94,12 +94,12 @@ private extension WKWebViewCell {
             strongSelf.contentSizeChange(height: height)
         }
     }
-    
+
     func contentSizeChange(height: CGFloat) {
-        if webViewHeight == height { return }            
+        if webViewHeight == height { return }
         webViewHeight = height
         delegate?.heightChangeObserve(in: self,
-                                      webView: webView, 
+                                      webView: webView,
                                       contentHeight: height)
         webView.setNeedsLayout()
     }

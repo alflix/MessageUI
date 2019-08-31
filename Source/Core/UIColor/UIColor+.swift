@@ -30,7 +30,7 @@ public extension UIColor {
 
         return UIColor(red: nowRed, green: nowGreen, blue: nowBlue, alpha: nowAlpha)
     }
-    
+
     static var defaultBlue: UIColor {
         return UIColor.init(hexString: "0x007aff")!
     }
