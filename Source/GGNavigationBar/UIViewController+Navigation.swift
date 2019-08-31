@@ -21,6 +21,8 @@ public struct NavigationAppearance {
     public var titleColor: UIColor = .black
     /// 标题字体，默认 16，medium
     public var titleFont: UIFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+    /// BarButtonItem字体，默认 14, 全局生效
+    public var barButtonItemFont: UIFont = UIFont.systemFont(ofSize: 14)
     /// 是否显示导航栏底部的横线，默认显示
     public var showShadowLine: Bool = true
 
@@ -32,6 +34,7 @@ public struct NavigationAppearance {
                 tintColor: UIColor,
                 titleColor: UIColor,
                 titleFont: UIFont,
+                barButtonItemFont: UIFont,
                 showShadowLine: Bool) {
         self.isNavigationBarHidden = isNavigationBarHidden
         self.backgroundAlpha = backgroundAlpha
@@ -39,6 +42,7 @@ public struct NavigationAppearance {
         self.tintColor = tintColor
         self.titleColor = titleColor
         self.titleFont = titleFont
+        self.barButtonItemFont = barButtonItemFont
         self.showShadowLine = showShadowLine
     }
 }
@@ -61,18 +65,14 @@ extension UIViewController {
                 associate(retainObject: newValue, forKey: &AssociatedKey.appearanceKey)
                 return
             }
+            UIBarButtonItem.appearance().setTitleTextAttributes([.font: newValue.barButtonItemFont], for: .normal)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.font: newValue.barButtonItemFont], for: .highlighted)
+            UIBarButtonItem.appearance().setTitleTextAttributes([.font: newValue.barButtonItemFont, .foregroundColor: newValue.tintColor.withAlphaComponent(0.5)],
+                                                                for: .disabled)
             if let viewController = self as? UINavigationController {
-                viewController.navigationBar.barTintColor = newValue.barTintColor
-                viewController.navigationBar.tintColor = newValue.tintColor
-                viewController.navigationBar.setTitle(color: newValue.titleColor, font: newValue.titleFont)
-                viewController.navigationBar.setBackground(alpha: newValue.backgroundAlpha)
-                viewController.navigationBar.setupShadowLine(remove: !newValue.showShadowLine)
+                viewController.navigationBar.setup(navigationAppearance: newValue)
             } else if let navigationController = navigationController {
-                navigationController.navigationBar.barTintColor = newValue.barTintColor
-                navigationController.navigationBar.tintColor = newValue.tintColor
-                navigationController.navigationBar.setTitle(color: newValue.titleColor, font: newValue.titleFont)
-                navigationController.navigationBar.setBackground(alpha: newValue.backgroundAlpha)
-                navigationController.navigationBar.setupShadowLine(remove: !newValue.showShadowLine)
+                navigationController.navigationBar.setup(navigationAppearance: newValue)
             }
             if !(navigationController?.navigationBar.isTranslucent ?? true) && newValue.backgroundAlpha <= 1 {
                 print("⚠️ warning: backgroundAlpha would not available when isTranslucent is false")

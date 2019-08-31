@@ -9,6 +9,14 @@
 import UIKit
 
 public extension UINavigationBar {
+    public func setup(navigationAppearance: NavigationAppearance) {
+        barTintColor = navigationAppearance.barTintColor
+        tintColor = navigationAppearance.tintColor
+        setTitle(color: navigationAppearance.titleColor, font: navigationAppearance.titleFont)
+        setBackground(alpha: navigationAppearance.backgroundAlpha)
+        setupShadowLine(remove: !navigationAppearance.showShadowLine)
+    }
+
     /// 改变背景 alpha http://developer.limneos.net/?ios=11.1.2&framework=InCallService.framework&header=PHAudioCallViewController.h
     var barBackgroundView: UIView? {
         return self.subviews

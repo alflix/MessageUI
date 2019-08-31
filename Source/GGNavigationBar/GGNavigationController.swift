@@ -43,11 +43,7 @@ private extension GGNavigationController {
 // MARK: - UINavigationControllerDelegate
 extension GGNavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        if navigationController.viewControllers.count <= 1 {
-            interactivePopGestureRecognizer?.isEnabled = false
-        } else {
-            interactivePopGestureRecognizer?.isEnabled = enabledPop
-        }
+        interactivePopGestureRecognizer?.isEnabled = navigationController.viewControllers.count > 1 ? enabledPop : false
     }
 }
 
@@ -55,5 +51,14 @@ extension GGNavigationController: UINavigationControllerDelegate {
 extension GGNavigationController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive press: UIPress) -> Bool {
         return enabledPop
+    }
+
+    // https://stackoverflow.com/questions/30408581/how-to-use-the-system-pop-gesture-in-a-uiscrollview
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self)
     }
 }
