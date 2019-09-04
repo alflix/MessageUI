@@ -49,7 +49,7 @@ public enum TitleImageDirection: Int {
 }
 
 /// 方便设置图片，文字布局方式的 UIButton
-public class LayoutButton: CustomButton {
+open class LayoutButton: CustomButton {
     /// 图片和文字的间距，默认为8
     @IBInspectable public var imageTitleSpace: CGFloat = 8 {
         didSet {
@@ -75,12 +75,12 @@ public class LayoutButton: CustomButton {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
 
-    required init(frame: CGRect) {
+    required public init(frame: CGRect) {
         super.init(frame: frame)
     }
 
@@ -88,7 +88,7 @@ public class LayoutButton: CustomButton {
         self.titleLabel?.textAlignment = .center
     }
 
-    override public func titleRect(forContentRect contentRect: CGRect) -> CGRect {
+    override open func titleRect(forContentRect contentRect: CGRect) -> CGRect {
         let rect = super.titleRect(forContentRect: contentRect)
 
         let imageWidth = imageForNormal?.size.width ?? 0
@@ -120,7 +120,7 @@ public class LayoutButton: CustomButton {
         }
     }
 
-    override public func imageRect(forContentRect contentRect: CGRect) -> CGRect {
+    override open func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         let rect = super.imageRect(forContentRect: contentRect)
         let titleRect = self.titleRect(forContentRect: contentRect)
 
@@ -144,7 +144,7 @@ public class LayoutButton: CustomButton {
         }
     }
 
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
         var labelHeight: CGFloat = 0.0
         var labelWidth: CGFloat = 0.0
