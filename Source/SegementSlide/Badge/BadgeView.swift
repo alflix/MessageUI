@@ -83,6 +83,13 @@ public final class Badge {
         }
     }
 
+    /// Badge's color
+    public var color: UIColor = .red {
+        didSet {
+            badgeView.backgroundColor = color
+        }
+    }
+
     /// Badge's center position relative to the parent view's center position displacement
     /// A positive x means moving to the right
     /// A positive y means moving to the bottom
@@ -98,13 +105,13 @@ public final class Badge {
             switch type {
             case .none, .point:
                 badgeView.isHidden = false
-                badgeView.backgroundColor = .red
+                badgeView.backgroundColor = color
                 badgeView.numberOfLines = 1
                 badgeView.text = nil
                 badgeView.attributedText = nil
             case .count(let count):
                 badgeView.isHidden = count == 0
-                badgeView.backgroundColor = .red
+                badgeView.backgroundColor = color
                 badgeView.numberOfLines = 1
                 let string: String
                 if count > 99 {
@@ -116,7 +123,7 @@ public final class Badge {
                 badgeView.text = string
             case let .custom(attributedString, height, _):
                 badgeView.isHidden = false
-                badgeView.backgroundColor = .clear
+                badgeView.backgroundColor = color
                 badgeView.numberOfLines = 0
                 if let height = height {
                     self.height = height
