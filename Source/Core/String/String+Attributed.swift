@@ -69,7 +69,7 @@ public extension String {
     /// - Returns: NSAttributedString
     func attributedString(highlight: [String]? = [],
                           font: UIFont = GGUI.AttributedString.defaultFont,
-                          highlightFont: UIFont = GGUI.AttributedString.defaultFont,
+                          highlightFont: UIFont? = nil,
                           color: UIColor = GGUI.AttributedString.defaultColor,
                           highlightColor: UIColor = GGUI.AttributedString.defaultColor,
                           lineSpacing: CGFloat? = nil,
@@ -90,6 +90,7 @@ public extension String {
             attributes[NSAttributedString.Key.baselineOffset] = baselineOffset
         }
         let attributedString = NSMutableAttributedString(string: self, attributes: attributes)
+        let highlightFont = highlightFont ?? font 
         if let highlight = highlight, highlight.count > 0 {
             highlight.forEach { (string) in
                 let adjustOffset = centerBaseLineTwoFont ? (font.lineHeight - highlightFont.lineHeight)/2 + (font.descender - highlightFont.descender) : 0
