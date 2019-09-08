@@ -1,5 +1,5 @@
 //
-//  WKWebViewController.swift
+//  WebViewController.swift
 //  GGUI
 //
 //  Created by John on 2018/12/28.
@@ -10,13 +10,12 @@ import UIKit
 import WebKit
 import SnapKit
 
-open class WKWebViewController: UIViewController {
+open class WebViewController: UIViewController {
     /// 访问 url
     public var urlString: String? {
         didSet {
             guard let urlString = urlString, let url = URL(string: urlString) else {
                 fatalError("URL 为空 ")
-                return
             }
             webView.load(URLRequest(url: url))
         }
@@ -27,7 +26,6 @@ open class WKWebViewController: UIViewController {
         didSet {
             guard let htmlString = htmlString else {
                 fatalError("htmlString 为空 ")
-                return
             }
             webView.loadHTMLString(htmlString, baseURL: nil)
         }
@@ -38,7 +36,6 @@ open class WKWebViewController: UIViewController {
         didSet {
             guard let urlRequest = urlRequest else {
                 fatalError("urlRequest 为空 ")
-                return
             }
             webView.load(urlRequest)
         }
@@ -104,7 +101,7 @@ open class WKWebViewController: UIViewController {
 }
 
 // MARK: - UI
-private extension WKWebViewController {
+private extension WebViewController {
     private func addWebView() {
         view.addSubview(webView)
         webView.snp.makeConstraints { (make) in
@@ -137,7 +134,7 @@ private extension WKWebViewController {
 }
 
 // MARK: - Action
-private extension WKWebViewController {
+private extension WebViewController {
     /// 返回上一页
     ///
     /// - Parameter completion: 包含是否可以返回上一页的 Bool 值的回调，用于执行 goBack 后根据该状态更新相关按钮的 enable
@@ -171,7 +168,7 @@ private extension WKWebViewController {
 }
 
 // MARK: - Function
-private extension WKWebViewController {
+private extension WebViewController {
     func addObservers() {
         loadingObservation = webView.observe(\WKWebView.isLoading) { [weak self] (_, _) in
             guard let strongSelf = self else { return }
@@ -191,13 +188,13 @@ private extension WKWebViewController {
 }
 
 // MARK: - WKNavigationDelegate
-extension WKWebViewController: WKNavigationDelegate {
+extension WebViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
     }
 }
 
 // MARK: - WKUIDelegate
-extension WKWebViewController: WKUIDelegate {
+extension WebViewController: WKUIDelegate {
     public func webView(_ webView: WKWebView,
                         runJavaScriptAlertPanelWithMessage message: String,
                         initiatedByFrame frame: WKFrameInfo,
@@ -240,13 +237,13 @@ extension WKWebViewController: WKUIDelegate {
 
 public extension UIViewController {
     func pushToWebByLoadingURL(_ url: String) {
-        let webViewController = WKWebViewController()
+        let webViewController = WebViewController()
         webViewController.urlString = url
         navigationController?.pushViewController(webViewController, animated: true)
     }
 
     func pushToWebByHTMLString(_ html: String) {
-        let webViewController = WKWebViewController()
+        let webViewController = WebViewController()
         webViewController.htmlString = html
         navigationController?.pushViewController(webViewController, animated: true)
     }

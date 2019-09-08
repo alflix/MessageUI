@@ -1,5 +1,5 @@
 //
-//  WKWebViewCell.swift
+//  WebViewCell.swift
 //  GGUI
 //
 //  Created by John on 10/14/18.
@@ -8,13 +8,12 @@
 
 import UIKit
 import WebKit
-import GGUI
 
-public protocol WKWebViewCellDelegate: NSObjectProtocol {
+public protocol WebViewCellDelegate: NSObjectProtocol {
     func heightChangeObserve(in cell: UITableViewCell, webView: WKWebView, contentHeight: CGFloat)
 }
 
-public class WKWebViewCell: UITableViewCell {
+public class WebViewCell: UITableViewCell {
     private lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.preferences.minimumFontSize = 1
@@ -34,7 +33,7 @@ public class WKWebViewCell: UITableViewCell {
     private var webViewHeight: CGFloat = 0
     private var observation: NSKeyValueObservation?
     private var hasLoad: Bool = false
-    weak var delegate: WKWebViewCellDelegate?
+    weak var delegate: WebViewCellDelegate?
 
     deinit {
         observation = nil
@@ -52,12 +51,12 @@ public class WKWebViewCell: UITableViewCell {
         addObservers()
     }
 
-    public func setupHtmlString(_ htmlString: String?, delegate: WKWebViewCellDelegate?) {
+    public func setupHtmlString(_ htmlString: String?, delegate: WebViewCellDelegate?) {
         self.htmlString = htmlString
         self.delegate = delegate
     }
 
-    public func setupURLString(_ urlString: String?, delegate: WKWebViewCellDelegate?) {
+    public func setupURLString(_ urlString: String?, delegate: WebViewCellDelegate?) {
         self.urlString = urlString
         self.delegate = delegate
     }
@@ -79,7 +78,7 @@ public class WKWebViewCell: UITableViewCell {
     }
 }
 
-private extension WKWebViewCell {
+private extension WebViewCell {
     func setupUI() {
         contentView.addSubview(webView)
         webView.snp.makeConstraints { (make) -> Void in
@@ -105,7 +104,7 @@ private extension WKWebViewCell {
     }
 }
 
-extension WKWebViewCell: WKNavigationDelegate {
+extension WebViewCell: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         webView.evaluateJavaScript("document.body.scrollHeight") { [weak self] (result, error) in
             guard error == nil, let strongSelf = self, let result = result as? Double else { return }
@@ -114,7 +113,7 @@ extension WKWebViewCell: WKNavigationDelegate {
     }
 }
 
-extension WKWebViewCell: UIScrollViewDelegate {
+extension WebViewCell: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentOffset.y)
     }
