@@ -15,5 +15,7 @@ target 'Demo' do
     pod 'SnapKit'
     pod 'SwiftTimer'
     pod 'MBProgressHUD'    
+    pod 'SwiftLocation'
+    pod 'AXPhotoViewer'
 
 end
