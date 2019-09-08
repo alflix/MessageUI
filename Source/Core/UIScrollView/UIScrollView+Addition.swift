@@ -9,11 +9,20 @@
 import UIKit
 
 public extension UIScrollView {
-    public var autualContentInset: UIEdgeInsets {
+    var autualContentInset: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return adjustedContentInset
         } else {
             return contentInset
+        }
+    }
+
+    func reloadDataAnyway() {
+        if let self = self as? UITableView {
+            self.reloadData()
+        }
+        if let self = self as? UICollectionView {
+            self.reloadData()
         }
     }
 }
