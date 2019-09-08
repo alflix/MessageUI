@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIFont {
-    public var fontWeight: UIFont.Weight {
+    var fontWeight: UIFont.Weight {
         let fontAttributeKey = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
         if let fontWeight = self.fontDescriptor.fontAttributes[fontAttributeKey] as? String {
             switch fontWeight {

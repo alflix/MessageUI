@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UINavigationBar {
-    public func setup(navigationAppearance: NavigationAppearance) {
+    func setup(navigationAppearance: NavigationAppearance) {
         barTintColor = navigationAppearance.barTintColor
         tintColor = navigationAppearance.tintColor
         setTitle(color: navigationAppearance.titleColor, font: navigationAppearance.titleFont)

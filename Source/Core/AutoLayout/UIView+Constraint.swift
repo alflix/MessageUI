@@ -116,7 +116,6 @@ public extension UIView {
             objc_setAssociatedObject(self, &heightConstraintKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-
 }
 
 public extension UIView {
@@ -137,5 +136,4 @@ public extension UIView {
         widthConstraint = nil
         heightConstraint = nil
     }
-
 }

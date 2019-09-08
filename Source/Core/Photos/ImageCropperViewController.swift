@@ -293,29 +293,26 @@ private extension ImageCropperViewController {
             make.edges.equalToSuperview()
         })
         var buttonWidth: CGFloat = 0
-        if config.cancelButtonTitle != nil || config.cancelButtonImage != nil {
-            let cancelButton = UIButton()
-            cancelButton.setTitleColor(config.toolButtonTitleColor, for: .normal)
-            cancelButton.titleLabel?.font = config.toolButtonTitleFont
-            cancelButton.setTitle(config.cancelButtonTitle, for: .normal)
-            cancelButton.setImage(config.cancelButtonImage, for: .normal)
-            cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
-            cancelButton.sizeToFit()
-            buttonWidth += cancelButton.width
-            stackView.addArrangedSubview(cancelButton)
-        }
+        let cancelButton = UIButton()
+        cancelButton.setTitleColor(config.toolButtonTitleColor, for: .normal)
+        cancelButton.titleLabel?.font = config.toolButtonTitleFont
+        cancelButton.setTitle(config.cancelButtonTitle, for: .normal)
+        cancelButton.setImage(config.cancelButtonImage, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
+        cancelButton.sizeToFit()
+        buttonWidth += cancelButton.width
+        stackView.addArrangedSubview(cancelButton)
 
-        if config.doneButtonTitle != nil || config.doneButtonImage != nil {
-            let doneButton = UIButton()
-            doneButton.setTitleColor(config.toolButtonTitleColor, for: .normal)
-            doneButton.titleLabel?.font = config.toolButtonTitleFont
-            doneButton.setTitle(config.doneButtonTitle, for: .normal)
-            doneButton.setImage(config.doneButtonImage, for: .normal)
-            doneButton.addTarget(self, action: #selector(crop(_:)), for: .touchUpInside)
-            doneButton.sizeToFit()
-            buttonWidth += doneButton.width
-            stackView.addArrangedSubview(doneButton)
-        }
+        let doneButton = UIButton()
+        doneButton.setTitleColor(config.toolButtonTitleColor, for: .normal)
+        doneButton.titleLabel?.font = config.toolButtonTitleFont
+        doneButton.setTitle(config.doneButtonTitle, for: .normal)
+        doneButton.setImage(config.doneButtonImage, for: .normal)
+        doneButton.addTarget(self, action: #selector(crop(_:)), for: .touchUpInside)
+        doneButton.sizeToFit()
+        buttonWidth += doneButton.width
+        stackView.addArrangedSubview(doneButton)
+
         view.layoutIfNeeded()
         stackView.spacing = view.width - buttonWidth - config.toolButtonInset * 4
     }
@@ -365,7 +362,7 @@ private extension ImageCropperViewController {
     }
 
     func getImageCropRect() -> CGRect {
-        guard let image = imageView.image else { return CGRect.zero }
+        guard imageView.image != nil else { return CGRect.zero }
         let imageScale: CGFloat = 1/scale
         let zoomFactor = 1/scrollView.zoomScale
         let factor = zoomFactor * imageScale

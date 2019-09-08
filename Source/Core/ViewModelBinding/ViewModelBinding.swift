@@ -60,7 +60,8 @@ public class ViewModel<T> {
                 image: UIImage? = nil,
                 height: CGFloat? = 0,
                 size: CGSize? = .zero,
-                isSelect: Bool? = false,
+                isSelect: Bool? = nil,
+                lineStyle: SingleLineStyle? = .none,
                 viewModel: Any? = nil,
                 dataSource: [Any]? = nil,
                 contentOffset: CGPoint = .zero) {
@@ -74,6 +75,7 @@ public class ViewModel<T> {
         self.height = height
         self.size = size
         self.isSelect = isSelect
+        self.lineStyle = lineStyle
         self.viewModel = viewModel
         self.dataSource = dataSource
         self.contentOffset = contentOffset
