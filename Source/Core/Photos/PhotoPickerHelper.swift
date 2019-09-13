@@ -46,8 +46,8 @@ public class PhotoPickerHelper: NSObject {
         imagePicker.delegate = self
         // 直接使用 imagePicker.allowsEditing，遇到有透明通道的图片会显示错误（页面空白） 
         // viewServiceDidTerminateWithError:: Error Domain=_UIViewServiceInterfaceErrorDomain Code=3 "(null)" UserInfo={Message=Service Connection Interrupted
-        // imagePicker.allowsEditing = true                
-        controller.present(imagePicker, animated: true, completion: nil)
+        // imagePicker.allowsEditing = true
+        controller.fullPresent(imagePicker)
     }
 
     func dismiss(_ image: UIImage?) {
@@ -70,7 +70,7 @@ extension PhotoPickerHelper: UIImagePickerControllerDelegate, UINavigationContro
             cropperViewController.imageToCrop = image.fixOrientation()
             cropperViewController.delegate = self
             cropperViewController.config = cropperConfig
-            picker.present(cropperViewController, animated: true, completion: nil)
+            picker.fullPresent(cropperViewController)
             return
         }
         dismiss(image)

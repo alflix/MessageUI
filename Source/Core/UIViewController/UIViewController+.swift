@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIViewController {
-    /// 获取当前的 controller,这个方法不应该滥用
+    /// 获取当前的 controller，这个方法不应该滥用
     static var current: UIViewController? {
         guard let window = UIApplication.shared.windows.first else {
             return nil
@@ -90,6 +90,12 @@ public extension UIViewController {
             }
         }
         return targetViewController
+    }
+
+    /// 全屏 present 方法（以兼容 iOS 13）
+    func fullPresent(_ viewControllerToPresent: UIViewController) {
+        viewControllerToPresent.modalPresentationStyle = .fullScreen
+        present(viewControllerToPresent, animated: true, completion: nil)
     }
 }
 
