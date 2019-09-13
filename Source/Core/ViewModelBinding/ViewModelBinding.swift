@@ -20,6 +20,8 @@ public class ViewModel<T> {
     public var viewModel: Any?
     /// 里面是 ViewModel<T>， 由于其 T 可能是另外一种类型，无法定义为 [ViewModel<T>]?，所以使用时需要用 as? 赋值类型
     public var dataSource: [Any]?
+    /// 用于记录 HeaderView 的 section
+    public var section: Int?
     /// 用于记录 Cell 的 indexPath
     public var indexPath: IndexPath?
     /// 用于记录上一次滑动的位置，eg：用于 TableViewCell 内嵌 CollectionView 的情况，防止 Reuse 的时候出现问题

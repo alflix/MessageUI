@@ -10,29 +10,28 @@ import UIKit
 
 /// UISearchBar 的快速设置
 public extension UISearchBar {
-    /// 输入框
+    /// 输入框, iOS 13.0 直接调用 searchTextField，
+    /// iOS 13.0 以下递归其 UISearchBarTextField，且该属性在 UISearchBar 被 addSubView 之后才会存在
     var searchField: UITextField? {
-        return value(forKey: "searchField") as? UITextField
-    }
-
-    /// 占位文字 Label
-    var placeholderLabel: UILabel? {
-        return textField?.value(forKey: "placeholderLabel") as? UILabel
+//        if #available(iOS 13.0, *) {
+//            return searchTextField
+//        }
+        return recursiveFindSubview(of: "UISearchBarTextField") as? UITextField
     }
 
     /// 🔍
     var icon: UIImageView? {
-        return textField?.leftView as? UIImageView
+        return searchField?.leftView as? UIImageView
     }
 
     /// 🔍 和 占位文字 Label 和之间的间距的总宽度
     var placeholderWidth: CGFloat {
         let space = searchTextPositionAdjustment.horizontal
-        var placeholderLabelWidth = placeholderLabel!.width
-        if placeholderLabelWidth <= 0 {
-            placeholderLabelWidth = placeholderLabel!.text?.widthForLabel(font: placeholderLabel!.font, height: 32) ?? 0
+        if let font = searchField?.font, let icon = icon {
+            let placeholderLabelWidth = placeholder?.widthForLabel(font: font, height: 32) ?? 0
+            return placeholderLabelWidth + icon.width + space
         }
-        return placeholderLabelWidth + icon!.width + space
+        return space
     }
 
     /// 🔍 颜色

@@ -22,42 +22,43 @@ public extension UIView {
         return superview!.isRecursiveSubView(of: view)
     }
 
+    /// 递归查找 UIView
+    ///
+    /// - Parameter name: UIView 的类名称
+    /// - Returns: 找到的 UIView
+    func recursiveFindSubview(of name: String) -> UIView? {
+        for view in subviews {
+            if view.isKind(of: NSClassFromString(name)!) {
+                return view
+                break
+            }
+        }
+        for view in subviews {
+            if let tempView = view.recursiveFindSubview(of: name) {
+                return tempView
+                break
+            }
+        }
+        return nil
+    }
+
+    /// 递归寻找所有 subviews
+    func getAllSubview<T: UIView>(type: T.Type) -> [T] {
+        var all = [T]()
+        func getSubview(view: UIView) {
+            if let aView = view as? T {
+                all.append(aView)
+            }
+            guard view.subviews.count > 0 else { return }
+            view.subviews.forEach { getSubview(view: $0) }
+        }
+        getSubview(view: self)
+        return all
+    }
+
     /// removeFromSuperview 之前增加 superview == nil 的判断
     func safeRemoveFromSuperview() {
         if superview == nil { return }
         removeFromSuperview()
-    }
-
-    /// 添加渐变色图层
-    func gradientColor(startPoint: CGPoint, endPoint: CGPoint, colors: [Any], frame: CGRect) {
-        guard startPoint.x >= 0, startPoint.x <= 1, startPoint.y >= 0, startPoint.y <= 1, endPoint.x >= 0, endPoint.x <= 1, endPoint.y >= 0, endPoint.y <= 1 else {
-            return
-        }
-        // 外界如果改变了self的大小，需要先刷新
-        layoutIfNeeded()
-        var gradientLayer: CAGradientLayer!
-        removeGradientLayer()
-        gradientLayer = CAGradientLayer()
-        gradientLayer.frame = frame
-        gradientLayer.startPoint = startPoint
-        gradientLayer.endPoint = endPoint
-        gradientLayer.colors = colors
-        gradientLayer.cornerRadius = layer.cornerRadius
-        gradientLayer.masksToBounds = true
-        // 渐变图层插入到最底层，避免在uibutton上遮盖文字图片
-        layer.insertSublayer(gradientLayer, at: 0)
-        // self如果是UILabel，masksToBounds设为true会导致文字消失
-        layer.masksToBounds = false
-    }
-
-    /// 移除渐变图层（当希望只使用backgroundColor的颜色时，需要先移除之前加过的渐变图层）
-    private func removeGradientLayer() {
-        if let sublayers = layer.sublayers {
-            for layer in sublayers {
-                if layer.isKind(of: CAGradientLayer.self) {
-                    layer.removeFromSuperlayer()
-                }
-            }
-        }
     }
 }

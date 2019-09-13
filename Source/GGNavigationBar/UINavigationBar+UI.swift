@@ -29,18 +29,10 @@ public extension UINavigationBar {
         let valueForKey = barBackgroundView.value(forKey:)
         /// MARK: 尝试过很多方法，isTranslucent == false 无论怎么改都没有效果
         guard isTranslucent else { return }
-        if #available(iOS 10.0, *) {
-            if let backgroundEffectView = valueForKey("_backgroundEffectView") as? UIView,
-                backgroundImage(for: .default) == nil {
-                backgroundEffectView.alpha = alpha
-                return
-            }
-        } else {
-            if let adaptiveBackdrop = valueForKey("_adaptiveBackdrop") as? UIView,
-                let backdropEffectView = adaptiveBackdrop.value(forKey: "_backdropEffectView") as? UIView {
-                backdropEffectView.alpha = alpha
-                return
-            }
+        if let backgroundEffectView = recursiveFindSubview(of: "UIVisualEffectView") as? UIView,
+            backgroundImage(for: .default) == nil {
+            backgroundEffectView.alpha = alpha
+            return
         }
     }
 

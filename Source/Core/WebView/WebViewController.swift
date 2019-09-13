@@ -66,9 +66,8 @@ open class WebViewController: UIViewController {
         configuration.allowsInlineMediaPlayback = true
         configuration.userContentController = WKUserContentController()
         let webView = WKWebView(frame: .zero, configuration: configuration)
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
+        webView.uiDelegate = self
         return webView
     }()
 
@@ -184,12 +183,6 @@ private extension WebViewController {
             guard let strongSelf = self else { return }
             strongSelf.showProgressView()
         }
-    }
-}
-
-// MARK: - WKNavigationDelegate
-extension WebViewController: WKNavigationDelegate {
-    public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
     }
 }
 
