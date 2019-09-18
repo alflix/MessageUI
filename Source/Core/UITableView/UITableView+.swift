@@ -113,4 +113,18 @@ public extension UITableView {
         let bottomOffset = CGPoint(x: 0, y: offsetY)
         setContentOffset(bottomOffset, animated: animated)
     }
+
+    /// 处理 ios10 webview 白屏 scrollViewDidScroll 中调用
+    func webViewCellLowVersionShow() {
+        if UIDevice.current.systemVersion.int ?? 0 >= 11 {
+            return
+        }
+        for cell in visibleCells {
+            if let webCell = cell as? WebViewCell {
+                if let webView = webCell.contentView.recursiveFindSubview(of: "WKWebView") {
+                    webView.setNeedsLayout()
+                }
+            }
+        }
+    }
 }
