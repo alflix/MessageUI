@@ -50,9 +50,34 @@ public extension UINavigationBar {
     /// - Parameter remove: 是否移除
     func setupShadowLine(remove: Bool) {
         if remove {
-            shadowImage = UIImage()
+            /// ios10 直接 shadowImage = UIImage() 无用
+            if SYSTEM_VERSION_LESS_THAN(version: "11") {
+                if let shadow = findShadowImage(under: self) {
+                    shadow.isHidden = true
+                }
+            } else {
+                shadowImage = UIImage()
+            }
         } else {
+            if SYSTEM_VERSION_LESS_THAN(version: "11") {
+                if let shadow = findShadowImage(under: self) {
+                    shadow.isHidden = false
+                }
+            }
             shadowImage = UIImage(color: GGUI.LineView.color, size: CGSize(width: 1, height: 0.5))
         }
+    }
+
+    private func findShadowImage(under view: UIView) -> UIImageView? {
+        if view is UIImageView && view.bounds.size.height <= 1 {
+            return (view as! UIImageView)
+        }
+
+        for subview in view.subviews {
+            if let imageView = findShadowImage(under: subview) {
+                return imageView
+            }
+        }
+        return nil
     }
 }

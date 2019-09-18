@@ -31,11 +31,12 @@ public extension UINavigationController {
     }
 
     @objc private func swizzle_updateInteractiveTransition(_ percentComplete: CGFloat) {
-        guard let topVC = topViewController, let coordinator = topVC.transitionCoordinator else {
+        guard let topVC = topViewController,
+            let coordinator = topVC.transitionCoordinator,
+            !topVC.navigationAppearance.isNavigationBarHidden else {
             swizzle_updateInteractiveTransition(percentComplete)
             return
         }
-        if topVC.navigationAppearance.isNavigationBarHidden { return }
         let fromVC = coordinator.viewController(forKey: .from)
         let toVC = coordinator.viewController(forKey: .to)
         updateNavigationBar(from: fromVC, to: toVC, progress: percentComplete)
