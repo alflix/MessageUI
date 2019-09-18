@@ -68,3 +68,23 @@ public extension UIDevice {
         return addresses.first
     }
 }
+
+func SYSTEM_VERSION_EQUAL_TO(version: String) -> Bool {
+    return UIDevice.current.systemVersion.compare(version, options: .numeric) == .orderedSame
+}
+
+func SYSTEM_VERSION_GREATER_THAN(version: String) -> Bool {
+    return UIDevice.current.systemVersion.compare(version, options: .numeric) == .orderedDescending
+}
+
+func SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(version: String) -> Bool {
+    return UIDevice.current.systemVersion.compare(version, options: .numeric) != .orderedAscending
+}
+
+func SYSTEM_VERSION_LESS_THAN(version: String) -> Bool {
+    return UIDevice.current.systemVersion.compare(version, options: .numeric) == .orderedAscending
+}
+
+func SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(version: String) -> Bool {
+    return UIDevice.current.systemVersion.compare(version, options: .numeric) != .orderedDescending
+}
