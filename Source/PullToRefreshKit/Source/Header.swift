@@ -17,6 +17,11 @@ import UIKit
     func heightForHeader() -> CGFloat
 
     /**
+     视图的调整高度
+     */
+    func adjustOffsetForHeader() -> CGFloat
+
+    /**
      进入刷新状态的回调，在这里将视图调整为刷新中
      */
     func didBeginRefreshingState()
@@ -143,6 +148,10 @@ open class DefaultRefreshHeader: UIView, RefreshableHeader {
     // MARK: - Refreshable  -
     public func heightForHeader() -> CGFloat {
         return PullToRefreshKitConst.defaultHeaderHeight
+    }
+
+    public func adjustOffsetForHeader() -> CGFloat {
+        return 0
     }
 
     public func percentUpdateDuringScrolling(_ percent: CGFloat) {

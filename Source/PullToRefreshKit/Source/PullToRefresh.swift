@@ -78,7 +78,8 @@ public extension UIScrollView {
         containComponent.delegate = refrehser
         refrehser.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         let refreshHeight = refrehser.heightForHeader()
-        let bounds = CGRect(x: 0, y: containFrame.height - refreshHeight, width: self.frame.width, height: refreshHeight)
+        let adjustOffsetForHeader = refrehser.adjustOffsetForHeader()
+        let bounds = CGRect(x: 0, y: containFrame.height - refreshHeight + adjustOffsetForHeader, width: self.frame.width, height: refreshHeight)
         refrehser.frame = bounds
         containComponent.addSubview(refrehser)
         configAssociatedObject(object: object)

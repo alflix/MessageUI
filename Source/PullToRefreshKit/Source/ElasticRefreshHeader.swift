@@ -57,6 +57,10 @@ open class ElasticRefreshHeader: UIView, RefreshableHeader {
 
     // MARK: - Refreshable Header -
 
+    public func adjustOffsetForHeader() -> CGFloat {
+        return 0
+    }
+
     open func heightForHeader() -> CGFloat {
         return 80.0
     }
