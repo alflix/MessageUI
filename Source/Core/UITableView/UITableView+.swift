@@ -10,9 +10,9 @@ import UIKit
 
 public extension UITableView {
     func cancelEstimatedHeight() {
-        self.estimatedRowHeight = 0
-        self.estimatedSectionFooterHeight = 0
-        self.estimatedSectionHeaderHeight = 0
+        estimatedRowHeight = 0
+        estimatedSectionFooterHeight = 0
+        estimatedSectionHeaderHeight = 0
     }
 
     func cancelHeaderAndFooter() {
@@ -54,7 +54,7 @@ public extension UITableView {
         headerView.translatesAutoresizingMaskIntoConstraints = false
 
         // Set first.
-        self.tableHeaderView = headerView
+        tableHeaderView = headerView
 
         // Then setup AutoLayout.
         headerView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -66,21 +66,21 @@ public extension UITableView {
 
     /// Update header view's frame.
     func updateHeaderViewFrame() {
-        guard let headerView = self.tableHeaderView else { return }
+        guard let headerView = tableHeaderView else { return }
 
         // Update the size of the header based on its internal content.
         headerView.layoutIfNeeded()
 
         // ***Trigger table view to know that header should be updated.
-        let header = self.tableHeaderView
-        self.tableHeaderView = header
+        let header = tableHeaderView
+        tableHeaderView = header
     }
 
     func setTableFooterView(footerView: UIView) {
         footerView.translatesAutoresizingMaskIntoConstraints = false
 
         // Set first.
-        self.tableFooterView = footerView
+        tableFooterView = footerView
 
         // Then setup AutoLayout.
         footerView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -92,39 +92,13 @@ public extension UITableView {
 
     /// Update header view's frame.
     func updateFooterViewFrame() {
-        guard let footerView = self.tableFooterView else { return }
+        guard let footerView = tableFooterView else { return }
 
         // Update the size of the header based on its internal content.
         footerView.layoutIfNeeded()
 
         // ***Trigger table view to know that header should be updated.
-        let footer = self.tableFooterView
-        self.tableFooterView = footer
-    }
-
-    /// 滑动到底部(比 SwifterSwift 中的 scrollToBottom 更好用，因此称为 smartScrollToBottom)
-    ///
-    /// - Parameters:
-    ///   - animated: 是否动画
-    ///   - excludeHeight: 用于排除计算的高度，例如键盘弹起时的键盘高度
-    func smartScrollToBottom(animated: Bool = true, excludeHeight: CGFloat = 0) {
-        let originOffsetY = contentSize.height - bounds.size.height - (contentInset.top + contentInset.bottom) + excludeHeight
-        let offsetY = max(-autualContentInset.top, originOffsetY)
-        let bottomOffset = CGPoint(x: 0, y: offsetY)
-        setContentOffset(bottomOffset, animated: animated)
-    }
-
-    /// 处理 ios10 webview 白屏 scrollViewDidScroll 中调用
-    func webViewCellLowVersionShow() {
-        if UIDevice.current.systemVersion.int ?? 0 >= 11 {
-            return
-        }
-        for cell in visibleCells {
-            if let webCell = cell as? WebViewCell {
-                if let webView = webCell.contentView.recursiveFindSubview(of: "WKWebView") {
-                    webView.setNeedsLayout()
-                }
-            }
-        }
-    }
+        let footer = tableFooterView
+        tableFooterView = footer
+    }    
 }
