@@ -22,7 +22,7 @@ public extension UIView {
         return superview!.isRecursiveSubView(of: view)
     }
 
-    /// 递归查找 UIView
+    /// 递归查找子类 UIView
     ///
     /// - Parameter name: UIView 的类名称
     /// - Returns: 找到的 UIView
@@ -40,6 +40,18 @@ public extension UIView {
             }
         }
         return nil
+    }
+
+    /// 递归查找父类 UIView
+    ///
+    /// - Parameter name: UIView 的类名称
+    /// - Returns: 找到的 UIView
+    func recursiveFindSuperView(of name: String) -> UIView? {
+        guard let superview = superview else { return nil }
+        if superview.isKind(of: NSClassFromString(name)!) {
+            return superview
+        }
+        return superview.recursiveFindSuperView(of: name)
     }
 
     /// 递归寻找所有 subviews
