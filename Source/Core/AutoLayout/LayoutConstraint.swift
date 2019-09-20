@@ -20,6 +20,18 @@ public class NavHeightConstraint: NSLayoutConstraint {
     }
 }
 
+/// 状态栏高度的 NSLayoutConstraint
+public class StatusBarHeightConstraint: NSLayoutConstraint {
+    override public var constant: CGFloat {
+        set {
+            super.constant = newValue
+        }
+        get {
+            return Size.statusBarHeight
+        }
+    }
+}
+
 /// 底部安全区域高度的 NSLayoutConstraint
 public class BottomSafeAreaHeightConstraint: NSLayoutConstraint {
     override public var constant: CGFloat {
