@@ -25,4 +25,26 @@ public extension UIScrollView {
             self.reloadData()
         }
     }
+
+    /// 滑动到底部
+    ///
+    /// - Parameters:
+    ///   - animated: 是否动画
+    ///   - excludeHeight: 用于排除计算的高度，例如键盘弹起时的键盘高度
+    func scrollToBottom(animated: Bool = true, excludeHeight: CGFloat = 0) {
+        let originOffsetY = contentSize.height - bounds.size.height - (contentInset.top + contentInset.bottom) + excludeHeight
+        let offsetY = max(-autualContentInset.top, originOffsetY)
+        let bottomOffset = CGPoint(x: 0, y: offsetY)
+        setContentOffset(bottomOffset, animated: animated)
+    }
+
+    /// 滑动到顶部
+    ///
+    /// - Parameters:
+    ///   - animated: 是否动画
+    ///   - excludeHeight: 用于排除计算的高度，
+    func scrollToTop(animated: Bool = true, excludeHeight: CGFloat = 0) {
+        let adjustOffsetY = CGPoint(x: 0, y: 0 + excludeHeight)
+        setContentOffset(adjustOffsetY, animated: animated)
+    }
 }
