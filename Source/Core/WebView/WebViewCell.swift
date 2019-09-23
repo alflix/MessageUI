@@ -23,6 +23,7 @@ public class WebViewCell: UITableViewCell {
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = false
         webView.scrollView.isScrollEnabled = false
+        webView.isUserInteractionEnabled = false
         webView.scrollView.showsVerticalScrollIndicator = false
         webView.scrollView.showsHorizontalScrollIndicator = false
         // MARK: 找了好久的问题
@@ -60,11 +61,24 @@ public class WebViewCell: UITableViewCell {
         webView.frame = bounds
     }
 
-    public func setupHtmlString(_ htmlString: String?, delegate: WebViewCellDelegate?) {
-        self.htmlString = htmlString
+    /// 加载 html 字符串
+    /// - Parameter htmlString: html 字符串
+    /// - Parameter appendingHtmlFormat: 是否拼接上 htlm 的基本格式
+    /// - Parameter delegate: 代理，监听网页高度
+    public func setupHtmlString(_ htmlString: String?, appendingHtmlFormat: Bool = false, delegate: WebViewCellDelegate?) {
+        if appendingHtmlFormat, let htmlString = htmlString {
+            //swiftlint:disable line_length
+            let appendingHtml = "<!doctype html><html class=\"no-js\" lang=\"\"><head><meta charset=\"utf-8\"><style>img {max-width:100%;width: 100%;height:auto;padding:0;border:0;margin:0;vertical-align:bottom;}</style></head><body><p><div>\(htmlString.replacingOccurrences(of: "\n", with: ""))</div></p><br></body></html>"
+            self.htmlString = appendingHtml
+        } else {
+            self.htmlString = htmlString
+        }
         self.delegate = delegate
     }
 
+    /// 加载 url
+    /// - Parameter urlString: url 字符串
+    /// - Parameter delegate: 代理，监听网页高度
     public func setupURLString(_ urlString: String?, delegate: WebViewCellDelegate?) {
         self.urlString = urlString
         self.delegate = delegate
