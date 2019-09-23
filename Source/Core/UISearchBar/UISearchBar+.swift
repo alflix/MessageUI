@@ -13,9 +13,9 @@ public extension UISearchBar {
     /// 输入框, iOS 13.0 直接调用 searchTextField，
     /// iOS 13.0 以下递归其 UISearchBarTextField，且该属性在 UISearchBar 被 addSubView 之后才会存在
     var searchField: UITextField? {
-//        if #available(iOS 13.0, *) {
-//            return searchTextField
-//        }
+        if #available(iOS 13.0, *) {
+            return searchTextField
+        }
         return recursiveFindSubview(of: "UISearchBarTextField") as? UITextField
     }
 
