@@ -83,7 +83,7 @@ extension PhotoPickerHelper: UIImagePickerControllerDelegate, UINavigationContro
 
 extension PhotoPickerHelper: ImageCropperViewControllerDelegate {
     public func cancelImageCropper(imageCropperViewController: ImageCropperViewController) {
-        imageCropperViewController.dismiss(animated: true, completion: nil)
+        dismiss(nil)
     }
 
     public func handleCroppedImage(imageCropperViewController: ImageCropperViewController, image: UIImage) {
