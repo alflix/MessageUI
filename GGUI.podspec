@@ -37,6 +37,12 @@ Pod::Spec.new do |s|
 	    ss.dependency      'MBProgressHUD'
 	    ss.source_files  = 'Source/MBProgressHUD/*.swift'
 	end
+
+	s.subspec 'Reusable' do |ss|
+	    ss.dependency      'GGUI/Core'
+	    ss.dependency      'Reusable'
+	    ss.source_files  = 'Source/Reusable/*.swift'
+	end
 	
 	s.subspec 'GGNavigationBar' do |ss|
 	    ss.dependency      'GGUI/Core'
