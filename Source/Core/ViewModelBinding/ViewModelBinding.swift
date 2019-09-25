@@ -30,6 +30,8 @@ public class ViewModel<T> {
     public var lineStyle: SingleLineStyle?
     /// 高度，例如 cellHeight
     public var height: CGFloat?
+    /// 嵌套时，用于 footer， height 用于 header
+    public var footerHeight: CGFloat?
     /// 用于 CollectionView
     public var size: CGSize?
     /// 嵌套时，用于 footer， size 用于 header
