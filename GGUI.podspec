@@ -71,4 +71,11 @@ Pod::Spec.new do |s|
 	    ss.dependency      'AlamofireImage'
 	    ss.source_files  = 'Source/AXPhotoViewer/*.swift'
 	end
+
+  s.subspec 'VideoPlayer' do |ss|
+    ss.dependency      'GGUI/Core'
+    ss.dependency      'NVActivityIndicatorView'
+    ss.source_files  = 'Source/VideoPlayer/*.swift'
+    ss.resources     = 'Source/VideoPlayer/**/*'
+  end
 end
