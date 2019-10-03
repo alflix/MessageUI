@@ -32,15 +32,18 @@ public extension UITabBar {
 
     /// 移除顶部的分割线
     func removeShadowLine() {
-        backgroundImage = UIImage()
-        shadowImage = UIImage()
+        if #available(iOS 13, *) {
+            standardAppearance.shadowColor = .white
+        } else {
+            backgroundImage = UIImage()
+            shadowImage = UIImage()
+        }
     }
 
     /// 设置标题文字颜色，字体
     func setupTitle(color: UIColor, font: UIFont) {
         let attributed = [NSAttributedString.Key.foregroundColor: color,
                           NSAttributedString.Key.font: font]
-        UITabBarItem.appearance().setTitleTextAttributes(attributed,
-                                                         for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes(attributed, for: .normal)
     }
 }

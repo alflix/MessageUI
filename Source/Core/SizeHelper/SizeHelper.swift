@@ -78,7 +78,7 @@ public class Size {
                                             cellSize: CGSize,
                                             lineSpacing: CGFloat,
                                             interitemSpacing: CGFloat) -> CGFloat {
-        let rowCount = Int(collectionViewWidth/(cellSize.width+interitemSpacing))
+        let rowCount = Int((collectionViewWidth+interitemSpacing)/(cellSize.width+interitemSpacing))
         let rows: CGFloat = CGFloat(total/rowCount + (total%rowCount != 0 ? 1 : 0))
         return total > 0 ? cellSize.height * rows + lineSpacing * (rows - 1) : 0
     }

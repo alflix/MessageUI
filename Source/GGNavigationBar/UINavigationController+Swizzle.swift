@@ -47,6 +47,15 @@ public extension UINavigationController {
         let block: ViewWillAppearBlock = { [weak self] (viewController, animated) in
             guard let strongSelf = self else { return }
             strongSelf.setNavigationBarHidden(viewController.navigationAppearance.isNavigationBarHidden, animated: animated)
+
+            // MARK: iOS 13 不触发 UINavigationBarDelegate 中的 shouldPopItem 方法了
+            if #available(iOS 13, *) {
+                strongSelf.navigationBar.barTintColor = viewController.navigationAppearance.barTintColor
+                strongSelf.navigationBar.tintColor = viewController.navigationAppearance.tintColor
+                strongSelf.navigationBar.setTitle(color: viewController.navigationAppearance.titleColor, font: viewController.navigationAppearance.titleFont)
+                strongSelf.navigationBar.setBackground(alpha: viewController.navigationAppearance.backgroundAlpha)
+                strongSelf.navigationBar.setupShadowLine(remove: !viewController.navigationAppearance.showShadowLine)
+            }
         }
         viewController.viewWillAppearHandler = block
 

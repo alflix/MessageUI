@@ -25,6 +25,10 @@ public extension UINavigationBar {
     }
 
     func setBackground(alpha: CGFloat) {
+        if #available(iOS 13, *) {
+            standardAppearance.backgroundColor = barTintColor?.withAlphaComponent(alpha)
+            return
+        }
         guard let barBackgroundView = barBackgroundView else { return }
         let valueForKey = barBackgroundView.value(forKey:)
         /// MARK: 尝试过很多方法，isTranslucent == false 无论怎么改都没有效果
@@ -42,29 +46,37 @@ public extension UINavigationBar {
     ///   - color: 颜色
     ///   - font: 字体
     func setTitle(color: UIColor, font: UIFont) {
-        titleTextAttributes = [.font: font,
-                               .foregroundColor: color]
+        titleTextAttributes = [.font: font, .foregroundColor: color]
     }
 
     /// 设置分割线
     /// - Parameter remove: 是否移除
     func setupShadowLine(remove: Bool) {
         if remove {
-            /// ios10 直接 shadowImage = UIImage() 无用
-            if SYSTEM_VERSION_LESS_THAN(version: "11") {
-                if let shadow = findShadowImage(under: self) {
-                    shadow.isHidden = true
-                }
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = .clear
             } else {
-                shadowImage = UIImage()
+                /// ios10 直接 shadowImage = UIImage() 无用
+                if SYSTEM_VERSION_LESS_THAN(version: "11") {
+                    if let shadow = findShadowImage(under: self) {
+                        shadow.isHidden = true
+                    }
+                } else {
+                    shadowImage = UIImage()
+                }
             }
         } else {
-            if SYSTEM_VERSION_LESS_THAN(version: "11") {
-                if let shadow = findShadowImage(under: self) {
-                    shadow.isHidden = false
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = GGUI.LineView.color
+            } else {
+                if SYSTEM_VERSION_LESS_THAN(version: "11") {
+                    if let shadow = findShadowImage(under: self) {
+                        shadow.isHidden = false
+                    }
+                } else {
+                    shadowImage = UIImage(color: GGUI.LineView.color, size: CGSize(width: 1, height: 0.5))
                 }
             }
-            shadowImage = UIImage(color: GGUI.LineView.color, size: CGSize(width: 1, height: 0.5))
         }
     }
 

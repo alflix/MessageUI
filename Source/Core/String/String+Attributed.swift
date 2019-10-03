@@ -75,7 +75,7 @@ public extension String {
                           lineSpacing: CGFloat? = nil,
                           alignment: NSTextAlignment = .left,
                           minimumLineHeight: CGFloat = 0,
-                          baselineOffset: CGFloat = 0,
+                          baselineOffset: CGFloat? = nil,
                           centerBaseLineTwoFont: Bool = false,
                           addition: AttributedStringBlock? = nil) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -86,7 +86,7 @@ public extension String {
             paragraphStyle.minimumLineHeight = minimumLineHeight
         }
         var attributes: [NSAttributedString.Key: Any] = [.paragraphStyle: paragraphStyle, .foregroundColor: color, .font: font]
-        if baselineOffset > 0 {
+        if let baselineOffset = baselineOffset {
             attributes[NSAttributedString.Key.baselineOffset] = baselineOffset
         }
         let attributedString = NSMutableAttributedString(string: self, attributes: attributes)
