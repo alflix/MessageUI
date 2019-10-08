@@ -11,13 +11,42 @@ import WebKit
 import SnapKit
 
 open class WebViewController: UIViewController {
+    /// 加载 html 字符串
+    /// - Parameter htmlString: html 字符串
+    /// - Parameter appendingHtmlFormat: 是否拼接上 htlm 的基本格式
+    /// - Parameter delegate: 代理，监听网页高度
+    public func setupHtmlString(_ htmlString: String?, appendingHtmlFormat: Bool = false) {
+        if appendingHtmlFormat, let htmlString = htmlString {
+            // 和计算高度有关
+            let html = """
+            <html>
+            <head>
+            <meta name="viewport", content="width=\(view.width), initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no\">
+            <style>
+            body { font-size: 100%; text-align: justify;}
+            img { max-width:100%; width: 100%; height:auto; padding:0; border:0; margin:0; vertical-align:bottom;}
+            </style>
+            </head>
+            <body>
+            \(htmlString)
+            </body>
+            </html>
+            """
+            self.htmlString = html
+        } else {
+            self.htmlString = htmlString
+        }
+    }
+
     /// 访问 url
     public var urlString: String? {
         didSet {
             guard let urlString = urlString, let url = URL(string: urlString) else {
                 fatalError("URL 为空 ")
             }
-            webView.load(URLRequest(url: url))
+            var request = URLRequest(url: url)
+            request.addValue("skey=skeyValue", forHTTPHeaderField: "Cookie")
+            webView.load(request)
         }
     }
 
@@ -59,15 +88,23 @@ open class WebViewController: UIViewController {
     public var alertCancelTitle: String = GGUI.WebViewConfig.alertCancelTitle
 
     /// WKWebView
-    lazy public private(set) var webView: WKWebView = {
+    public lazy private(set) var webView: WKWebView = {
+        let userContentController = WKUserContentController()
+        let cookieScript = WKUserScript(source: "document.cookie = 'skey=skeyValue';", injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        userContentController.addUserScript(cookieScript)
+
         let configuration = WKWebViewConfiguration()
         configuration.preferences.minimumFontSize = 1
         configuration.preferences.javaScriptEnabled = true
         configuration.allowsInlineMediaPlayback = true
-        configuration.userContentController = WKUserContentController()
+        configuration.userContentController = userContentController
+
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
+
         webView.uiDelegate = self
+        webView.navigationDelegate = self
+
         return webView
     }()
 
@@ -159,11 +196,6 @@ private extension WebViewController {
     func reload() {
         webView.reload()
     }
-
-    func stopLoading() {
-        webView.stopLoading()
-        hideProgressView()
-    }
 }
 
 // MARK: - Function
@@ -172,7 +204,7 @@ private extension WebViewController {
         loadingObservation = webView.observe(\WKWebView.isLoading) { [weak self] (_, _) in
             guard let strongSelf = self else { return }
             if !strongSelf.webView.isLoading {
-                strongSelf.stopLoading()
+                strongSelf.hideProgressView()
             }
         }
         titleObservation = webView.observe(\WKWebView.title) { [weak self] (webView, _) in
@@ -228,6 +260,16 @@ extension WebViewController: WKUIDelegate {
     }
 }
 
+extension WebViewController: WKNavigationDelegate {
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+}
+
 public extension UIViewController {
     func pushToWebByLoadingURL(_ url: String) {
         let webViewController = WebViewController()
@@ -237,7 +279,7 @@ public extension UIViewController {
 
     func pushToWebByHTMLString(_ html: String) {
         let webViewController = WebViewController()
-        webViewController.htmlString = html
+        webViewController.setupHtmlString(html, appendingHtmlFormat: true)
         navigationController?.pushViewController(webViewController, animated: true)
     }
 }
