@@ -25,7 +25,7 @@ public extension UINavigationBar {
     }
 
     func setBackground(alpha: CGFloat) {
-        if #available(iOS 13, *) {
+        if #available(iOS 13, *), alpha > 0.1 {
             standardAppearance.backgroundColor = barTintColor?.withAlphaComponent(alpha)
             return
         }
