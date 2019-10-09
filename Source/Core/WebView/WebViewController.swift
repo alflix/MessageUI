@@ -102,6 +102,10 @@ open class WebViewController: UIViewController {
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
 
+        if #available(iOS 11.0, *) {
+            webView.scrollView.contentInsetAdjustmentBehavior = .never
+        }
+        
         webView.uiDelegate = self
         webView.navigationDelegate = self
 
