@@ -25,6 +25,10 @@ public extension UINavigationController {
                 #selector(UINavigationController.swizzle_popToViewController(_:animated:)))
             swizzling(
                 UINavigationController.self,
+                #selector(UINavigationController.popViewController(animated:)),
+                #selector(UINavigationController.swizzle_popViewController(animated:)))
+            swizzling(
+                UINavigationController.self,
                 #selector(UINavigationController.popToRootViewController(animated:)),
                 #selector(UINavigationController.popToRootViewController(animated:)))
         }
@@ -34,8 +38,8 @@ public extension UINavigationController {
         guard let topVC = topViewController,
             let coordinator = topVC.transitionCoordinator,
             !topVC.navigationAppearance.isNavigationBarHidden else {
-            swizzle_updateInteractiveTransition(percentComplete)
-            return
+                swizzle_updateInteractiveTransition(percentComplete)
+                return
         }
         let fromVC = coordinator.viewController(forKey: .from)
         let toVC = coordinator.viewController(forKey: .to)
@@ -75,6 +79,14 @@ public extension UINavigationController {
         return popsTransaction {
             swizzle_popToViewController(viewController, animated: animated)
         }
+    }
+
+    @objc private func swizzle_popViewController(animated: Bool) -> UIViewController? {
+        if viewControllers.count > 1 {
+            let topViewController = viewControllers[viewControllers.count - 2]
+            return popToViewController(topViewController, animated: animated)?.first
+        }
+        return swizzle_popViewController(animated: animated)
     }
 
     @objc private func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
