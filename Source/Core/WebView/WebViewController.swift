@@ -101,10 +101,6 @@ open class WebViewController: UIViewController {
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
-
-        if #available(iOS 11.0, *) {
-            webView.scrollView.contentInsetAdjustmentBehavior = .never
-        }
         
         webView.uiDelegate = self
         webView.navigationDelegate = self
@@ -281,8 +277,9 @@ public extension UIViewController {
         navigationController?.pushViewController(webViewController, animated: true)
     }
 
-    func pushToWebByHTMLString(_ html: String) {
+    func pushToWebByHTMLString(_ html: String, title: String? = nil) {
         let webViewController = WebViewController()
+        webViewController.title = title
         webViewController.setupHtmlString(html, appendingHtmlFormat: true)
         navigationController?.pushViewController(webViewController, animated: true)
     }
