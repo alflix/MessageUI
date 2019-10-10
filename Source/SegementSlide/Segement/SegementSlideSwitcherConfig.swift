@@ -26,7 +26,7 @@ public struct SegementSlideSwitcherConfig {
     public var badgeHeightForCustomType: CGFloat
     public var badgeFontForCountType: UIFont
 
-    public init(type: SwitcherType = .segement,
+    public init(type: SwitcherType = .proportionally,
                 horizontalMargin: CGFloat = 16,
                 horizontalSpace: CGFloat = 32,
                 normalTitleFont: UIFont = UIFont.systemFont(ofSize: 15),

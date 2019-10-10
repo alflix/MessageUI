@@ -11,6 +11,8 @@ import UIKit
 public enum SwitcherType {
     case tab
     case segement
+    /// 自动计算 horizontalSpace，使元素居中显示
+    case proportionally
 }
 
 public protocol SegementSlideSwitcherViewDelegate: class {
@@ -83,7 +85,7 @@ public class SegementSlideSwitcherView: UIView {
         titleButtons.removeAll()
         indicatorView.removeFromSuperview()
         indicatorView.frame = .zero
-        scrollView.isScrollEnabled = innerConfig.type == .segement
+        scrollView.isScrollEnabled = innerConfig.type != .tab
         innerConfig = config
         guard let titles = delegate?.titlesInSegementSlideSwitcherView else { return }
         guard !titles.isEmpty else { return }
@@ -169,13 +171,27 @@ extension SegementSlideSwitcherView {
             scrollView.contentSize = CGSize(width: bounds.width, height: bounds.height)
             return
         }
+        guard let titles = delegate?.titlesInSegementSlideSwitcherView else { return }
+        let normalButtonWidths: CGFloat = titles.reduce(0, {$0 + $1.boundingWidth(with: innerConfig.normalTitleFont)})
+        let selectedButtonWidths: CGFloat = titles.reduce(0, {$0 + $1.boundingWidth(with: innerConfig.selectedTitleFont)})
+        let buttonWidths = selectedButtonWidths > normalButtonWidths ? selectedButtonWidths : normalButtonWidths
+        var itemSpace = CGFloat(bounds.width - buttonWidths - innerConfig.horizontalMargin*2) / CGFloat(titles.count - 1)
+        if itemSpace < innerConfig.horizontalSpace {
+            itemSpace = innerConfig.horizontalSpace
+        }
         var offsetX = innerConfig.horizontalMargin
+
         for titleButton in titleButtons {
             let buttonWidth: CGFloat
             switch innerConfig.type {
             case .tab:
                 buttonWidth = (bounds.width-innerConfig.horizontalMargin*2)/CGFloat(titleButtons.count)
             case .segement:
+                let title = titleButton.title(for: .normal) ?? ""
+                let normalButtonWidth = title.boundingWidth(with: innerConfig.normalTitleFont)
+                let selectedButtonWidth = title.boundingWidth(with: innerConfig.selectedTitleFont)
+                buttonWidth = selectedButtonWidth > normalButtonWidth ? selectedButtonWidth : normalButtonWidth
+            case .proportionally:
                 let title = titleButton.title(for: .normal) ?? ""
                 let normalButtonWidth = title.boundingWidth(with: innerConfig.normalTitleFont)
                 let selectedButtonWidth = title.boundingWidth(with: innerConfig.selectedTitleFont)
@@ -187,6 +203,8 @@ extension SegementSlideSwitcherView {
                 offsetX += buttonWidth
             case .segement:
                 offsetX += buttonWidth+innerConfig.horizontalSpace
+            case .proportionally:
+                offsetX += buttonWidth+itemSpace
             }
         }
         switch innerConfig.type {
@@ -194,6 +212,8 @@ extension SegementSlideSwitcherView {
             scrollView.contentSize = CGSize(width: bounds.width, height: bounds.height)
         case .segement:
             scrollView.contentSize = CGSize(width: offsetX-innerConfig.horizontalSpace+innerConfig.horizontalMargin, height: bounds.height)
+        case .proportionally:
+            scrollView.contentSize = CGSize(width: offsetX, height: bounds.height)
         }
     }
 
@@ -225,7 +245,10 @@ extension SegementSlideSwitcherView {
                                          width: innerConfig.indicatorWidth,
                                          height: innerConfig.indicatorHeight)
         }
-        if case .segement = innerConfig.type {
+        switch innerConfig.type {
+        case .tab:
+            ()
+        case .segement, .proportionally:
             var offsetX = titleButton.frame.origin.x-(scrollView.bounds.width-titleButton.bounds.width)/2
             if offsetX < 0 {
                 offsetX = 0
