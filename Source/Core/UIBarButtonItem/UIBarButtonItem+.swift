@@ -13,7 +13,11 @@ public extension UIBarButtonItem {
         self.init(image: image, selectImage: nil, target: target, action: action)
     }
 
-    convenience init(image: UIImage, selectImage: UIImage?, target: AnyObject, action: Selector) {
+    convenience init(image: UIImage,
+                     selectImage: UIImage? = nil,
+                     contentEdgeInsets: UIEdgeInsets = .zero,
+                     target: AnyObject,
+                     action: Selector) {
         self.init()
         let barButton = UIButton()
         barButton.setImage(image, for: .normal)
@@ -21,17 +25,23 @@ public extension UIBarButtonItem {
             barButton.setImage(selectImage, for: .selected)
         }
         barButton.addTarget(target, action: action, for: .touchUpInside)
+        barButton.contentEdgeInsets = contentEdgeInsets
         barButton.sizeToFit()
         customView = barButton
     }
 
-    convenience init(title: String, color: UIColor, font: UIFont, target: AnyObject, action: Selector) {
+    convenience init(title: String,
+                     color: UIColor,
+                     font: UIFont,
+                     contentEdgeInsets: UIEdgeInsets = .zero,
+                     target: AnyObject, action: Selector) {
         self.init()
         let barButton = UIButton()
         barButton.titleLabel?.font = font
         barButton.setTitleColor(color, for: .normal)
         barButton.setTitle(title, for: .normal)
         barButton.addTarget(target, action: action, for: .touchUpInside)
+        barButton.contentEdgeInsets = contentEdgeInsets
         barButton.sizeToFit()
         self.customView = barButton
     }

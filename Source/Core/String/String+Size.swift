@@ -16,8 +16,8 @@ public extension String {
     ///   - font: 字体
     ///   - width: 最大宽度
     /// - Returns: 高度
-    func heightForLabel(font: UIFont, width: CGFloat) -> CGFloat {
-        return heightForLabelInAnyLines(line: 0, width: width, font: font)
+    func heightForLabel(line: Int = 0, font: UIFont, width: CGFloat) -> CGFloat {
+        return heightForLabelInAnyLines(line: line, width: width, font: font)
     }
 
     /// 文字宽度

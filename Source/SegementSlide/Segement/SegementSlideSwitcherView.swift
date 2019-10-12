@@ -213,7 +213,7 @@ extension SegementSlideSwitcherView {
         case .segement:
             scrollView.contentSize = CGSize(width: offsetX-innerConfig.horizontalSpace+innerConfig.horizontalMargin, height: bounds.height)
         case .proportionally:
-            scrollView.contentSize = CGSize(width: offsetX, height: bounds.height)
+            scrollView.contentSize = CGSize(width: offsetX-itemSpace+innerConfig.horizontalMargin, height: bounds.height)
         }
     }
 

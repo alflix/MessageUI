@@ -104,6 +104,61 @@ public extension String {
         addition?(attributedString)
         return attributedString.copy() as! NSAttributedString
     }
+
+    /// 创建 NSAttributedString（复杂版，同时支持高亮某些文字）
+    ///
+    /// - Parameters:
+    ///   - highlightRange: 需要高亮的 NSRange 数组，默认为空数组
+    ///   - font: 字体 默认 .systemFont(ofSize: 14)，可在 GGUI.AttributedString 统一设置
+    ///   - highlightFont: 高亮字体 默认 .pingfangFont(ofSize: 14)，可在 GGUI.AttributedString 统一设置
+    ///   - color: 文字颜色，默认 .black，可在 GGUI.AttributedString 统一设置
+    ///   - highlightColor: 高亮文字颜色， 默认 .black，可在 GGUI.AttributedString 统一设置
+    ///   - lineSpacing: 行距，默认 字体大小*0.25
+    ///   - alignment: 对齐方式，默认左对齐
+    ///   - minimumLineHeight: 最小行高，默认不设置
+    ///   - baselineOffset: 基准线 offset，默认不设置
+    ///   - centerBaseLineTwoFont: 使两个不同字体水平方向对齐
+    ///   - addition: 一个包含 NSMutableAttributedString 的 Block，可以设置额外的 Attributed 属性
+    /// - Returns: NSAttributedString
+    func attributedString(highlightRange: [NSRange]? = [],
+                          font: UIFont = GGUI.AttributedString.defaultFont,
+                          highlightFont: UIFont? = nil,
+                          color: UIColor = GGUI.AttributedString.defaultColor,
+                          highlightColor: UIColor = GGUI.AttributedString.defaultColor,
+                          lineSpacing: CGFloat? = nil,
+                          alignment: NSTextAlignment = .left,
+                          minimumLineHeight: CGFloat = 0,
+                          baselineOffset: CGFloat? = nil,
+                          centerBaseLineTwoFont: Bool = false,
+                          addition: AttributedStringBlock? = nil) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.lineSpacing = lineSpacing ?? font.pointSize * 0.25
+        paragraphStyle.alignment = alignment
+        if minimumLineHeight > 0 {
+            paragraphStyle.minimumLineHeight = minimumLineHeight
+        }
+        var attributes: [NSAttributedString.Key: Any] = [.paragraphStyle: paragraphStyle, .foregroundColor: color, .font: font]
+        if let baselineOffset = baselineOffset {
+            attributes[NSAttributedString.Key.baselineOffset] = baselineOffset
+        }
+        let attributedString = NSMutableAttributedString(string: self, attributes: attributes)
+        let highlightFont = highlightFont ?? font
+        if let highlightRange = highlightRange, highlightRange.count > 0 {
+            highlightRange.forEach { (range) in
+                let adjustOffset = centerBaseLineTwoFont ? (font.lineHeight - highlightFont.lineHeight)/2 + (font.descender - highlightFont.descender) : 0
+                attributedString.addAttributes([.paragraphStyle: paragraphStyle,
+                                                .foregroundColor: highlightColor,
+                                                .font: highlightFont,
+                                                .baselineOffset: adjustOffset]
+                    , range: range)
+            }
+        }
+        addition?(attributedString)
+        return attributedString.copy() as! NSAttributedString
+    }
+
+
 }
 
 public extension NSMutableAttributedString {
