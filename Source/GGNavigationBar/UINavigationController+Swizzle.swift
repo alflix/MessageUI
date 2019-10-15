@@ -23,10 +23,13 @@ public extension UINavigationController {
                 UINavigationController.self,
                 #selector(UINavigationController.popToViewController(_:animated:)),
                 #selector(UINavigationController.swizzle_popToViewController(_:animated:)))
-            swizzling(
-                UINavigationController.self,
-                #selector(UINavigationController.popViewController(animated:)),
-                #selector(UINavigationController.swizzle_popViewController(animated:)))
+            // MARK: iOS 13 不触发 UINavigationBarDelegate 中的 shouldPopItem 方法了, 因此不触发 popToViewController，
+            if #available(iOS 13, *) {
+                swizzling(
+                    UINavigationController.self,
+                    #selector(UINavigationController.popViewController(animated:)),
+                    #selector(UINavigationController.swizzle_popViewController(animated:)))
+            }
             swizzling(
                 UINavigationController.self,
                 #selector(UINavigationController.popToRootViewController(animated:)),
@@ -82,11 +85,12 @@ public extension UINavigationController {
     }
 
     @objc private func swizzle_popViewController(animated: Bool) -> UIViewController? {
+        let poppedViewController = swizzle_popViewController(animated: animated)
         if viewControllers.count > 1 {
             let topViewController = viewControllers[viewControllers.count - 2]
             return popToViewController(topViewController, animated: animated)?.first
         }
-        return swizzle_popViewController(animated: animated)
+        return poppedViewController
     }
 
     @objc private func swizzle_popToRootViewControllerAnimated(_ animated: Bool) -> [UIViewController]? {
