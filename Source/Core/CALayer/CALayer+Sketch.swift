@@ -17,6 +17,8 @@ public extension CALayer {
         y: CGFloat = 3,
         blur: CGFloat = 6,
         spread: CGFloat = 0) {
+        cornerRadius = shadowRadius
+        masksToBounds = false
         shadowColor = color.cgColor
         shadowOpacity = alpha
         shadowOffset = CGSize(width: x, height: y)
