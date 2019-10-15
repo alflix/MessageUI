@@ -101,7 +101,7 @@ open class WebViewController: UIViewController {
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
-        
+
         webView.uiDelegate = self
         webView.navigationDelegate = self
 

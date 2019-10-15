@@ -18,7 +18,7 @@ public extension UICollectionView {
       where T: Reusable & NibLoadable {
         register(supplementaryViewType: supplementaryViewType.self, ofKind: UICollectionView.elementKindSectionFooter)
     }
-    
+
     final public func dequeueHeaderView<T: UICollectionReusableView>
         (for indexPath: IndexPath, viewType: T.Type = T.self) -> T
         where T: Reusable {
@@ -32,7 +32,7 @@ public extension UICollectionView {
             return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter,
                                                     for: indexPath, viewType: viewType.self)
     }
-    
+
     final public func dequeueDefaultHeaderView(for indexPath: IndexPath) -> UICollectionReusableView {
         return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
                                                 withClass: UICollectionReusableView.self, for: indexPath)

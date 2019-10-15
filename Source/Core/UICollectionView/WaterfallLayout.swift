@@ -45,7 +45,7 @@ public class WaterfallLayout: UICollectionViewLayout {
 
     public enum Layout {
         case flow(column: Int)
-        case waterfall(column: Int, distributionMethod :DistributionMethod)
+        case waterfall(column: Int, distributionMethod: DistributionMethod)
 
         var column: Int {
             switch self {

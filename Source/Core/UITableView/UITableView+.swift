@@ -100,5 +100,5 @@ public extension UITableView {
         // ***Trigger table view to know that header should be updated.
         let footer = tableFooterView
         tableFooterView = footer
-    }    
+    }
 }

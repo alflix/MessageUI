@@ -150,14 +150,12 @@ public extension String {
                 attributedString.addAttributes([.paragraphStyle: paragraphStyle,
                                                 .foregroundColor: highlightColor,
                                                 .font: highlightFont,
-                                                .baselineOffset: adjustOffset]
-                    , range: range)
+                                                .baselineOffset: adjustOffset], range: range)
             }
         }
         addition?(attributedString)
         return attributedString.copy() as! NSAttributedString
     }
-
 
 }
 
