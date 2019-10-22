@@ -13,6 +13,9 @@ import SwiftTimer
 public struct StopWatch {
     var totalSeconds: Int
 
+    public init(totalSeconds: Int) {
+        self.totalSeconds = totalSeconds
+    }
     public var years: Int {
         return totalSeconds / 31536000
     }

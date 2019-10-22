@@ -17,7 +17,13 @@ public extension String {
     ///   - width: 最大宽度
     /// - Returns: 高度
     func heightForLabel(line: Int = 0, font: UIFont, width: CGFloat) -> CGFloat {
-        return heightForLabelInAnyLines(line: line, width: width, font: font)
+        return autoreleasepool { () -> CGFloat in
+            let label: UILabel = UILabel()
+            label.numberOfLines = line
+            label.font = font
+            label.text = self
+            return label.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
+        }
     }
 
     /// 文字宽度
@@ -49,23 +55,6 @@ public extension String {
             label.font = UIFont.systemFont(ofSize: fontSize, weight: .regular)
             label.text = self
             return label.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)).width
-        }
-    }
-
-    /// 计算文字在特定行数的高度
-    ///
-    /// - Parameters:
-    ///   - line: 最大行数
-    ///   - font: 字体
-    ///   - width: 最大高度
-    /// - Returns: 文字在特定行数的高度
-    func heightForLabelInAnyLines(line: Int, width: CGFloat, font: UIFont) -> CGFloat {
-        return autoreleasepool { () -> CGFloat in
-            let label: UILabel = UILabel()
-            label.numberOfLines = line
-            label.font = font
-            label.text = self
-            return label.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).height
         }
     }
 
