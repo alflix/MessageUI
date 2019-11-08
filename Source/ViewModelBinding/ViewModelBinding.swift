@@ -27,7 +27,7 @@ public class ViewModel<T> {
     /// 用于记录上一次滑动的位置，eg：用于 TableViewCell 内嵌 CollectionView 的情况，防止 Reuse 的时候出现问题
     public var contentOffset: CGPoint?
     /// 用于处理 Cell 最普遍的横线问题, none: 无横线 top：上横线 bottom：下横线
-    public var lineStyle: SingleLineStyle?
+    public var lineStyle: SingleLineStyle = .none
     /// 高度，例如 cellHeight
     public var height: CGFloat?
     /// 嵌套时，用于 footer， height 用于 header
@@ -65,7 +65,7 @@ public class ViewModel<T> {
                 height: CGFloat? = 0,
                 size: CGSize? = .zero,
                 isSelect: Bool? = nil,
-                lineStyle: SingleLineStyle? = .none,
+                lineStyle: SingleLineStyle = .none,
                 viewModel: Any? = nil,
                 dataSource: [Any]? = nil,
                 contentOffset: CGPoint = .zero) {
