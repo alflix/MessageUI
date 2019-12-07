@@ -89,7 +89,7 @@ open class LocationMessageCell: MessageContentCell {
             self.mapSnapImageView.image = cacheImage
             return
         }
-        activityIndicator.center = CGPoint(x: messageContainerView.bounds.width/2, y: messageContainerView.bounds.height/2)
+        activityIndicator.center = mapSnapImageView.center
         configureMapView(with: message, at: indexPath, and: messagesCollectionView)
     }
 

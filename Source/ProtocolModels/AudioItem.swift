@@ -10,11 +10,11 @@ import class AVFoundation.AVAudioPlayer
 
 /// A protocol used to represent the data for an audio message.
 public protocol AudioItem {
-    /// The url where the audio file is located.
+    /// 资源 url
     var url: URL { get }
-    /// The audio file duration in seconds.
+    /// 音频时长秒数
     var duration: Float { get }
-    /// The size of the audio item.
+    /// 尺寸
     var size: CGSize { get }
     /// 音频播放按钮
     var audioPlayImage: UIImage? { get }

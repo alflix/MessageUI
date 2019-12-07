@@ -64,6 +64,10 @@ public protocol MessagesDisplayDelegate: AnyObject {
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType,
                                         at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
 
+    /// 视频时长的 Label 显示
+    func videoDurationTextAttributes(for audioCell: MediaMessageCell, in messagesCollectionView: MessagesCollectionView)
+        -> [NSAttributedString.Key: Any]
+
     // MARK: - Audio Message
     /// 配置 `AudioMessageCell`
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType)
@@ -71,11 +75,11 @@ public protocol MessagesDisplayDelegate: AnyObject {
     /// 音频播放按钮，播放进度条 tint color
     func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
 
-    /// 音频播放进度的时间格式，默认 秒杀+"
+    /// 音频播放进度的时间格式，默认 0"
     func audioProgressTextFormat(_ duration: Float, for audioCell: AudioMessageCell, in messageCollectionView: MessagesCollectionView) -> String
 
     /// 音频播放进度的 Label 显示
-    func audioProgressTextAttributes(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
+    func audioProgressTextAttributes(for audioCell: AudioMessageCell, in messagesCollectionView: MessagesCollectionView)
         -> [NSAttributedString.Key: Any]
 }
 
@@ -87,7 +91,7 @@ public extension MessagesDisplayDelegate {
 
     func backgroundColor(for message: MessageType, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         guard let dataSource = messagesCollectionView.messagesDataSource else { return .white }
-        return dataSource.isFromCurrentSender(message: message) ? .outgoingGreen : .incomingGray
+        return dataSource.isFromCurrentSender(message: message) ? .lightGray : .white
     }
 
     func messageHeaderView(for indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionReusableView {
@@ -152,19 +156,27 @@ public extension MessagesDisplayDelegate {
                                         at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
     }
 
+    func videoDurationTextAttributes(for audioCell: MediaMessageCell, in messagesCollectionView: MessagesCollectionView)
+        -> [NSAttributedString.Key: Any] {
+            return [
+                .foregroundColor: UIColor.white,
+                .font: UIFont.preferredFont(forTextStyle: .footnote)
+            ]
+    }
+
     // MARK: - Audio Message Defaults
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
     }
 
     func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return UIColor.sendButtonBlue
+        return UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
     }
 
     func audioProgressTextFormat(_ duration: Float, for audioCell: AudioMessageCell, in messageCollectionView: MessagesCollectionView) -> String {
         return "\(Int(duration))\""
     }
 
-    func audioProgressTextAttributes(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
+    func audioProgressTextAttributes(for audioCell: AudioMessageCell, in messagesCollectionView: MessagesCollectionView)
         -> [NSAttributedString.Key: Any] {
         return [
             .foregroundColor: UIColor.darkText,

@@ -14,7 +14,7 @@ open class AudioMessageCell: MessageContentCell {
     /// 播放按钮
     public lazy var playButton: UIButton = UIButton(type: .custom)
     /// 进度 Label
-    public lazy var durationLabel: UILabel = UILabel(frame: CGRect.zero)
+    public lazy var durationLabel: UILabel = UILabel()
     /// 进度条
     public lazy var progressView: UIProgressView = UIProgressView(progressViewStyle: .default)
 
@@ -47,6 +47,19 @@ open class AudioMessageCell: MessageContentCell {
         }
     }
 
+    public func updatePlaying(duration: Float, progress: Float, with message: MessageType, and messagesCollectionView: MessagesCollectionView) {
+        progressView.progress = progress
+        playButton.isSelected = progress > 0
+        guard let displayDelegate = messagesCollectionView.messagesDisplayDelegate else {
+            fatalError(MessageKitError.nilMessagesDisplayDelegate)
+        }
+        let textAttributes = displayDelegate.audioProgressTextAttributes(for: self, in: messagesCollectionView)
+        let text = displayDelegate.audioProgressTextFormat(duration, for: self, in: messagesCollectionView)
+        durationLabel.attributedText = NSAttributedString(string: text, attributes: textAttributes)
+        guard let indexPath = messagesCollectionView.indexPath(for: self) else { return }
+        configureFrame(with: message, at: indexPath, and: messagesCollectionView)
+    }
+
     // MARK: - Configure Cell
     open override func configure(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         super.configure(with: message, at: indexPath, and: messagesCollectionView)
@@ -60,7 +73,7 @@ open class AudioMessageCell: MessageContentCell {
         playButton.imageView?.tintColor = tintColor
         progressView.tintColor = tintColor
 
-        let textAttributes = displayDelegate.audioProgressTextAttributes(for: message, at: indexPath, in: messagesCollectionView)
+        let textAttributes = displayDelegate.audioProgressTextAttributes(for: self, in: messagesCollectionView)
         let text = displayDelegate.audioProgressTextFormat(audioItem.duration, for: self, in: messagesCollectionView)
         durationLabel.attributedText = NSAttributedString(string: text, attributes: textAttributes)
 
@@ -70,12 +83,12 @@ open class AudioMessageCell: MessageContentCell {
             playButton.setImage(playImage.withRenderingMode(.alwaysTemplate), for: .normal)
             playButton.setImage(pauseImage.withRenderingMode(.alwaysTemplate), for: .selected)
         }
-        playButton.sizeToFit()
-        durationLabel.sizeToFit()
         configureFrame(with: message, at: indexPath, and: messagesCollectionView)
     }
 
     func configureFrame(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+        playButton.sizeToFit()
+        durationLabel.sizeToFit()
         guard let layoutDelegate = messagesCollectionView.messagesLayoutDelegate else {
             fatalError(MessageKitError.nilMessagesDisplayDelegate)
         }

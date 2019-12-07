@@ -17,6 +17,7 @@ enum MessageTextCheckingType {
     case custom(pattern: String, match: String?)
 }
 
+// swiftlint:disable type_body_length
 open class MessageLabel: UILabel {
     // MARK: - Private Properties
     private lazy var layoutManager: NSLayoutManager = {
@@ -48,15 +49,15 @@ open class MessageLabel: UILabel {
     open weak var delegate: MessageLabelDelegate?
 
     open var enabledDetectors: [DetectorType] = [] {
-        didSet { setTextStorage(attributedText, shouldParse: false) }
+        didSet { setTextStorage(attributedText, shouldParse: true) }
     }
 
     open override var attributedText: NSAttributedString? {
-        didSet { setTextStorage(attributedText, shouldParse: false) }
+        didSet { setTextStorage(attributedText, shouldParse: true) }
     }
 
     open override var text: String? {
-        didSet { setTextStorage(attributedText, shouldParse: false) }
+        didSet { setTextStorage(attributedText, shouldParse: true) }
     }
 
     open override var font: UIFont! {
@@ -476,3 +477,4 @@ open class MessageLabel: UILabel {
         delegate?.didSelectCustom(pattern, match: match)
     }
 }
+// swiftlint:enable type_body_length

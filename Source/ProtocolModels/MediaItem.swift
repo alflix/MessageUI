@@ -10,13 +10,15 @@ import Foundation
 
 /// A protocol used to represent the data for a media message.
 public protocol MediaItem {
-    /// The url where the media is located.
+    /// 资源 url
     var url: URL? { get }
-    /// The image.
+    /// 本地显示图片
     var image: UIImage? { get }
-    /// A placeholder image for when the image is obtained asychronously.
+    /// 占位图片
     var placeholderImage: UIImage { get }
-    /// The size of the media item.
+    /// 视频时长秒数
+    var durationText: String { get }
+    /// 尺寸
     var size: CGSize { get }
     /// 视频播放按钮
     var videoPlayImage: UIImage? { get }
