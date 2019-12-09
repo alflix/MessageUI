@@ -49,6 +49,7 @@ open class LocationMessageCell: MessageContentCell {
 
     open override func prepareForReuse() {
         super.prepareForReuse()
+        mapSnapImageView.image = nil
         snapShotter?.cancel()
     }
 
