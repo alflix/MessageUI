@@ -7,10 +7,7 @@
 //
 
 import UIKit
-
-open class InputBarAccessoryView: UIView {
-
-}
+import InputBarAccessoryView
 
 open class MessagesViewController: UIViewController {
     open var messagesCollectionView = MessagesCollectionView()
@@ -18,10 +15,7 @@ open class MessagesViewController: UIViewController {
     /// `InputTextView` 开始编辑时，是否滚动到底部，默认 `false`
     open var scrollsToBottomOnKeyboardBeginsEditing: Bool = false
 
-    /// A Boolean value that determines whether the `MessagesCollectionView`
-    /// maintains it's current position when the height of the `MessageInputBar` changes.
-    ///
-    /// The default value of this property is `false`.
+    /// `MessageInputBar` 高度变化时， `MessagesCollectionView` 是否跟着滚动
     open var maintainPositionOnKeyboardFrameChanged: Bool = false
 
     open override var canBecomeFirstResponder: Bool {
@@ -60,7 +54,6 @@ open class MessagesViewController: UIViewController {
     }
 
     // MARK: - View Life Cycle
-
     open override func viewDidLoad() {
         super.viewDidLoad()
         setupDefaults()
@@ -132,13 +125,14 @@ open class MessagesViewController: UIViewController {
 
     private func setupConstraints() {
         messagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        let top = messagesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         let bottom = messagesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         if #available(iOS 11.0, *) {
+            let top = messagesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
             let leading = messagesCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
             let trailing = messagesCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
             NSLayoutConstraint.activate([top, bottom, trailing, leading])
         } else {
+            let top = messagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: topLayoutGuide.length)
             let leading = messagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
             let trailing = messagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             NSLayoutConstraint.activate([top, bottom, trailing, leading])

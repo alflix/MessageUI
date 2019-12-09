@@ -10,7 +10,6 @@ import Foundation
 
 extension MessagesViewController {
     // MARK: - Register / Unregister Observers
-
     func addMenuControllerObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MessagesViewController.menuControllerWillShow(_:)),
                                                name: UIMenuController.willShowMenuNotification, object: nil)
@@ -25,7 +24,6 @@ extension MessagesViewController {
     /// Show menuController and set target rect to selected bubble
     @objc
     private func menuControllerWillShow(_ notification: Notification) {
-
         guard let currentMenuController = notification.object as? UIMenuController,
             let selectedIndexPath = selectedIndexPathForMenu else { return }
 
@@ -77,7 +75,6 @@ extension MessagesViewController {
     }
 
     // MARK: - Helpers
-
     private var navigationBarFrame: CGRect {
         guard let navigationController = navigationController, !navigationController.navigationBar.isHidden else {
             return .zero

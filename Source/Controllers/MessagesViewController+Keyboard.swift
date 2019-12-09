@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit
+import InputBarAccessoryView
 
 extension MessagesViewController {
     // MARK: - Register / Unregister Observers
@@ -27,11 +27,10 @@ extension MessagesViewController {
     }
 
     // MARK: - Notification Handlers
-
     @objc
     private func handleTextViewDidBeginEditing(_ notification: Notification) {
         if scrollsToBottomOnKeyboardBeginsEditing {
-            guard (notification.object as? UITextView) != nil else { return }
+            guard let inputTextView = notification.object as? InputTextView, inputTextView === messageInputBar.inputTextView else { return }
             messagesCollectionView.scrollToBottom(animated: true)
         }
     }
@@ -73,12 +72,10 @@ extension MessagesViewController {
             let contentOffset = CGPoint(x: messagesCollectionView.contentOffset.x, y: messagesCollectionView.contentOffset.y + differenceOfBottomInset)
             messagesCollectionView.setContentOffset(contentOffset, animated: false)
         }
-
         messageCollectionViewBottomInset = newBottomInset
     }
 
     // MARK: - Inset Computation
-
     @objc
     func adjustScrollViewTopInset() {
         if #available(iOS 11.0, *) {
