@@ -1,12 +1,12 @@
 //
 //  Horizontal.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// 水平方向的左右边距
 public struct HorizontalEdgeInsets: Equatable {

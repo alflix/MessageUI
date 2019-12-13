@@ -1,8 +1,12 @@
-/*
- 
- */
+//
+//  UIEdgeInsets+Extensions.swift
+//  MessageUI
+//
+//  Created by John on 2019/10/24.
+//  Copyright © 2019 MessageUI. All rights reserved.
+//
 
-import Foundation
+import UIKit
 
 extension UIEdgeInsets {
     var vertical: CGFloat {

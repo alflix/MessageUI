@@ -1,14 +1,14 @@
 //
 //  MediaItem.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-/// A protocol used to represent the data for a media message.
+/// 图片/视频消息协议
 public protocol MediaItem {
     /// 资源 url
     var url: URL? { get }

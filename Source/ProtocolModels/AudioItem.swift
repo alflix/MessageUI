@@ -1,14 +1,15 @@
 //
 //  AudioItem.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
+import UIKit
 import class AVFoundation.AVAudioPlayer
 
-/// A protocol used to represent the data for an audio message.
+/// 音频消息协议
 public protocol AudioItem {
     /// 资源 url
     var url: URL { get }

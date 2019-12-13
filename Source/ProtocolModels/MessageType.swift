@@ -1,25 +1,21 @@
 //
 //  MessageType.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import Foundation
 
-/// A standard protocol representing a message.
-/// Use this protocol to create your own message object to be used by MessageKit.
+/// 消息协议
 public protocol MessageType {
-    /// The sender of the message.
+    /// 发送者
     var sender: SenderType { get }
-
-    /// The unique identifier for the message.
+    /// 消息 id
     var messageId: String { get }
-
-    /// The date the message was sent.
+    /// 发送时间
     var sentDate: Date { get }
-
-    /// The kind of message and its underlying kind.
+    /// 消息
     var kind: MessageKind { get }
 }

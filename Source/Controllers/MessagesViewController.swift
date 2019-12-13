@@ -1,9 +1,9 @@
 //
 //  MessagesViewController.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import UIKit
@@ -14,7 +14,6 @@ open class MessagesViewController: UIViewController {
     open var messageInputBar = InputBarAccessoryView()
     /// `InputTextView` 开始编辑时，是否滚动到底部，默认 `false`
     open var scrollsToBottomOnKeyboardBeginsEditing: Bool = false
-
     /// `MessageInputBar` 高度变化时， `MessagesCollectionView` 是否跟着滚动
     open var maintainPositionOnKeyboardFrameChanged: Bool = false
 
@@ -212,7 +211,6 @@ extension MessagesViewController: UICollectionViewDataSource {
         guard let displayDelegate = messagesCollectionView.messagesDisplayDelegate else {
             fatalError(MessageKitError.nilMessagesDisplayDelegate)
         }
-
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             return displayDelegate.messageHeaderView(for: indexPath, in: messagesCollectionView)

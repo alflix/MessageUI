@@ -1,9 +1,9 @@
 //
 //  LocationMessageSnapshotOptions.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import MapKit
@@ -11,7 +11,7 @@ import MapKit
 public struct LocationMessageCache {
     internal static let snapImageCache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
-        cache.name = "com.ChatKit.map.snapImageCache"
+        cache.name = "com.MessageUI.map.snapImageCache"
         return cache
     }()
 

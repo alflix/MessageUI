@@ -1,3 +1,10 @@
+<img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9uxsw9fzpj310k09smxg.jpg">
+
+[![Version](https://img.shields.io/cocoapods/v/MessageUI.svg?style=flat)](http://cocoapods.org/pods/MessageUI)
+[![License](https://img.shields.io/cocoapods/l/MessageUI.svg?style=flat)](http://cocoapods.org/pods/MessageUI)
+[![Platform](https://img.shields.io/cocoapods/p/MessageUI.svg?style=flat)](http://cocoapods.org/pods/MessageUI)
+![Swift](https://img.shields.io/badge/%20in-swift%205.0-orange.svg)
+
 ### View：
 - 气泡 Bubble
 - 头像 Avatar
@@ -29,9 +36,6 @@ Delegate：
 
 DataSource：
 
-
-为什么用 Frame？
-用 AutoLayout 无法适用左右2边的不同布局，或可用，但每次 Render 都需要刷新，性能差
 
 
 

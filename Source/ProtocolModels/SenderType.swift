@@ -1,21 +1,17 @@
 //
 //  SenderType.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import Foundation
 
-/// A standard protocol representing a sender.
-/// Use this protocol to adhere a object as the sender of a MessageType
+/// 发送者协议
 public protocol SenderType {
-    /// The unique String identifier for the sender.
-    ///
-    /// Note: This value must be unique across all senders.
+    /// 发送者 id
     var senderId: String { get }
-
-    /// The display name of a sender.
+    /// 发送者名称
     var displayName: String { get }
 }

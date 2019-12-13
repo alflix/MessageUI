@@ -1,26 +1,21 @@
 //
 //  Avatar.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-/// An object used to group the information to be used by an `AvatarView`.
+/// 用于设置 `AvatarView` 的 Model
 public struct Avatar {
-    // MARK: - Properties
-
-    /// The image to be used for an `AvatarView`. If the imageURL is not nil, the image will become placeholder
+    /// 图片，如果图片 url 不为空，为 placeholder
     public let image: UIImage?
-
-    /// The remote image url
+    /// 图片 url
     public var imageURL: String?
-
+    /// 圆角
     public var radius: CGFloat?
-
-    // MARK: - Initializer
 
     public init(image: UIImage? = nil, imageURL: String? = nil, radius: CGFloat? = nil) {
         self.image = image

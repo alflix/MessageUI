@@ -1,9 +1,9 @@
 //
 //  AudioPosition.swift
-//  Worker
+//  MessageUI
 //
 //  Created by John on 2019/12/3.
-//  Copyright © 2019 Ganguo. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import UIKit

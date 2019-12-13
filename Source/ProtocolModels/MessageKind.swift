@@ -1,38 +1,27 @@
 //
 //  MessageKind.swift
-//  ChatKit
+//  MessageUI
 //
 //  Created by John on 2019/10/24.
-//  Copyright © 2019 ChatKit. All rights reserved.
+//  Copyright © 2019 MessageUI. All rights reserved.
 //
 
 import Foundation
 
-/// An enum representing the kind of message and its underlying kind.
+/// 消息类型
 public enum MessageKind {
-    /// A standard text message.
+    /// 文本
     case text(String)
-
-    /// A message with attributed text.
+    /// 富文本
     case attributedText(NSAttributedString)
-
-    /// A photo message.
+    /// 图片
     case photo(MediaItem)
-
-    /// A video message.
+    /// 视频
     case video(MediaItem)
-
-    /// A location message.
+    /// 地理位置
     case location(LocationItem)
-
-    /// An audio message.
+    /// 音频
     case audio(AudioItem)
-
-    /// A custom message.
-    /// - Note: Using this case requires that you implement the following methods and handle this case:
-    ///   - MessagesDataSource: customCell(for message: MessageType, at indexPath: IndexPath,
-    ///   in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell
-    ///   - MessagesLayoutDelegate: customCellSizeCalculator(for message: MessageType,
-    ///    at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator
+    /// 自定义消息
     case custom(Any?)
 }
