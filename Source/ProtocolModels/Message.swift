@@ -1,5 +1,5 @@
 //
-//  MessageType.swift
+//  Message.swift
 //  MessageUI
 //
 //  Created by John on 2019/10/24.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// 消息协议
-public protocol MessageType {
+public protocol Message {
     /// 发送者
     var sender: SenderType { get }
     /// 消息 id

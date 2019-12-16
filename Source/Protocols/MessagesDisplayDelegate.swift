@@ -13,10 +13,10 @@ import MapKit
 public protocol MessagesDisplayDelegate: AnyObject {
     // MARK: - All Messages
     /// `MessageContainerView` 的气泡图风格，默认：`BubbleStyle.bubble`
-    func bubbleStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> BubbleStyle
+    func bubbleStyle(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> BubbleStyle
 
     /// `MessageContainerView` 背景颜色，默认：Current sender: Green，All other senders: Gray
-    func backgroundColor(for message: MessageType, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
+    func backgroundColor(for message: Message, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
 
     /// 配置 section header
     func messageHeaderView(for indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionReusableView
@@ -25,43 +25,43 @@ public protocol MessagesDisplayDelegate: AnyObject {
     func messageFooterView(for indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionReusableView
 
     /// 配置 `AvatarView`
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType,
+    func configureAvatarView(_ avatarView: AvatarView, for message: Message,
                              at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
 
     /// 配置 `AccessoryView`
-    func configureAccessoryView(_ accessoryView: UIView, for message: MessageType,
+    func configureAccessoryView(_ accessoryView: UIView, for message: Message,
                                 at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
 
     // MARK: - Text Messages
     /// `TextMessageCell` 的文字颜色，默认：Current sender: UIColor.white，All other senders: UIColor.darkText
-    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
+    func textColor(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
 
     /// 配置文本消息的识别类型 `DetectorType`，默认为空
-    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType]
+    func enabledDetectors(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType]
 
     /// 识别出来文本的高亮属性
-    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any]
+    func detectorAttributes(for detector: DetectorType, and message: Message, at indexPath: IndexPath) -> [NSAttributedString.Key: Any]
 
     // MARK: - Location Messages
     /// 配置 `LocationMessageSnapshotOptions`，自定义地理消息的截图选项
-    func snapshotOptionsForLocation(message: MessageType, at indexPath: IndexPath,
+    func snapshotOptionsForLocation(message: Message, at indexPath: IndexPath,
                                     in messagesCollectionView: MessagesCollectionView) -> LocationMessageSnapshotOptions
 
     /// 配置地理消息的大头针 annoation
-    func annotationViewForLocation(message: MessageType, at indexPath: IndexPath,
+    func annotationViewForLocation(message: Message, at indexPath: IndexPath,
                                    in messageCollectionView: MessagesCollectionView) -> MKAnnotationView?
 
     /// 配置地理消息的 title 显示
-    func titleAttributesLocation(message: MessageType, at indexPath: IndexPath,
+    func titleAttributesLocation(message: Message, at indexPath: IndexPath,
                                  in messageCollectionView: MessagesCollectionView) -> [NSAttributedString.Key: Any]
 
     /// 配置地理消息的 subtitle 显示
-    func subtitleAttributesForLocation(message: MessageType, at indexPath: IndexPath,
+    func subtitleAttributesForLocation(message: Message, at indexPath: IndexPath,
                                        in messageCollectionView: MessagesCollectionView) -> [NSAttributedString.Key: Any]
 
     // MARK: - Media Messages
     /// 配置 `MediaMessageCell`-`UIImageView`
-    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType,
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: Message,
                                         at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
 
     /// 视频时长的 Label 显示
@@ -70,10 +70,10 @@ public protocol MessagesDisplayDelegate: AnyObject {
 
     // MARK: - Audio Message
     /// 配置 `AudioMessageCell`
-    func configureAudioCell(_ cell: AudioMessageCell, message: MessageType)
+    func configureAudioCell(_ cell: AudioMessageCell, message: Message)
 
     /// 音频播放按钮，播放进度条 tint color
-    func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
+    func audioTintColor(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor
 
     /// 音频播放进度的时间格式，默认 0"
     func audioProgressTextFormat(_ duration: Float, for audioCell: AudioMessageCell, in messageCollectionView: MessagesCollectionView) -> String
@@ -85,11 +85,11 @@ public protocol MessagesDisplayDelegate: AnyObject {
 
 public extension MessagesDisplayDelegate {
     // MARK: - All Messages Defaults
-    func bubbleStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> BubbleStyle {
+    func bubbleStyle(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> BubbleStyle {
         return .roundCorners(3)
     }
 
-    func backgroundColor(for message: MessageType, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+    func backgroundColor(for message: Message, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         guard let dataSource = messagesCollectionView.messagesDataSource else { return .white }
         return dataSource.isFromCurrentSender(message: message) ? .lightGray : .white
     }
@@ -102,39 +102,39 @@ public extension MessagesDisplayDelegate {
         return messagesCollectionView.dequeueReusableFooterView(UICollectionReusableView.self, for: indexPath)
     }
 
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+    func configureAvatarView(_ avatarView: AvatarView, for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
     }
 
-    func configureAccessoryView(_ accessoryView: UIView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {}
+    func configureAccessoryView(_ accessoryView: UIView, for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {}
 
     // MARK: - Text Messages Defaults
-    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+    func textColor(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         guard let dataSource = messagesCollectionView.messagesDataSource else {
             fatalError(MessageKitError.nilMessagesDataSource)
         }
         return dataSource.isFromCurrentSender(message: message) ? .white : .darkText
     }
 
-    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+    func enabledDetectors(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
         return []
     }
 
-    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
+    func detectorAttributes(for detector: DetectorType, and message: Message, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         return MessageLabel.defaultAttributes
     }
 
     // MARK: - Location Messages Defaults
-    func snapshotOptionsForLocation(message: MessageType, at indexPath: IndexPath,
+    func snapshotOptionsForLocation(message: Message, at indexPath: IndexPath,
                                     in messagesCollectionView: MessagesCollectionView) -> LocationMessageSnapshotOptions {
         return LocationMessageSnapshotOptions()
     }
 
-    func annotationViewForLocation(message: MessageType, at indexPath: IndexPath,
+    func annotationViewForLocation(message: Message, at indexPath: IndexPath,
                                    in messageCollectionView: MessagesCollectionView) -> MKAnnotationView? {
         return MKPinAnnotationView(annotation: nil, reuseIdentifier: nil)
     }
 
-    func titleAttributesLocation(message: MessageType, at indexPath: IndexPath,
+    func titleAttributesLocation(message: Message, at indexPath: IndexPath,
                                  in messageCollectionView: MessagesCollectionView) -> [NSAttributedString.Key: Any] {
         return [
             .foregroundColor: UIColor.darkText,
@@ -143,7 +143,7 @@ public extension MessagesDisplayDelegate {
     }
 
     /// 配置地理消息的 subtitle 字体
-    func subtitleAttributesForLocation(message: MessageType, at indexPath: IndexPath,
+    func subtitleAttributesForLocation(message: Message, at indexPath: IndexPath,
                                        in messageCollectionView: MessagesCollectionView) -> [NSAttributedString.Key: Any] {
         return [
             .foregroundColor: UIColor.systemGray,
@@ -152,7 +152,7 @@ public extension MessagesDisplayDelegate {
     }
 
     // MARK: - Media Message Defaults
-    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType,
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: Message,
                                         at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
     }
 
@@ -165,10 +165,10 @@ public extension MessagesDisplayDelegate {
     }
 
     // MARK: - Audio Message Defaults
-    func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
+    func configureAudioCell(_ cell: AudioMessageCell, message: Message) {
     }
 
-    func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+    func audioTintColor(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         return UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
     }
 

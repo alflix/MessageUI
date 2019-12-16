@@ -13,7 +13,7 @@ open class AudioMessageSizeCalculator: MessageSizeCalculator {
     public var audioDurationLabelLeadingTrailingPadding: CGFloat = 15
     public var progressViewLeadingTrailingPadding: CGFloat = 15
 
-    open override func messageContainerSize(for message: MessageType) -> CGSize {
+    open override func messageContainerSize(for message: Message) -> CGSize {
         switch message.kind {
         case .audio(let item):
             let maxWidth = messageContainerMaxWidth(for: message)

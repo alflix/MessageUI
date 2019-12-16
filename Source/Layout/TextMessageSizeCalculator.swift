@@ -13,19 +13,19 @@ open class TextMessageSizeCalculator: MessageSizeCalculator {
     public var outgoingMessageLabelInsets = UIEdgeInsets(top: 7, left: 14, bottom: 7, right: 18)
     public var messageLabelFont = UIFont.preferredFont(forTextStyle: .body)
 
-    func messageLabelInsets(for message: MessageType) -> UIEdgeInsets {
+    func messageLabelInsets(for message: Message) -> UIEdgeInsets {
         let dataSource = messagesLayout.messagesDataSource
         let isFromCurrentSender = dataSource.isFromCurrentSender(message: message)
         return isFromCurrentSender ? outgoingMessageLabelInsets : incomingMessageLabelInsets
     }
 
-    open override func messageContainerMaxWidth(for message: MessageType) -> CGFloat {
+    open override func messageContainerMaxWidth(for message: Message) -> CGFloat {
         let maxWidth = super.messageContainerMaxWidth(for: message)
         let textInsets = messageLabelInsets(for: message)
         return maxWidth - textInsets.horizontal
     }
 
-    open override func messageContainerSize(for message: MessageType) -> CGSize {
+    open override func messageContainerSize(for message: Message) -> CGSize {
         let maxWidth = messageContainerMaxWidth(for: message)
 
         var messageContainerSize: CGSize

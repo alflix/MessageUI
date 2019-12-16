@@ -105,10 +105,10 @@ open class MessageContentCell: MessageCollectionViewCell {
     /// Used to configure the cell.
     ///
     /// - Parameters:
-    ///   - message: The `MessageType` this cell displays.
+    ///   - message: The `Message` this cell displays.
     ///   - indexPath: The `IndexPath` for this cell.
     ///   - messagesCollectionView: The `MessagesCollectionView` in which this cell is contained.
-    open func configure(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+    open func configure(with message: Message, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         guard let dataSource = messagesCollectionView.messagesDataSource else {
             fatalError(MessageKitError.nilMessagesDataSource)
         }

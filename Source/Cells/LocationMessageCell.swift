@@ -54,7 +54,7 @@ open class LocationMessageCell: MessageContentCell {
         snapShotter?.cancel()
     }
 
-    open override func configure(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+    open override func configure(with message: Message, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         super.configure(with: message, at: indexPath, and: messagesCollectionView)
 
         guard case let .location(locationItem) = message.kind else { fatalError("") }
@@ -95,7 +95,7 @@ open class LocationMessageCell: MessageContentCell {
         configureMapView(with: message, at: indexPath, and: messagesCollectionView)
     }
 
-    func configureMapView(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+    func configureMapView(with message: Message, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         guard let displayDelegate = messagesCollectionView.messagesDisplayDelegate else {
             fatalError(MessageKitError.nilMessagesDisplayDelegate)
         }

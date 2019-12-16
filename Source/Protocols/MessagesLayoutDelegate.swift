@@ -17,25 +17,25 @@ public protocol MessagesLayoutDelegate: AnyObject {
     func footerViewSize(for section: Int, in messagesCollectionView: MessagesCollectionView) -> CGSize
 
     /// cellTopLabel 高度
-    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
+    func cellTopLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
 
     /// cellBottomLabel 高度
-    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
+    func cellBottomLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
 
     /// TopLabel 高度
-    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
+    func messageTopLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
 
     /// BottomLabel 高度
-    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
+    func messageBottomLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat
 
     /// AudioMessageCell 的布局方式
-    func audioCellPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AudioPosition
+    func audioCellPosition(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AudioPosition
 
     /// 地理位置的 Cell，其中元素与容器的距离
-    func locationCellPadding(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIEdgeInsets
+    func locationCellPadding(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIEdgeInsets
 
     /// 使用自定义 Cell 时，返回自定义的 Cell Size 计算
-    func customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator
+    func customCellSizeCalculator(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator
 }
 
 public extension MessagesLayoutDelegate {
@@ -47,31 +47,31 @@ public extension MessagesLayoutDelegate {
         return .zero
     }
 
-    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+    func cellTopLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
 
-    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+    func cellBottomLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
 
-    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+    func messageTopLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
 
-    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+    func messageBottomLabelHeight(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 0
     }
 
-    func audioCellPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AudioPosition {
+    func audioCellPosition(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AudioPosition {
         return AudioPosition()
     }
 
-    func locationCellPadding(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIEdgeInsets {
+    func locationCellPadding(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
 
-    func customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator {
+    func customCellSizeCalculator(for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator {
         fatalError("Must return a CellSizeCalculator for MessageKind.custom(Any?)")
     }
 }

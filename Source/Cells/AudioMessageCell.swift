@@ -47,7 +47,7 @@ open class AudioMessageCell: MessageContentCell {
         }
     }
 
-    public func updatePlaying(duration: Float, progress: Float, with message: MessageType, and messagesCollectionView: MessagesCollectionView) {
+    public func updatePlaying(duration: Float, progress: Float, with message: Message, and messagesCollectionView: MessagesCollectionView) {
         progressView.progress = progress
         playButton.isSelected = progress > 0
         guard let displayDelegate = messagesCollectionView.messagesDisplayDelegate else {
@@ -61,7 +61,7 @@ open class AudioMessageCell: MessageContentCell {
     }
 
     // MARK: - Configure Cell
-    open override func configure(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+    open override func configure(with message: Message, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         super.configure(with: message, at: indexPath, and: messagesCollectionView)
         guard case let .audio(audioItem) = message.kind else { return }
 
@@ -86,7 +86,7 @@ open class AudioMessageCell: MessageContentCell {
         configureFrame(with: message, at: indexPath, and: messagesCollectionView)
     }
 
-    func configureFrame(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
+    func configureFrame(with message: Message, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
         playButton.sizeToFit()
         durationLabel.sizeToFit()
         guard let layoutDelegate = messagesCollectionView.messagesLayoutDelegate else {

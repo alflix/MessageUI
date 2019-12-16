@@ -17,6 +17,12 @@ public struct AudioPosition: Equatable {
         public var horizontal: Horizontal
         /// 距离左边或右边的间距
         public var leadingTrailingPadding: CGFloat
+
+        public init(verticalOffset: CGFloat, horizontal: Horizontal, leadingTrailingPadding: CGFloat) {
+            self.verticalOffset = verticalOffset
+            self.horizontal = horizontal
+            self.leadingTrailingPadding = leadingTrailingPadding
+        }
     }
 
     /// 播放进度文字布局
@@ -27,6 +33,12 @@ public struct AudioPosition: Equatable {
         public var horizontal: Horizontal
         /// 距离左边或右边的间距
         public var leadingTrailingPadding: CGFloat
+
+        public init(verticalOffset: CGFloat, horizontal: Horizontal, leadingTrailingPadding: CGFloat) {
+            self.verticalOffset = verticalOffset
+            self.horizontal = horizontal
+            self.leadingTrailingPadding = leadingTrailingPadding
+        }
     }
 
     /// ProgressView 布局
@@ -39,6 +51,13 @@ public struct AudioPosition: Equatable {
         public var height: CGFloat
         /// 左右边距
         public var horizontalEdgeInsets: HorizontalEdgeInsets
+
+        public init(verticalOffset: CGFloat, horizontal: ProgressViewHorizontal, height: CGFloat, horizontalEdgeInsets: HorizontalEdgeInsets) {
+            self.verticalOffset = verticalOffset
+            self.horizontal = horizontal
+            self.height = height
+            self.horizontalEdgeInsets = horizontalEdgeInsets
+        }
     }
 
     public enum ProgressViewHorizontal {
