@@ -25,7 +25,7 @@ public protocol MessagesDisplayDelegate: AnyObject {
     func messageFooterView(for indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionReusableView
 
     /// 配置 `AvatarView`
-    func configureAvatarView(_ avatarView: AvatarView, for message: Message,
+    func configureAvatarView(_ avatarView: UIImageView, for message: Message,
                              at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView)
 
     /// 配置 `AccessoryView`
@@ -102,7 +102,7 @@ public extension MessagesDisplayDelegate {
         return messagesCollectionView.dequeueReusableFooterView(UICollectionReusableView.self, for: indexPath)
     }
 
-    func configureAvatarView(_ avatarView: AvatarView, for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+    func configureAvatarView(_ avatarView: UIImageView, for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
     }
 
     func configureAccessoryView(_ accessoryView: UIView, for message: Message, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {}

@@ -11,7 +11,7 @@ import UIKit
 /// A subclass of `MessageCollectionViewCell` used to display text, media, and location messages.
 open class MessageContentCell: MessageCollectionViewCell {
     /// The image view displaying the avatar.
-    open var avatarView = AvatarView()
+    open var avatarView = UIImageView()
 
     /// The container used for styling and holding the message's content view.
     open var messageContainerView: MessageContainerView = {
