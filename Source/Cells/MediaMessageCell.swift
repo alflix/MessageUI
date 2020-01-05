@@ -16,7 +16,7 @@ open class MediaMessageCell: MessageContentCell {
         return playButton
     }()
 
-    /// 进度 Label
+    /// 视频长度显示 Label
     public lazy var durationLabel: UILabel = UILabel()
 
     open var imageView: UIImageView = {
@@ -44,11 +44,19 @@ open class MediaMessageCell: MessageContentCell {
         }
         switch message.kind {
         case .photo(let mediaItem):
-            imageView.image = mediaItem.image ?? mediaItem.placeholderImage
+            if let image = mediaItem.image {
+                imageView.image = image
+            } else {
+                imageView.setImage(with: mediaItem.url, placeholderImage: mediaItem.placeholderImage)
+            }
             playButton.isHidden = true
             durationLabel.isHidden = true
         case .video(let mediaItem):
-            imageView.image = mediaItem.image ?? mediaItem.placeholderImage
+            if let image = mediaItem.coverImage {
+                imageView.image = image
+            } else {
+                imageView.setImage(with: mediaItem.coverImageUrl, placeholderImage: mediaItem.placeholderImage)
+            }
             playButton.isHidden = false
             durationLabel.isHidden = false
 

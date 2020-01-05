@@ -17,7 +17,7 @@ public enum MessageKind {
     /// 图片
     case photo(MediaItem)
     /// 视频
-    case video(MediaItem)
+    case video(VideoItem)
     /// 地理位置
     case location(LocationItem)
     /// 音频

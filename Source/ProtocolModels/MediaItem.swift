@@ -8,18 +8,16 @@
 
 import UIKit
 
-/// 图片/视频消息协议
+/// 图片消息息协议
 public protocol MediaItem {
-    /// 资源 url
-    var url: URL? { get }
+    /// 图片资源 url
+    var url: String? { get }
     /// 本地显示图片
     var image: UIImage? { get }
     /// 占位图片
     var placeholderImage: UIImage { get }
-    /// 视频时长秒数
-    var durationText: String { get }
     /// 尺寸
     var size: CGSize { get }
-    /// 视频播放按钮
-    var videoPlayImage: UIImage? { get }
+    /// 显示尺寸显示相对于屏幕尺寸的缩放比例，以使得图片的显示不至于撑满屏幕
+    var maxSizeFactor: (maxWidth: Double, maxHeight: Double) { get }
 }
