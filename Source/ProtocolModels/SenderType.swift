@@ -8,10 +8,12 @@
 
 import Foundation
 
-/// 发送者协议
+/// 用户协议
 public protocol SenderType {
     /// 发送者 id
     var senderId: String { get }
     /// 发送者名称
     var displayName: String { get }
+    /// 发送者头像链接
+    var avatarURL: String { get }
 }
