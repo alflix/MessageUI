@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import class CoreLocation.CLLocation
+import struct CoreLocation.CLLocationCoordinate2D
 
 /// 地理消息协议
 public protocol LocationItem {
-    /// 地理位置
-    var location: CLLocation { get }
+    /// 经纬度
+    var location: CLLocationCoordinate2D { get }
     /// 显示尺寸
     var size: CGSize { get }
     /// 一级标题

@@ -87,7 +87,7 @@ open class LocationMessageCell: MessageContentCell {
                                         width: messageContainerView.bounds.width - edgeInsets.left - edgeInsets.right,
                                         height: messageContainerView.bounds.height - subtitleLabel.frame.maxY - 5 - edgeInsets.bottom)
 
-        if let cacheImage = LocationMessageCache.image(by: locationItem.location.coordinate) {
+        if let cacheImage = LocationMessageCache.image(by: locationItem.location) {
             self.mapSnapImageView.image = cacheImage
             return
         }
@@ -106,7 +106,7 @@ open class LocationMessageCell: MessageContentCell {
         activityIndicator.startAnimating()
 
         let snapshotOptions = MKMapSnapshotter.Options()
-        snapshotOptions.region = MKCoordinateRegion(center: locationItem.location.coordinate, span: options.span)
+        snapshotOptions.region = MKCoordinateRegion(center: locationItem.location, span: options.span)
         snapshotOptions.showsBuildings = options.showsBuildings
         snapshotOptions.showsPointsOfInterest = options.showsPointsOfInterest
 
@@ -125,7 +125,7 @@ open class LocationMessageCell: MessageContentCell {
 
             UIGraphicsBeginImageContextWithOptions(snapshotOptions.size, true, 0)
             snapshot.image.draw(at: .zero)
-            var point = snapshot.point(for: locationItem.location.coordinate)
+            var point = snapshot.point(for: locationItem.location)
             //Move point to reflect annotation anchor
             point.x -= annotationView.bounds.size.width / 2
             point.y -= annotationView.bounds.size.height / 2
@@ -136,7 +136,7 @@ open class LocationMessageCell: MessageContentCell {
             let composedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
 
-            LocationMessageCache.cache(image: composedImage!, center: locationItem.location.coordinate)
+            LocationMessageCache.cache(image: composedImage!, center: locationItem.location)
             self.mapSnapImageView.image = composedImage
         }
     }
